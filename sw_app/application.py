@@ -4,3 +4,7 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return "Welcome to the Soul-Wings platform!"
+
+@app.route("/upload")
+def upload_testimony():
+    return "Upload your testimony"
