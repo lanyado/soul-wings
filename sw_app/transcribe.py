@@ -11,6 +11,7 @@ from google.cloud import storage
 from google.protobuf.json_format import MessageToDict
 from azure.storage.file import FileService
 from azure.storage.blob import BlockBlobService
+from azure.storage.blob.models import ContentSettings
 from logger import getLog
 
 
@@ -53,9 +54,14 @@ def azb_put_file(container, local_path):
     """
 
     file_name = os.path.basename(local_path)
+    if file_name.endswith('.mp4'):
+        cs = ContentSettings(content_type='video/mp4')
+    else:
+        cs = ContentSettings()
+        
     blob_service = BlockBlobService(account_name=AZ_STORAGE_ACCOUNT,
                                     account_key=secrets.AZ_STORAGE_KEY)
-    blob_service.create_blob_from_path(container, file_name, local_path)
+    blob_service.create_blob_from_path(container, file_name, local_path, content_settings=cs)
 
     LOG.info('Put to AZB - %s', local_path)
 
