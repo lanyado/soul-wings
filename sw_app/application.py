@@ -10,5 +10,5 @@ def upload_testimony():
     return "Upload your testimony"
 
 @app.route("/search")
-def upload_testimony():
+def search_testimonies():
     return "Search for testimonies"
