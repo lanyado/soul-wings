@@ -8,3 +8,7 @@ def hello():
 @app.route("/upload")
 def upload_testimony():
     return "Upload your testimony"
+
+@app.route("/search")
+def upload_testimony():
+    return "Search for testimonies"
