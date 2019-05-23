@@ -10,15 +10,17 @@ from google.cloud.speech import types
 from google.cloud import storage
 from google.protobuf.json_format import MessageToDict
 from azure.storage.file import FileService
+from azure.storage.blob import BlockBlobService
+from logger import getLog
 
 
 GCS_BUCKET = 'soulwings'
 AZ_STORAGE_ACCOUNT = 'soulwings'
-AZ_STORAGE_SHARE = 'soulwings'
 AZ_STORAGE_FOLDER = None
+LOG = getLog('Transcribe')
 
 
-def az_get_file(share, folder, file_name):
+def azf_get_file(share, folder, file_name):
     """
     Downloads file from azure storage and returns local path
     """
@@ -28,10 +30,11 @@ def az_get_file(share, folder, file_name):
                                account_key=secrets.AZ_STORAGE_KEY)
     file_service.get_file_to_path(share, folder, file_name, local_path)
 
+    LOG.info('Got file - %s', file_name)
     return local_path
 
 
-def az_put_file(share, folder, local_path):
+def azf_put_file(share, folder, local_path):
     """
     Uploads file to azure storage and returns local path
     """
@@ -41,8 +44,23 @@ def az_put_file(share, folder, local_path):
                                account_key=secrets.AZ_STORAGE_KEY)
     file_service.create_file_from_path(share, folder, file_name, local_path)
 
+    LOG.info('Put to AZF - %s', local_path)
 
-def vid_to_flac(path, **kwargs):
+
+def azb_put_file(container, local_path):
+    """
+    Uploads file to azure blob storage
+    """
+
+    file_name = os.path.basename(local_path)
+    blob_service = BlockBlobService(account_name=AZ_STORAGE_ACCOUNT,
+                                    account_key=secrets.AZ_STORAGE_KEY)
+    blob_service.create_blob_from_path(container, file_name, local_path)
+
+    LOG.info('Put to AZB - %s', local_path)
+
+
+def vid_to_flac(path):
     """
     Converts video to mono flac and returns flac path
     """
@@ -54,6 +72,7 @@ def vid_to_flac(path, **kwargs):
     ffmpeg_call = 'ffmpeg -i "{}" -f flac -ac 1 -vn "{}"'.format(path, flac_path)
     subprocess.call(ffmpeg_call, shell=True)
 
+    LOG.info('Converted file - %s', path)
     return flac_path
 
 
@@ -67,6 +86,7 @@ def upload_to_gcs(local_path, bucket, gcs_path):
     blob = bucket.blob(gcs_path)
     blob.upload_from_filename(local_path)
 
+    LOG.info('Put to GCS - %s', local_path)
     return blob
 
 
@@ -88,6 +108,7 @@ def call_stt(bucket, gcs_path):
     operation = client.long_running_recognize(config, audio)
     response = operation.result()
 
+    LOG.info('Got STT')
     return response
 
 
@@ -103,6 +124,7 @@ def stt_res_to_json(res, path):
     json.dump(serialized, json_file, ensure_ascii=False)
     json_file.close()
 
+    LOG.info('Saved JSON - %s', path)
     return json_path
 
 
@@ -112,18 +134,17 @@ def transcribe(path):
     and transcript to azure storage
     """
 
-    file_name = os.path.basename(path)
-
     flac_path = vid_to_flac(path)
-    az_put_file(AZ_STORAGE_SHARE, AZ_STORAGE_FOLDER, path)
-    az_put_file(AZ_STORAGE_SHARE, AZ_STORAGE_FOLDER, flac_path)
+    azb_put_file('videos', path)
+    azb_put_file('audio', flac_path)
     os.remove(path)
 
+    file_name = os.path.basename(flac_path)
     gcs_blob = upload_to_gcs(flac_path, GCS_BUCKET, file_name)
     os.remove(flac_path)
     res = call_stt(GCS_BUCKET, file_name)
     gcs_blob.delete()
 
     json_path = stt_res_to_json(res, path)
-    az_put_file(AZ_STORAGE_SHARE, AZ_STORAGE_FOLDER, json_path)
+    azb_put_file('texts', json_path)
     os.remove(json_path)
