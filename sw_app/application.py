@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash
 from werkzeug import secure_filename
+from ..transcribe import transcribe
 import uuid
 import os
 
@@ -22,6 +23,7 @@ def uploader():
       uuid_file = '%s.mp4' %uuid.uuid4()
       f.save(secure_filename(uuid_file))
       path_to_file = '%s/%s' %(os.getcwd(),uuid_file)
+      transcribe(path_to_file)
       return 'file uploaded successfully'
 
 
