@@ -1,2 +1,2 @@
 *.pyc
-secrets.py
+/sw_app/secrets.py

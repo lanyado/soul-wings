@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash
 from werkzeug import secure_filename
-from ..transcribe import transcribe
 import requests
+from transcribe import transcribe
 import uuid
 import json
 import os
