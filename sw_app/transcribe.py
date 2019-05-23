@@ -148,3 +148,6 @@ def transcribe(path):
     json_path = stt_res_to_json(res, path)
     azb_put_file('texts', json_path)
     os.remove(json_path)
+
+
+import azure.mgmt.media.operations.assets_operations
