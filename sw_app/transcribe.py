@@ -12,7 +12,7 @@ from google.protobuf.json_format import MessageToDict
 from azure.storage.file import FileService
 from azure.storage.blob import BlockBlobService
 from azure.storage.blob.models import ContentSettings
-from logger import getLog
+from new_logger import getLog
 
 
 GCS_BUCKET = 'soulwings'
@@ -58,7 +58,7 @@ def azb_put_file(container, local_path):
         cs = ContentSettings(content_type='video/mp4')
     else:
         cs = ContentSettings()
-        
+
     blob_service = BlockBlobService(account_name=AZ_STORAGE_ACCOUNT,
                                     account_key=secrets.AZ_STORAGE_KEY)
     blob_service.create_blob_from_path(container, file_name, local_path, content_settings=cs)
