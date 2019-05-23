@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, flash
-from forms import TestimonySearchForm
 from werkzeug import secure_filename
 import uuid
 import os
@@ -28,21 +27,10 @@ def uploader():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search_testimonies():
-    search = TestimonySearchForm(request.form)
-    if request.method == 'POST':
-        return search_results(search)
-    return render_template('search.html', form=search)
+    return render_template('search.html')
 
 
-@app.route('/results')
-def search_results(search):
-    search_string = search.data['search']
-    # if search.data['search'] == '':
-    #     qry = db_session.query(Album)
-    #     results = qry.all()
-    # if not results:
-    #     flash('No results found!')
-    #     return redirect('/')
-    # else:
-    # display results
-    return render_template('results.html', results=search_string)
+@app.route('/results', methods=['GET', 'POST'])
+def search_results():
+    search_line = request.form['search_line']
+    return render_template('results.html',search_line=search_line)
