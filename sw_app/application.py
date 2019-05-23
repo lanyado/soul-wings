@@ -6,9 +6,19 @@ app = Flask(__name__)
 def hello():
     return "Welcome to the Soul-Wings platform!"
 
-@app.route("/upload")
-def upload_testimony():
-    return "Upload your testimony"
+
+@app.route('/upload')
+def upload_file():
+   return render_template('upload.html')
+
+
+@app.route('/uploader', methods = ['GET', 'POST'])
+def uploader():
+   if request.method == 'POST':
+      f = request.files['file']
+      f.save(secure_filename(f.filename))
+      return 'file uploaded successfully'
+
 
 @app.route("/search")
 def search_testimonies():
