@@ -32,7 +32,7 @@ def format_search_res(search_term, res):
 
     for obj in res:
         frmt_obj = {}
-        for k, v in obj.get('user_fields', {}).iteritems():
+        for k, v in obj.get('user_fields', {}).items():
             frmt_obj[k] = v
 
         frmt_obj['url'] = gen_url(obj)
@@ -69,7 +69,7 @@ def format_contents(search_term, res):
     for phrase_obj in res:
         alternatives = phrase_obj.get('alternatives')
         for alt in alternatives:
-            transcript = alt.get('transcript', '').encode('utf-8')
+            transcript = alt.get('transcript', '')
             words = alt.get('words', words_def)
             if search_term in transcript:
                 match = {'text': transcript,
