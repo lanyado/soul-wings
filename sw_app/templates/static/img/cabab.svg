@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="6px" height="23px" viewBox="0 0 6 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55 (78076) - https://sketchapp.com -->
+    <title>ic_more_vert@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M16,10.6666667 C17.4666667,10.6666667 18.6666667,9.46666667 18.6666667,8 C18.6666667,6.53333333 17.4666667,5.33333333 16,5.33333333 C14.5333333,5.33333333 13.3333333,6.53333333 13.3333333,8 C13.3333333,9.46666667 14.5333333,10.6666667 16,10.6666667 L16,10.6666667 Z M16,13.3333333 C14.5333333,13.3333333 13.3333333,14.5333333 13.3333333,16 C13.3333333,17.4666667 14.5333333,18.6666667 16,18.6666667 C17.4666667,18.6666667 18.6666667,17.4666667 18.6666667,16 C18.6666667,14.5333333 17.4666667,13.3333333 16,13.3333333 L16,13.3333333 Z M16,21.3333333 C14.5333333,21.3333333 13.3333333,22.5333333 13.3333333,24 C13.3333333,25.4666667 14.5333333,26.6666667 16,26.6666667 C17.4666667,26.6666667 18.6666667,25.4666667 18.6666667,24 C18.6666667,22.5333333 17.4666667,21.3333333 16,21.3333333 L16,21.3333333 Z" id="path-1"></path>
+        <rect id="path-3" x="0" y="0" width="67" height="67"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="home-page.3" transform="translate(-61.000000, -508.000000)">
+            <g id="Group" transform="translate(23.000000, 378.000000)">
+                <g id="Group-13" transform="translate(0.000000, 49.000000)">
+                    <g id="Group-10" transform="translate(1.000000, 49.000000)">
+                        <g id="Group-15" transform="translate(24.250000, 16.500000)">
+                            <g id="ic_more_vert" transform="translate(0.000000, 11.000000)">
+                                <mask id="mask-2" fill="white">
+                                    <use xlink:href="#path-1"></use>
+                                </mask>
+                                <g id="Mask"></g>
+                                <g id="Colors/Gray2" mask="url(#mask-2)">
+                                    <g transform="translate(-17.333333, -17.333333)">
+                                        <mask id="mask-4" fill="white">
+                                            <use xlink:href="#path-3"></use>
+                                        </mask>
+                                        <use id="Black" stroke="none" fill="#A5A5A5" fill-rule="evenodd" xlink:href="#path-3"></use>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

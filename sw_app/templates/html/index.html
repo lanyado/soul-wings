@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <!-- <meta http-equiv="refresh" content="30" > -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>holocost</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.css') }}">
+  <!-- Bootstrap core CSS
+  <link href="{{ url_for('static', filename='css/bootstrap3.min.css') }}" rel="stylesheet"> -->
+  <link href="{{ url_for('static', filename='css/bootstrap4.min.css') }}" rel="stylesheet">
+
+  <!-- Material Design Bootstrap -->
+  <link href="{{ url_for('static', filename='css/mdb.css') }}" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/addons/datatables.min.css') }}">
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <meta charset="UTF-8">
+
+  <style>
+    /* hebrew */
+@font-face {
+  font-family: 'Assistant';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Assistant'), local('Assistant-Regular'), url(https://fonts.gstatic.com/s/assistant/v3/2sDcZGJYnIjSi6H75xkzamW5O7w.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin */
+@font-face {
+  font-family: 'Assistant';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Assistant'), local('Assistant-Regular'), url(https://fonts.gstatic.com/s/assistant/v3/2sDcZGJYnIjSi6H75xkzaGW5.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+    .tr-color-selected{
+        background-color: hsla(196, 77%, 55%, 0.3) !important;
+        transition: all .2s ease-in;
+     }
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    #the_menu{
+      height: 90px;
+
+    }
+    .navbar{
+      background-color: white !important;
+    }
+  
+    #upload-a {
+      padding-top: 5px;
+    }
+    #upload-img {
+      width: 240px;
+      padding-left: 20px;
+    }
+    .nav-item a{
+      color: #173B64 !important;
+      font-family: Assistant !important;
+      font-size: 20px !important;  
+      line-height: 37px !important;
+      text-align: center !important;
+      padding: 15px 25px 15px 25px !important;
+      font-weight: normal!important;
+    }
+     .nav-item a:hover{
+      font-weight: bold !important;
+      cursor: pointer;
+  
+    }
+       .nav-item.active a{
+      font-weight: bold !important;  
+    }
+    #logo{
+      width:40px;
+    }
+    #ring{
+      width:30px;
+    }
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #2F2F2F;
+    background-color: #fff;
+    color:#000;
+    font-size: 17px;
+    font-weight: 500;
+}
+#firstSearch{
+      width: 150px !important;
+}
+#numOfResults{
+    color:#000;
+    font-size: 17px;
+    font-weight: 600;
+  }
+.resultContent{
+    position: relative;
+    padding-left: 90px !important;
+}
+.playIcon{
+    position: absolute;
+    left: -20px;
+    top: 0px;
+    width: 30px;
+    cursor: pointer;
+}
+.cababIcon{
+    position: absolute;
+    left: -35px;
+    top: 5px;
+    width: 5px;
+}
+.tr-color-selected{
+  background-color: #fff !important;
+}
+.timing{
+  width: 10%;
+  display: inline-block;
+      vertical-align: top;
+}
+.text{
+  width:70%;
+  display: inline-block;
+  padding-right: 30px;
+      vertical-align: top;
+}
+.th-sm{
+  font-weight: 300 !important;
+  color: #606060!important;
+}
+
+
+
+
+.search_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.searchbar {
+  font-family: Assistant;
+    float: right;
+    color: #606060;
+    padding: 6px 10px;
+    width: 400px;
+    border: none;
+    margin-top: 1px;
+    margin-right: 8px;
+    font-size: 2em;
+    font-weight: bold;
+    border-bottom: #62A1EA solid 2px;
+    transition: 0.4s;
+    display: block !important;
+}
+
+.searchbar::placeholder {
+    color: #606060;
+    font-size: 1em;
+    font-weight: bold;
+    /* transition: 0.2s; */
+}
+
+.searchbar:focus {
+    width: 600px;
+    font-size: 2em;
+    font-weight: bold;
+    transition: 0.4s;
+    /* Stops the input box from inheriting the styling from the inputs on the request form */
+    border-bottom: #62A1EA solid 2px;
+    outline: none;
+    margin-right: 0 !important;
+}
+
+.btn-search {
+    cursor: pointer;
+    color: #A5A5A5;;
+    text-decoration: none !important;
+    font-size: 2em;
+    padding-top: 5px;
+    margin-right: 40px;
+}
+
+</style>
+</head>
+
+<body dir="rtl">
+  
+<div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
+      <div class="container">
+      <nav class = "navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">
+
+        
+       
+  
+
+
+        <div class="collapse navbar-collapse" id = "example-navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static', filename='img/logo.png') }}"></a></li>
+            <li class="nav-item"><a href="">המאגר השלם</a></li>
+            <li class="nav-item active"><a href="">חיפוש</a></li>
+            <li class="nav-item"><a href="">מטרות</a></li>
+            <li class="nav-item"><a href="">מי אנחנו</a></li>
+            <li class="nav-item"><a href="">צור קשר</a></li>
+     
+ 
+        
+          </ul>
+       <a class="navbar-brand" id="upload-a">
+            <img src="{{ url_for('static', filename='img/upload.png') }}" id="upload-img" title="our logo">
+          </a>
+               <a class="navbar-brand" >
+                 <img src="{{ url_for('static', filename='img/ring.png') }}" id="ring" title="our logo">
+            </a>
+    
+        </div><!--/.nav-collapse -->
+        </nav>
+      </div>
+    </div>
+<br>
+<br>
+<br>
+
+<div class="search_container">
+  <input id="searchBar" class="searchbar" type="text" placeholder="אני רוצה למצוא...">
+  <a id="btnSearch" class="btn-search"><i class="fa fa-search"></i></a>
+</div>
+  
+  <br>
+  <br>
+  <br>
+
+  <div class="container mb-2" id="results" style="display: none;">
+  <h2 id="numOfResults"></h2>
+
+    <div class="wrapper-modal-editor">
+
+     
+      <div class="row d-flex justify-content-center modalWrapper">
+        <div class="modal fade addNewInputs" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold text-primary ml-5">הוסף חייל חדש</h4>      
+                <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-footer d-flex justify-content-center buttonAddFormWrapper">
+                <button class="btn btn-outline-primary btn-block buttonAdd" data-dismiss="modal">הוסף חייל
+                  <i class="far fa-paper-plane ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+      <table id="dtBasicExample" style="display: block;
+    width: 100%;"  class="table table-striped display" cellspacing="0" width="100%">
+        <thead>
+         <tr>
+            <th class="th-sm" id="firstSearch">שם הקובץ </th>
+            <th class="th-sm">שם העד   </th>
+            <th class="th-sm">שפה      </th>
+            <th class="th-sm">מדינה     </th>
+            <th class="th-sm">שנה      </th>
+            <th class="th-sm">תגיות      </th>
+            <th class="th-sm" id="lastSearch">תזמון&nbsp;  &nbsp;  &nbsp;  &nbsp;&nbsp;  תוכן</th>
+          </tr>
+        </thead>
+        <tbody>
+<!-- {{users|safe}} -->
+
+    {% for result in results %}
+        <tr>
+          <td>{{ result.fileName }}</td>
+          <td>{{ result.name }}</td>
+          <td>{{ result.lang }}</td>
+          <td>{{ result.country }}</td>
+          <td>{{ result.year }}</td>
+          <td>{{ result.tags }}</td>
+          <td class="resultContent">
+          {% for content in result.contents %}
+<section style="position: relative;">
+            <div class="timing">{{ content.timing }}</div>
+            <div class="text">{{ content.text }}</div>
+            <img url="{{ result.url }}" class="playIcon" src="{{ url_for('static', filename='img/play.svg') }}">  <img class="cababIcon" src="{{ url_for('static', filename='img/cabab.svg') }}">
+
+</section>
+
+                {% endfor %}
+
+          </td>
+
+        </tr>
+    {% endfor %}
+
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+   
+    </div> <!-- End Container -->
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/popper.js') }}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/mdb.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/addons/datatables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/addons/mdb-editor.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/sweetalert.min.js') }}"></script>
+
+  <script type="text/javascript" src="{{ url_for('static', filename='js/singlepagenav.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/queryloader.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <!-- My JavaScript -->
+  <script>
+
+    $('#dtBasicExample, #dtBasicExample-1, #dt-more-columns, #dt-less-columns').mdbEditor();
+    $('.dataTables_length').addClass('bs-select');
+
+    $('#usersTable').bind('DOMSubtreeModified',function(){
+      setTimeout(() => {
+        $.post( "/postmethod", {
+          javascript_data: $('#usersTable').html()
+        });
+      }, 25);//הכנסתי דיליי קטן, שהשינויים יכנסו לתוקף
+
+    })
+$('#dtBasicExample_info').css("display","none");
+var str = $('#dtBasicExample_info').html();
+var res = str.split(" ");
+var num = res[res.length-2];
+$('#numOfResults').html(num+" תוצאות");
+
+$('.playIcon').click(function(){
+  alert($(this).attr("url"))
+});
+$('#lastSearch').removeClass('sorting');
+
+$('#searchBar').bind("enterKey",function(e){
+    $('#searchBar').css("margin-right","-500px")
+    $('.search_container').css("margin-top","0")
+    $('#searchBar').blur();
+             $('#results').css("display","block");
+
+    setTimeout(function(){ 
+          $.post('/search',{
+              javascript_data: $('#searchBar').val(),
+              id: window.Id
+          },function(data) {
+             $('#results').css("display","block");
+      })
+    }, 50);
+
+   });
+   $('#searchBar').keyup(function(e){
+     if(e.keyCode == 13)
+     {
+        $(this).trigger("enterKey");
+     }
+   });
+
+
+  </script>
+
+</body>
+</html>
