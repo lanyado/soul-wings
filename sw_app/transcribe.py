@@ -118,12 +118,13 @@ def call_stt(bucket, gcs_path):
     return response
 
 
-def stt_res_to_json(res, path):
+def stt_res_to_json(res, path, user_fields):
     """
     Save STT result to JSON and return path
     """
 
     serialized = MessageToDict(res)
+    serialized['user_fields'] = user_fields
 
     json_path = os.path.splitext(path)[0] + '.json'
     json_file = codecs.open(json_path, 'w', encoding='utf-8')
@@ -134,11 +135,13 @@ def stt_res_to_json(res, path):
     return json_path
 
 
-def transcribe(path):
+def transcribe(path, user_fields=None):
     """
     Trancribe a given file and upload the sound
     and transcript to azure storage
     """
+
+    user_fields = user_fields or {}
 
     flac_path = vid_to_flac(path)
     azb_put_file('videos', path)
@@ -151,6 +154,6 @@ def transcribe(path):
     res = call_stt(GCS_BUCKET, file_name)
     gcs_blob.delete()
 
-    json_path = stt_res_to_json(res, path)
+    json_path = stt_res_to_json(res, path, user_fields)
     azb_put_file('texts', json_path)
     os.remove(json_path)
