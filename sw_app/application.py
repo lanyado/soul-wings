@@ -25,7 +25,11 @@ def uploader():
       uuid_file = '%s.mp4' %uuid.uuid4()
       f.save(secure_filename(uuid_file))
       path_to_file = '%s/%s' %(os.getcwd(),uuid_file)
-      transcribe(path_to_file)
+
+      user_fields = request.form.to_dict()
+      user_fields['fileName'] = f.filename
+
+      transcribe(path_to_file, user_fields)
       return 'file uploaded successfully'
 
 
