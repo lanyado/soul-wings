@@ -40,5 +40,4 @@ def search_testimonies():
 def search_results():
     search_term = request.form['search_line']
     res = jsonify(perform_search(search_term))
-    print (res)
     return res
