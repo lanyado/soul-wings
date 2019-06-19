@@ -12,7 +12,7 @@ from google.protobuf.json_format import MessageToDict
 from azure.storage.file import FileService
 from azure.storage.blob import BlockBlobService
 from azure.storage.blob.models import ContentSettings
-from logger import getLog
+from lib.log import getLog
 
 
 GCS_BUCKET = 'soulwings'
