@@ -1,0 +1,11 @@
+requests
+Werkzeug
+Flask
+azure_common
+protobuf
+WTForms
+google
+google-cloud
+google-cloud-speech
+google-cloud-storage
+azure
