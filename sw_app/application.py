@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, flash, jsonify
-from werkzeug import secure_filename
-import requests
-from transcribe import transcribe
-from search_helpers import perform_search
+import os
 import uuid
 import json
-import os
+import requests
+from flask import Flask, render_template, request, flash, jsonify
+from werkzeug import secure_filename
+from transcribe import transcribe
+from search_helpers import perform_search
 
 
 app = Flask(__name__)
