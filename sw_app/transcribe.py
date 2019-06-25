@@ -1,159 +1,85 @@
+"""
+This Module contains functions for transcribing a video or audio file:
+transcribe(path, s3_bucket, gcs_bucket, user_fields=None):
+    Trancribe a given file and upload file, audio and transcript to S3
+========================================================================================================================
+transcribe_async(**kwargs)
+    Run transcribe in async thread
+"""
+
 import os
-import uuid
-import json
-import codecs
-import secrets
-import subprocess
-from google.cloud import speech
-from google.cloud.speech import enums
-from google.cloud.speech import types
-from google.cloud import storage
-from google.protobuf.json_format import MessageToDict
-from azure.storage.file import FileService
-from azure.storage.blob import BlockBlobService
-from azure.storage.blob.models import ContentSettings
-from new_logger import getLog
+import sys
+
+REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(REPO_DIRECTORY)
+
+import datetime
+from threading import Thread
+from lib.log import getLog
+from lib.ffmpeg import vid_to_flac
+from lib.aws import s3_put_file
+from lib.gc import gcs_put_file, \
+                   call_stt, \
+                   stt_res_to_json
 
 
-GCS_BUCKET = 'soulwings'
-AZ_STORAGE_ACCOUNT = 'soulwings'
-AZ_STORAGE_FOLDER = None
-LOG = getLog('Transcribe')
-
-
-def azf_get_file(share, folder, file_name):
+def transcribe(path,
+               s3_bucket,
+               gcs_bucket,
+               language,
+               user_fields=None):
     """
-    Downloads file from azure storage and returns local path
-    """
+    Trancribe a given file and upload file, audio and transcript to S3
 
-    local_path = os.getcwd() + '/' + file_name
-    file_service = FileService(account_name=AZ_STORAGE_ACCOUNT,
-                               account_key=secrets.AZ_STORAGE_KEY)
-    file_service.get_file_to_path(share, folder, file_name, local_path)
-
-    LOG.info('Got file - %s', file_name)
-    return local_path
-
-
-def azf_put_file(share, folder, local_path):
-    """
-    Uploads file to azure storage and returns local path
+    :param path: (str) local path of file
+    :param s3_bucket: (str) S3 bucket that files will be uploaded to
+    :param gcs_bucket: (str) GCS bucket that files will be uploaded to
+    :param language: (str) Language spoken in given file
+    :param user_fields: (dict) Fields filled out by the user in upload screen
     """
 
-    file_name = os.path.basename(local_path)
-    file_service = FileService(account_name=AZ_STORAGE_ACCOUNT,
-                               account_key=secrets.AZ_STORAGE_KEY)
-    file_service.create_file_from_path(share, folder, file_name, local_path)
-
-    LOG.info('Put to AZF - %s', local_path)
-
-
-def azb_put_file(container, local_path):
-    """
-    Uploads file to azure blob storage
-    """
-
-    file_name = os.path.basename(local_path)
-    if file_name.endswith('.mp4'):
-        cs = ContentSettings(content_type='video/mp4')
-    else:
-        cs = ContentSettings()
-
-    blob_service = BlockBlobService(account_name=AZ_STORAGE_ACCOUNT,
-                                    account_key=secrets.AZ_STORAGE_KEY)
-    blob_service.create_blob_from_path(container, file_name, local_path, content_settings=cs)
-
-    LOG.info('Put to AZB - %s', local_path)
-
-
-def vid_to_flac(path):
-    """
-    Converts video to mono flac and returns flac path
-    """
-
-    flac_path = os.path.splitext(path)[0] + '.flac'
-    if os.path.isfile(flac_path):
-        os.remove(flac_path)
-
-    ffmpeg_call = 'ffmpeg -i "{}" -f flac -ac 1 -vn "{}"'.format(path, flac_path)
-    subprocess.call(ffmpeg_call, shell=True)
-
-    LOG.info('Converted file - %s', path)
-    return flac_path
-
-
-def upload_to_gcs(local_path, bucket, gcs_path):
-    """
-    Upload a given file to GCS and return blob obj
-    """
-
-    storage_client = storage.Client()
-    bucket = storage_client.get_bucket(bucket)
-    blob = bucket.blob(gcs_path)
-    blob.upload_from_filename(local_path)
-
-    LOG.info('Put to GCS - %s', local_path)
-    return blob
-
-
-def call_stt(bucket, gcs_path):
-    """
-    Call Google STT and get transcript for given GCS path
-    """
-
-    gcs_uri = 'gs://{}/{}'.format(bucket, gcs_path)
-
-    client = speech.SpeechClient()
-    audio = types.RecognitionAudio(uri=gcs_uri)
-
-    config = types.RecognitionConfig(
-        encoding=enums.RecognitionConfig.AudioEncoding.FLAC,
-        enable_word_time_offsets=True,
-        language_code='he-IL')
-
-    operation = client.long_running_recognize(config, audio)
-    response = operation.result()
-
-    LOG.info('Got STT')
-    return response
-
-
-def stt_res_to_json(res, path, user_fields):
-    """
-    Save STT result to JSON and return path
-    """
-
-    serialized = MessageToDict(res)
-    serialized['user_fields'] = user_fields
-
-    json_path = os.path.splitext(path)[0] + '.json'
-    json_file = codecs.open(json_path, 'w', encoding='utf-8')
-    json.dump(serialized, json_file, ensure_ascii=False)
-    json_file.close()
-
-    LOG.info('Saved JSON - %s', path)
-    return json_path
-
-
-def transcribe(path, user_fields=None):
-    """
-    Trancribe a given file and upload the sound
-    and transcript to azure storage
-    """
+    log = getLog('Transcribe - %s' % path)
+    log.info('Start')
 
     user_fields = user_fields or {}
 
+    date_for_key = str(datetime.date.today()).replace('-', '/')
+
+    file_name_with_ext = os.path.basename(path)
+    file_name_no_ext = os.path.splitext(file_name_with_ext)[0]
+
     flac_path = vid_to_flac(path)
-    azb_put_file('videos', path)
-    azb_put_file('audio', flac_path)
+
+    org_key = 'original/{}/{}'.format(date_for_key, file_name_with_ext)
+    s3_put_file(path, s3_bucket, org_key)
+
+    flac_file_name = file_name_no_ext + '.flac'
+    flac_key = 'audio/{}/{}'.format(date_for_key, flac_file_name)
+    s3_put_file(flac_path, s3_bucket, flac_key)
     os.remove(path)
 
-    file_name = os.path.basename(flac_path)
-    gcs_blob = upload_to_gcs(flac_path, GCS_BUCKET, file_name)
+    gcs_blob = gcs_put_file(flac_path, gcs_bucket, flac_file_name)
     os.remove(flac_path)
-    res = call_stt(GCS_BUCKET, file_name)
+    res = call_stt(gcs_bucket, flac_file_name, language)
     gcs_blob.delete()
 
-    json_path = stt_res_to_json(res, path, user_fields)
-    azb_put_file('texts', json_path)
+    json_path = os.path.splitext(path)[0] + '.json'
+    json_file_name = file_name_no_ext + '.json'
+    stt_res_to_json(res, json_path, user_fields)
+
+    json_key = 'text/{}/{}'.format(date_for_key, json_file_name)
+    s3_put_file(json_path, s3_bucket, json_key)
     os.remove(json_path)
+
+    log.info('Done')
+
+
+def transcribe_async(**kwargs):
+    """
+    Run transcribe in async thread
+
+    :param kwargs: kwargs for transcribe
+    """
+
+    t = Thread(target=transcribe, kwargs=kwargs)
+    t.start()
