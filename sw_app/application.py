@@ -11,9 +11,11 @@ from flask import Flask, render_template, request, flash, jsonify
 from transcribe import transcribe_async
 from search_helpers import perform_search
 from lib.helpers import file_to_local_uuid_file, \
+                        clean_working_dir
 import config
 
 
+clean_working_dir()
 app = Flask(__name__)
 
 
