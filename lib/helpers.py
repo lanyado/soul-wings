@@ -5,7 +5,13 @@ file_to_local_uuid_file(f)
 """
 
 import os
+import sys
+
+REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(REPO_DIRECTORY)
+
 import uuid
+from config import WORKING_DIR
 
 
 def file_to_local_uuid_file(f):
@@ -17,9 +23,9 @@ def file_to_local_uuid_file(f):
     """
 
     file_ext = os.path.splitext(f.filename)[1]
-    uuid_path = '{}/working_dir/{}{}'.format(os.getcwd(),
-                                             uuid.uuid4(),
-                                             file_ext)
+    uuid_path = '{}/{}{}'.format(WORKING_DIR,
+                                 uuid.uuid4(),
+                                 file_ext)
     f.save(uuid_path)
 
     return uuid_path
