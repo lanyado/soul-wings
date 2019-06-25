@@ -32,11 +32,16 @@ def upload_file():
 def uploader():
    if request.method == 'POST':
       f = request.files['file']
-      uuid_file = '%s.mp4' %uuid.uuid4()
-      f.save(secure_filename(uuid_file))
-      path_to_file = '%s/%s' %(os.getcwd(),uuid_file)
-      transcribe(path_to_file)
-      return 'file uploaded successfully'
+      path = file_to_local_uuid_file(f)
+      user_fields = request.form.to_dict()
+      user_fields = {k: v for k, v in user_fields.items() if v}
+      language = user_fields.get('lang', config.DEFAULT_LANG)
+      transcribe_async(path=path,
+                       s3_bucket=config.S3_BUCKET,
+                       gcs_bucket=config.GCS_BUCKET,
+                       language=language,
+                       user_fields=user_fields)
+      return 'file uploaded successfully, transcribing now'
 
 
 @app.route('/search', methods=['GET', 'POST'])
