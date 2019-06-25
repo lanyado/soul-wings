@@ -9,3 +9,5 @@ S3_BUCKET = 'soul-wings'
 GCS_BUCKET = 'soul-wings'
 
 DEFAULT_LANG = 'hebrew'
+
+LANGUAGE_CODE_MAP = {'hebrew': 'he-IL'}

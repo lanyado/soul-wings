@@ -24,10 +24,10 @@ from google.cloud.speech import types
 from google.cloud import storage
 from google.protobuf.json_format import MessageToDict
 from lib.log import getLog
+from config import LANGUAGE_CODE_MAP
 
 
 LOG = getLog('GC')
-LANGUAGE_CODE_MAP = {'hebrew': 'he-IL'}
 
 
 def gcs_put_file(local_path, gcs_bucket, gcs_path):
