@@ -89,6 +89,7 @@ def stt_res_to_json(res, path, user_fields):
     :param res: (protobuf response) stt API response result
     :param path: (str) local path to save the file to
     :param user_fields: (dict) Fields filled out by the user in upload screen
+    :return: (dict) STT res as dict
     """
 
     serialized = MessageToDict(res)
@@ -99,3 +100,5 @@ def stt_res_to_json(res, path, user_fields):
     json_file.close()
 
     LOG.info('Saved JSON - %s', path)
+
+    return serialized

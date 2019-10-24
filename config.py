@@ -8,6 +8,24 @@ S3_BUCKET = 'soul-wings'
 
 GCS_BUCKET = 'soul-wings'
 
+MONGO_DBNAME = 'soul-wings'
+
+TRANSCRIPTS_COLL = 'transcripts'
+
+USERS_COLL = 'users'
+
+DEFAULT_CONTEXT_BLOCK_SIZE = 21
+
+THUMBNAIL_SECONDS = 20
+
 DEFAULT_LANG = 'hebrew'
 
+DEFAULT_OPERATOR = 'and'
+
 LANGUAGE_CODE_MAP = {'hebrew': 'he-IL'}
+
+TERM_TYPE_MAP = {'single': lambda t: {"transcript": {'$regex': t}},
+                 'qouted': lambda t: {"transcript": {'$regex': t}}}
+
+OPERATOR_MAP = {'and': '$and',
+                'or': '$or'}

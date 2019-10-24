@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Favicon and Meta Tags -->
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static',  filename='img/logo.png') }}"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Soul-Wings</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/fontawesome.css') }}">
+ 
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/mdb.css') }}" >
+  <!-- The table -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/datatables.css') }}">
+   <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/bootstrap.min.css') }}">
+  <!-- My custom styles -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css')}}">
+
+</head>
+
+<body dir="rtl">
+ <div class="cs-loader">
+    <div class="cs-loader-inner">
+      <label> ●</label>
+      <label> ●</label>
+      <label> ●</label>
+      <label> ●</label>
+      <label> ●</label>
+      <label> ●</label>
+    </div>
+  </div>
+<!-- Top NavBar -->  
+<div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
+  <div class="container">
+      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
+        <div class="collapse navbar-collapse" id = "example-navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></a></li>
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">המאגר</a></li>
+            <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
+          </ul>
+          <a class="navbar-brand" id="upload-a" onclick="$('#upload_input').click();">
+            <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
+          </a>
+        </div>
+     </nav>
+  </div>
+</div>
+<!---------------> 
+<div class="search_container result-page">
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <i class="fa fa-question-circle"></i>
+
+    <label class="btn btn-secondary active">
+      <input type="radio" name="options" class="option" autocomplete="off" checked value="או">או
+    </label>
+    <label class="btn btn-secondary">
+      <input type="radio" name="options" class="option" autocomplete="off" value='וגם'> וגם
+    </label>
+  </div>
+  <div class="searchBar-wrapper">
+    <input id="searchBar" class="searchbar" type="text" value="{{response.search_string}}" placeholder='לדוגמא: פולין 1943 "הצלב האדום"'>
+    <i class="search-icons fas fa-times"></i>
+    <i class="search-icons fa fa-search"></i>
+</div>
+</div>
+
+<div class="container mb-2" id="results">
+  <h2 id="numOfResults"></h2>
+  <div class="wrapper-modal-editor">
+
+  <div class="row d-flex justify-content-center modalWrapper">
+	<div class="modal fade addNewInputs" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd"
+	  aria-hidden="true">
+	</div>
+  </div>
+    <table id="dtBasicExample" class="table table-striped display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th class="th-sm" id="firstSearch">שם הקובץ</th>
+          <th class="th-sm">שפה</th>
+          <th class="th-sm unsortable">תגיות</th>
+          <th class="th-sm">שנים</th>
+          <th class="th-sm unsortable">מדינות</th>
+          <th class="th-sm unsortable">ערים</th>
+          <th class="th-sm unsortable">מחנות</th>
+          <th class="th-sm" id="lastSearch">תזמון&nbsp;  &nbsp;  &nbsp;  &nbsp;&nbsp;  תוכן שהתאמת</th>
+        </tr>
+    </thead>
+		<tbody>
+		    {% for result in response.results %}
+		        <tr>
+		          <td>{{ result.file_name }}</td>
+		          <td>{{ result.language }}</td>
+		          <td>{{ result.tags }}</td>
+		          <td>{{ result.years }}</td>
+		          <td>{{ result.countries }}</td>
+		          <td>{{ result.cities }}</td>
+		          <td>{{ result.camps }}</td>
+		          <td class="resultContent">
+		          {% for content in result.context_blocks %}
+		              <section style="position: relative; " class="contentSection">
+		                  <div class="timing">{{ content.start_time }}</div>
+		                  <div class="text">{{ content.text }}</div>
+		                  <details class="popup">
+		                      <summary>
+		                          <img class="playIcon" src="{{ url_for('static',  filename='img/play.svg')}}">
+		                      </summary>
+		                      <div>
+		                          <video controls>
+		                              <source src="{{ result.s3_url }}#t={{ content.start_time }}" type="video/mp4">
+		                          </video>
+		                      </div>
+		                  </details>
+		              </section>
+		          {% endfor %}
+		          </td>
+		      </tr>
+		    {% endfor %}
+		</tbody>
+      </table>
+    </div>
+  </div>
+
+
+</div> <!-- End Container -->
+
+<!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js') }}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js') }}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js') }}"></script>
+  <!-- Material Design Bootstrap core -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/mdb.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/mdb-editor.js') }}"></script>
+  <!-- The table JavaScript-->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/datatables.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/singlepagenav.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/queryloader.js') }}"></script>
+  <!-- sweetalert JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js') }}"></script>
+  <!-- My JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/results.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/search.js')}}"></script>
+
+</body>
+</html>

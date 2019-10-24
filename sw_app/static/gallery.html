@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Favicon and Meta Tags -->
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.png')}}"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Soul-Wings</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/modules/fontawesome.css')}}">
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='css/modules/bootstrap.min.css')}}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/gallery.css')}}">
+</head>
+
+<body dir="rtl">
+  
+<!-- Top NavBar -->  
+<div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
+  <div class="container">
+      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
+        <div class="collapse navbar-collapse" id = "example-navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></a></li>
+            <li class="nav-item active"><a href="{{ url_for('gallery') }}">המאגר</a></li>
+            <li class="nav-item"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
+          </ul>
+          <a class="navbar-brand" id="upload-a" onclick="$('#upload_input').click();">
+            <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
+          </a>
+        </div>
+     </nav>
+  </div>
+</div>
+<!---------------> 
+
+
+
+<ul class="container">
+  {% for video in videos %}
+    <li class="item">
+      <details class="popup">
+        <summary>
+        <img src="{{ video.s3_thumbnail_url }}" class="screenShot" alt="">
+        <div class="middle">
+          <div class="text"><i class="far fa-play-circle"></i></div>
+        </div>
+          <section class="videoDetails">
+            <p>{{ video.uploader_name }}</p>
+            <p>{{ video.file_name }}</p>
+          </section>
+        </summary>
+        <div>
+          <video class="video" controls>
+            <source src="{{ video.s3_original_url }}" type="video/mp4">
+          </video>
+        </div>
+      </details>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js')}}"></script>
+  <!-- sweetalert JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script>
+  <!-- Drop down -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js')}}"></script>
+  <!-- My JavaScript -->
+  <script type="text/javascript">
+    $('.popup').on('toggle', function() {
+       if ($(this).attr("open") == "open")
+            $($(this).find("video")).get(0).play();
+    else
+      $($(this).find("video")).get(0).pause();
+    })
+  </script>
+</body>
+</html>
