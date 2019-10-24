@@ -9,10 +9,6 @@
 .fa-question-circle:hover{
     color: #3fc3ee;
 }
-#swal2-title{
-  text-align: center !important;
-  width: auto;
-}
 #swal2-content {
   text-align: right !important;
   line-height: 30px;
@@ -38,7 +34,7 @@ textarea:focus, input:focus{
 	font-family: Assistant;
 	float: right;
 	color: #606060;
-	padding: 6px 10px 0px 80px;
+	padding: 6px 10px 0px 100px;
 	width: 450px;
 	border: none;
 	margin-top: 1px;
@@ -51,7 +47,6 @@ textarea:focus, input:focus{
 }
 .searchbar::placeholder {
     color: #606060;
-    opacity: 0.5;
     font-size: 1em;
     font-weight: bold;
     /* transition: 0.2s; */
@@ -131,16 +126,16 @@ textarea:focus, input:focus{
   cursor: pointer;
   display: inline-block;
   z-index: 2;
-  bottom: 10px;
+  bottom: 15px;
 }
 .search-icons:hover {
   color: #121212;
 }
 .fa-search {
-  left: 0px;
+  left: -10px;
 }
 .fa-times {
-  left: 45px;
+  left: 40px;
 }
 
 #searchBar:placeholder-shown + .fa-times {

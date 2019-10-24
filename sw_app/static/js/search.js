@@ -9,22 +9,18 @@ function sendSearchString(){
 		op = "or";
 	else
 		op = "and";
-	var st = $.trim($('#searchBar').val());
-	st = st.replace(/\s\s+/g, ' ');
-	if (st.length>0){
-		$('.cs-loader').css('display','block');
+	$('.cs-loader').css('display','block');
 
-		$.get('/results',{
-			search_string: st,
-	    	operator: op
-	   }, function(data) {
-	   		//$('.cs-loader').css('display','none');
-			console.log(data)
-	        document.open('text/html');
-	        document.write(data);
-	        document.close();
-	    })
-	}
+	$.get('/results',{
+		search_string: $('#searchBar').val(),
+    	operator: op
+   }, function(data) {
+   		$('.cs-loader').css('display','none');
+		console.log(data)
+        document.open('text/html');
+        document.write(data);
+        document.close();
+    })
 }
 
 $('#searchBar').keyup(function(e){
@@ -44,9 +40,10 @@ $(".fa-question-circle").on('click', function(){
 	Swal.fire({
 		type: 'question',
 		title: 'חיפוש קבצים מהמאגר',
-		html: '● &nbsp;הפרדה  בין ביטויים תעשה באמצעות מקש הרווח. <br>● &nbsp;יש להכניס לגרשיים ביטויים המכילים יותר ממילה אחת, (לדוגמא: "הצלב האדום").<br><span class="highlight">או</span> - חיפוש קבצים המכילים <b>לפחות אחד </b>מהביטויים.<br><span class="highlight">וגם</span> - חיפוש קבצים המכילים את <b>כל </b>הביטויים.',
+		html: '<span class="highlight">וגם</span> יחפש קבצים המכילים את כל הביטויים שתכניס.<br><span class="highlight">או</span> יחפש קבצים המכילים לפחות אחד מהביטויים שתכניס.<br>הפרדה בין ביטויים תעשה באמצעות מקש הרווח. <br>יש להכניס לגרשיים ביטויים המכילים יותר ממילה אחת, (לדוגמא: "הצלב האדום").',
 		confirmButtonText: 'הבנתי',
 	})
 });
 
 $('.btn.btn-secondary').removeClass('waves-effect waves-light')
+

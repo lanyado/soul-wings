@@ -54,24 +54,23 @@
 </div>
 <!---------------> 
 <div class="search_container result-page">
+
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <i class="fa fa-question-circle"></i>
+          <i class="fa fa-question-circle"></i>
 
-    <label class="btn btn-secondary active">
-      <input type="radio" name="options" class="option" autocomplete="off" checked value="או">או
-    </label>
-    <label class="btn btn-secondary">
-      <input type="radio" name="options" class="option" autocomplete="off" value='וגם'> וגם
-    </label>
-  </div>
-  <div class="searchBar-wrapper">
-    <input id="searchBar" class="searchbar" type="text" value="{{response.search_string}}" placeholder='לדוגמא: פולין 1943 "הצלב האדום"'>
-    <i class="search-icons fas fa-times"></i>
-    <i class="search-icons fa fa-search"></i>
-</div>
+  <label class="btn btn-secondary active">
+    <input type="radio" name="options" class="option" autocomplete="off" checked value="או"> או
+  </label>
+  <label class="btn btn-secondary">
+    <input type="radio" name="options" class="option" autocomplete="off" value='וגם'> וגם
+  </label>
 </div>
 
-<div class="container mb-2" id="results">
+  <input id="searchBar" class="searchbar" type="text" placeholder="" value="{{response.search_string}}">
+  <a id="btnSearch" class="btn-search"><i class="fa fa-search"></i></a>
+</div>
+
+  <div class="container mb-2" id="results">
   <h2 id="numOfResults"></h2>
   <div class="wrapper-modal-editor">
 
