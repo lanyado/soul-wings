@@ -48,3 +48,61 @@ def clean_working_dir(working_dir=WORKING_DIR):
         os.remove(f)
 
     return files
+
+
+def get_best_alt(alts):
+    """
+    Return words list from alternative with highest confidence
+
+    :param alts: (list of dicts) alternatives from STT response
+    :return: (list of dicts) Best alternative, dict per word
+        keys - word, startTime, endTime
+    """
+
+    max_conf = 0
+    best_alt = None
+
+    for alt in alts:
+        conf = alt.get('confidence', 0.1)
+        if conf > max_conf:
+            max_conf = conf
+            best_alt = alt.get('words', [])
+
+    return best_alt
+
+
+def lower_all_vals(d):
+    """
+    Lowers all string \ unicode values in a dict
+
+    :param d: (dict)
+    :return: (dict) Formatted dict
+    """
+
+    for k, v in d.items():
+        if isinstance(v, str):
+            d[k] = v.lower()
+
+    return d
+
+
+
+
+
+
+# def copy_keys(source, destination, keys, destination_prefix=''):
+#     """
+#     Copy an array of keys from a source dict to a destination dict
+#
+#     :param source: (dict) source dict
+#     :param destination: (dict) destination dict
+#     :param keys: (list) List of keys to copy
+#     :param destination_prefix: (str) prefix to add to destination keys
+#     :return: (dict) Edited destination dict
+#     """
+#
+#     for key in keys:
+#         if source.has_key(key):
+#             destination[destination_prefix+key] = source[key]
+#
+#     return destination

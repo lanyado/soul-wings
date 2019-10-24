@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Favicon and Meta Tags -->
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.png')}}"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Soul-Wings</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/modules/fontawesome.css')}}">
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='css/modules/bootstrap.min.css')}}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css')}}">
+
+</head>
+
+<body dir="rtl">
+  <div class="cs-loader">
+    <div class="cs-loader-inner">
+      <label> ●</label>
+      <label> ●</label>
+      <label> ●</label>
+      <label> ●</label>
+      <label> ●</label>
+      <label> ●</label>
+    </div>
+  </div>
+<!-- Top NavBar -->  
+<div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
+  <div class="container">
+      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
+        <div class="collapse navbar-collapse" id = "example-navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></a></li>
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">המאגר</a></li>
+            <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
+          </ul>
+          <a class="navbar-brand" id="upload-a" onclick="$('#upload_input').click();">
+            <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
+          </a>
+        </div>
+     </nav>
+  </div>
+</div>
+<!---------------> 
+
+<div class="search_container">
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input type="radio" name="options" class="option" autocomplete="off" checked value="או">או
+    </label>
+    <label class="btn btn-secondary">
+      <input type="radio" name="options" class="option" autocomplete="off" value='וגם'> וגם
+    </label>
+  </div>
+  <div class="searchBar-wrapper">
+    <input id="searchBar" class="searchbar" type="text" placeholder='לדוגמא: פולין 1943 "הצלב האדום"'>
+    <i class="search-icons fas fa-times"></i>
+    <i class="search-icons fa fa-search"></i>
+</div>
+</div>
+<p id="description">
+● &nbsp;הפרדה  בין ביטויים תעשה באמצעות מקש הרווח. <br>
+● &nbsp;יש להכניס לגרשיים ביטויים המכילים יותר ממילה אחת, (לדוגמא: "הצלב האדום").<br>
+<span class="highlight">או</span> - חיפוש קבצים המכילים <b>לפחות אחד </b>מהביטויים.<br>
+<span class="highlight">וגם</span> - חיפוש קבצים המכילים את <b>כל </b>הביטויים.
+</p>
+<!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js')}}"></script>
+  <!-- sweetalert JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script>
+  <!-- Drop down -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js')}}"></script>
+  <!-- My JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/search.js')}}"></script>
+</body>
+</html>

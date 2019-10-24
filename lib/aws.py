@@ -51,6 +51,9 @@ def s3_put_file(local_path, bucket, key, **kwargs):
     kwargs = manage_kwargs(kwargs)
     resource = boto3.resource('s3', **kwargs)
 
-    resource.meta.client.upload_file(local_path, bucket, key)
+    resource.meta.client.upload_file(local_path,
+                                     bucket,
+                                     key,
+                                     ExtraArgs={'ACL':'public-read'})
 
     LOG.info('Put to S3 - %s - %s/%s', local_path, bucket, key)
