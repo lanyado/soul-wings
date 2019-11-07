@@ -28,9 +28,6 @@ auth_user(dbname, coll, auth_dict, token_handler)
 ========================================================================================================================
 stt_json_to_mongo_frmt(doc, stt_json)
     Converts STT JSON to MONGO formatted doc
-========================================================================================================================
-enrich_doc(doc)
-    Search for all enrichments in transcript and add matches to doc body
 """
 
 import os
@@ -46,7 +43,6 @@ import lib.helpers as helpers
 from config import TERM_TYPE_MAP, \
                    OPERATOR_MAP, \
                    DEFAULT_OPERATOR
-from enrichments import enrichments
 
 
 LOG = getLog('MONGO')
@@ -204,20 +200,5 @@ def stt_json_to_mongo_frmt(doc, stt_json):
 
     doc['words'] = words
     doc['transcript'] = transcript
-
-    return doc
-
-
-def enrich_doc(doc):
-    """
-    Search for all enrichments in transcript and add matches to doc body
-
-    :param doc: (dict) doc as dict
-    :return: (dict) Formatted doc
-    """
-
-    for e in enrichments:
-        if e['value'] in doc['transcript']:
-            doc['enrichments'].append(e)
 
     return doc

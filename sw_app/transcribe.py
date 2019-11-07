@@ -32,6 +32,7 @@ from config import MONGO_DBNAME, \
                    GCS_BUCKET, \
                    S3_BUCKET, \
                    THUMBNAIL_SECONDS
+from enrichments import enrichments
 
 
 class Transcribe:
@@ -185,6 +186,21 @@ class Transcribe:
         s3_put_file(self.path,
                     self.s3_bucket,
                     self.org_key)
+
+
+    def _enrich_doc(self, mongo_doc):
+        """
+        Search for all enrichments in transcript and add matches to doc body
+
+        :param mongo_doc: (dict) doc as dict
+        :return: (dict) Formatted doc
+        """
+
+        for e in enrichments:
+            if e['value'] in mongo_doc['transcript']:
+                mongo_doc['enrichments'].append(e)
+
+        return mongo_doc
 
 
     def handle_mongo(self):
