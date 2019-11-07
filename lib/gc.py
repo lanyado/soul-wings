@@ -37,7 +37,7 @@ def gcs_put_file(local_path, gcs_bucket, gcs_path):
     :param local_path: (str) local path of file to upload
     :param gcs_bucket: (str) GCS bucket name
     :param gcs_path: (str) Path in bucket to upload to
-    :return: (bucket.blob) gcs gile obj
+    :return: (bucket.blob) gcs file obj
     """
 
     storage_client = storage.Client()
