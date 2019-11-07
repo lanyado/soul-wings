@@ -14,6 +14,7 @@
   <!-- Material Design Bootstrap -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/gallery.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css')}}">
 </head>
 
 <body dir="rtl">
@@ -29,8 +30,36 @@
             <li class="nav-item"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
             <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
           </ul>
-          <a class="navbar-brand" id="upload-a" onclick="$('#upload_input').click();">
-            <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
+         <details class="popup">
+              <summary>
+                <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
+             </summary>
+             
+             <section id="uploadPopup">
+                  <form action="" method="post" name="registration" id="uploadForm">
+                      <fieldset>
+                          <label for="file_name">שם הקובץ </label>
+                            <input name="file_name" id="file_name" class="text-input" />
+                            <label for="uploader_name">שם מעלה העדות</label>
+                            <input name="uploader_name" id="uploader_name" class="text-input"/>
+                          <label for="language">שפה</label>
+                          <div id="langChoose">
+                            <button type="button" class="btn btn-outline-primary">עברית</button>
+                            <button type="button" class="btn btn-outline-warning">אנגלית</button>
+                          </div>
+                          <label for="tags">תגיות</label>
+                          <div id="container">
+                            <ul class="tags">
+                                <li class="tagAdd taglist">  
+                                    <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
+                                </li>
+                            </ul>
+                          </div>
+                          <input name="regbutton" type="button" class="button" value="Register" />
+                      </fieldset>
+                  </form>
+              </section>
+            </details>
           </a>
         </div>
      </nav>
@@ -72,6 +101,7 @@
   <!-- Drop down -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
   <!-- My JavaScript -->
   <script type="text/javascript">
     $('.popup').on('toggle', function() {

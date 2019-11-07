@@ -1,0 +1,145 @@
+details.popup summary {
+  outline: none !important;
+}
+
+details.popup[open] > summary::before {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    cursor: default;
+    content: " ";
+    z-index: 99;
+}
+details.popup > section {
+  padding: 2em;
+  width: 60%;
+  height: 70%;
+  right: 25%;
+  display: block;
+  text-align:center;
+  box-sizing: border-box; 
+  border: 1px solid #979797; 
+  box-shadow: 0 2px 20px 6px #D8D8D8;
+  text-align: right;
+  z-index: 99999999;
+  position: fixed;
+  display: block;
+  background-color:#ffff;
+}
+
+details.popup summary::-webkit-details-marker {
+  display:none;
+}
+
+#uploadForm label {
+    height: 20px;
+    width: 20%;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left:15px;
+    clear: both;
+    float:right;
+    color: black;
+    font-size: 26px;
+    line-height: 37px; 
+    text-align: right;
+}
+#uploadForm input.text-input {
+    height: 50px;
+    width: 30%;
+    border: 1px solid #979797;
+    margin-top: 10px;
+    float: right;
+    display: inline-block;
+    background-color: #FFFF;
+    font-size: 26px;
+    color: black;
+    cursor: auto;
+    box-sizing: border-box; 
+    border-radius: 2px;
+    padding: 6px 10px;
+
+}
+#langChoose{
+    margin-top: 10px;
+    display: inline-block;
+    font-size: 26px;
+    color: black;
+    width: 70%;
+
+}
+#uploadForm input[type=button] {
+   float:none;
+}
+
+#container {
+    margin: 10px auto;
+    width: 70%;
+    display: inline-block;
+}
+.tags {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #ccc;
+    display: table;
+    padding: 1em;
+    width: 100%;
+}
+.tags li.tagAdd, .tags li.addedTag {
+    float: right;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+
+}
+.tags li.addedTag { /*the green*/
+    background: none repeat scroll 0 0 #019f86;
+    border-radius: 2px;
+    color: #fff;
+    padding: 0.25em;
+    height: 2em;
+    margin-bottom: 10px;
+    font-size: 26px;
+    display: table;
+}
+
+.tags input, li.addedTag {
+    border: 1px solid transparent;
+    border-radius: 2px;
+    box-shadow: none;
+    display: block;
+    padding: 0.5em;
+}
+.tags input{
+    height: 50px;
+    border: 1px solid #979797;
+    margin-top: 1px;
+    float: right;
+    display: inline-block;
+    background-color: #FFFF;
+    font-size: 26px;
+    color: black;
+    cursor: auto;
+    box-sizing: border-box; 
+    border-radius: 2px;
+    padding: 2px 5px;
+    display: table;
+    margin-bottom: 10px;
+    width: 5em;
+}
+.tags input:hover {
+    border: 1px solid #000;
+}
+span.tagRemove {
+    cursor: pointer;
+    display: inline-block;
+    padding-right: 0.5em;
+        padding-left: 0.5em;
+
+    float: left;
+}
+span.tagRemove:hover {
+    color: #222222;
+}
+

@@ -9,6 +9,10 @@
 .fa-question-circle:hover{
     color: #3fc3ee;
 }
+#swal2-title{
+  text-align: center !important;
+  width: auto;
+}
 #swal2-content {
   text-align: right !important;
   line-height: 30px;
@@ -17,11 +21,11 @@ textarea:focus, input:focus{
     outline: none;
 }
 .search_container {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	margin-top: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
   position: relative;
 }
 .search_container.result-page{
@@ -31,29 +35,30 @@ textarea:focus, input:focus{
   position: relative;
 }
 .searchbar {
-	font-family: Assistant;
-	float: right;
-	color: #606060;
-	padding: 6px 10px 0px 100px;
-	width: 450px;
-	border: none;
-	margin-top: 1px;
-	margin-right: 8px;
-	font-size: 2.5em;
-	font-weight: bold;
-	border-bottom: #62A1EA solid 3px;
-	transition: width 0.4s;
-	display: block !important;
+  font-family: Assistant;
+  float: right;
+  color: #606060;
+  padding: 6px 10px 0px 80px;
+  width: 450px;
+  border: none;
+  margin-top: 1px;
+  margin-right: 8px;
+  font-size: 2em;
+  font-weight: bold;
+  border-bottom: #62A1EA solid 3px;
+  transition: width 0.4s;
+  display: block !important;
 }
 .searchbar::placeholder {
     color: #606060;
+    opacity: 0.5;
     font-size: 1em;
     font-weight: bold;
     /* transition: 0.2s; */
 }
 .searchbar:not(:placeholder-shown) {
     width: 600px;
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: bold;
     transition: 0.4s;
     /* Stops the input box from inheriting the styling from the inputs on the request form */
@@ -93,21 +98,20 @@ textarea:focus, input:focus{
   border-color: #6c757d;
 }
 .inputs , .inputs:hover , input{
-  display: none;
   background-color: transparent;
   color: #fff;
   cursor: auto;
 }
 
-.btn{
+.search_container > .btn{
   border-radius: 0;
   border: 5px #62A1EA;
   box-shadow:none !important;
 }
-.btn-secondary{
+.search_container > .btn-secondary{
     background-color: #6c757d !important;
 }
-.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle{
+.search_container > .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle{
     background-color: #62A1EA !important;
 }
 /*
@@ -126,20 +130,18 @@ textarea:focus, input:focus{
   cursor: pointer;
   display: inline-block;
   z-index: 2;
-  bottom: 15px;
+  bottom: 10px;
 }
 .search-icons:hover {
   color: #121212;
 }
 .fa-search {
-  left: -10px;
+  left: 0px;
 }
 .fa-times {
-  left: 40px;
+  left: 45px;
 }
 
 #searchBar:placeholder-shown + .fa-times {
   display: none;
 }
-
-/*===*/

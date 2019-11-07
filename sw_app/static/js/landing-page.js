@@ -7,9 +7,9 @@ function login(){
 		$.post('/login',{
 			user_name: userName,
 	    	password: pass
-	    	},function(response){
+			},function(response){
 	    		$('.cs-loader').css('display','none');
-		        if (!(response.auth)){
+		        if (response.auth==false){
 					Swal.fire({
 						type: 'error',
 						title: 'שגיאה',
@@ -17,6 +17,10 @@ function login(){
 						confirmButtonText: 'המשך',
 					})
 		        }
+						else{
+							document.cookie = "soulwings" + "=" + (response.user_token || "") + "; path=/";
+							window.location.href = response.redirect_url
+						}
     		})
 	}
 	else{

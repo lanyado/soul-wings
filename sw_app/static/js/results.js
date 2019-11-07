@@ -38,3 +38,10 @@ $('.popup').on('toggle', function() {
 	else
 		$($(this).find("video")).get(0).pause();
 })
+
+if($('tbody:contains("No data available in table")').length>0){
+    $('#results').html("<h2>מצטערים, לא נמצאו תוצאות עבור שאילתת החיפוש שלך :(</h2>")
+}
+setTimeout(function(){ 
+    $('.cs-loader').css('display','none');
+}, 3000);

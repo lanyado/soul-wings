@@ -20,7 +20,7 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css')}}">
-
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css')}}">
 </head>
 
 <body dir="rtl">
@@ -45,8 +45,36 @@
             <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
             <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
           </ul>
-          <a class="navbar-brand" id="upload-a" onclick="$('#upload_input').click();">
-            <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
+        <details class="popup">
+              <summary>
+                <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
+             </summary>
+             
+             <section id="uploadPopup">
+                  <form action="" method="post" name="registration" id="uploadForm">
+                      <fieldset>
+                          <label for="file_name">שם הקובץ </label>
+                            <input name="file_name" id="file_name" class="text-input" />
+                            <label for="uploader_name">שם מעלה העדות</label>
+                            <input name="uploader_name" id="uploader_name" class="text-input"/>
+                          <label for="language">שפה</label>
+                          <div id="langChoose">
+                            <button type="button" class="btn btn-outline-primary">עברית</button>
+                            <button type="button" class="btn btn-outline-warning">אנגלית</button>
+                          </div>
+                          <label for="tags">תגיות</label>
+                          <div id="container">
+                            <ul class="tags">
+                                <li class="tagAdd taglist">  
+                                    <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
+                                </li>
+                            </ul>
+                          </div>
+                          <input name="regbutton" type="button" class="button" value="Register" />
+                      </fieldset>
+                  </form>
+              </section>
+            </details>
           </a>
         </div>
      </nav>
@@ -54,23 +82,24 @@
 </div>
 <!---------------> 
 <div class="search_container result-page">
-
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <i class="fa fa-question-circle"></i>
+    <i class="fa fa-question-circle"></i>
 
-  <label class="btn btn-secondary active">
-    <input type="radio" name="options" class="option" autocomplete="off" checked value="או"> או
-  </label>
-  <label class="btn btn-secondary">
-    <input type="radio" name="options" class="option" autocomplete="off" value='וגם'> וגם
-  </label>
+    <label class="btn btn-secondary active">
+      <input type="radio" name="options" class="option" autocomplete="off" checked value="או">או
+    </label>
+    <label class="btn btn-secondary">
+      <input type="radio" name="options" class="option" autocomplete="off" value='וגם'> וגם
+    </label>
+  </div>
+  <div class="searchBar-wrapper">
+    <input id="searchBar" class="searchbar" type="text" value="{{response.search_string}}" placeholder='לדוגמא: פולין 1943 "הצלב האדום"'>
+    <i class="search-icons fas fa-times"></i>
+    <i class="search-icons fa fa-search"></i>
+</div>
 </div>
 
-  <input id="searchBar" class="searchbar" type="text" placeholder="" value="{{response.search_string}}">
-  <a id="btnSearch" class="btn-search"><i class="fa fa-search"></i></a>
-</div>
-
-  <div class="container mb-2" id="results">
+<div class="container mb-2" id="results">
   <h2 id="numOfResults"></h2>
   <div class="wrapper-modal-editor">
 
@@ -149,6 +178,7 @@
   <!-- My JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/results.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/search.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
 
 </body>
 </html>
