@@ -1,4 +1,37 @@
-
+"""
+This Module contains Mongo helper functions:
+get_coll_conn(dbname, coll)
+    Returns a connection to mentioned collection
+========================================================================================================================
+put_to_mongo(dbname, coll, doc)
+    Upload doc to mongo
+========================================================================================================================
+update_mongo_doc(dbname, coll, id, content)
+    Update mongo doc based on id
+========================================================================================================================
+search_mongo(dbname, coll, query)
+    Run search on MONGO and return results
+========================================================================================================================
+get_query_part(term)
+    Get query part based on term type
+========================================================================================================================
+get_query_part(term)
+    Get query part based on term type
+========================================================================================================================
+build_query(operator=DEFAULT_OPERATOR,
+            terms=None,
+            kv_pairs=None)
+    Builds mongo query from given params
+========================================================================================================================
+auth_user(dbname, coll, auth_dict, token_handler)
+    Auth user against coll and return token or None if not authorized
+========================================================================================================================
+stt_json_to_mongo_frmt(doc, stt_json)
+    Converts STT JSON to MONGO formatted doc
+========================================================================================================================
+enrich_doc(doc)
+    Search for all enrichments in transcript and add matches to doc body
+"""
 
 import os
 import sys
@@ -6,15 +39,12 @@ import sys
 REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIRECTORY)
 
-import re
 import pymongo
 from proj_secrets import secrets
 from lib.log import getLog
 import lib.helpers as helpers
 from config import TERM_TYPE_MAP, \
                    OPERATOR_MAP, \
-                   DEFAULT_CONTEXT_BLOCK_SIZE, \
-                   MONGO_DBNAME, \
                    DEFAULT_OPERATOR
 from enrichments import enrichments
 
@@ -130,9 +160,9 @@ def build_query(operator=DEFAULT_OPERATOR,
     return query
 
 
-def auth_user(dbname, coll, auth_dict):
+def auth_user(dbname, coll, auth_dict, token_handler):
     """
-    Auth user against coll and return bool
+    Auth user against coll and return token or None if not authorized
 
     :param dbname: (str) mongo dbname
     :param coll: (str) mongo collection
@@ -145,13 +175,13 @@ def auth_user(dbname, coll, auth_dict):
     res = search_mongo(dbname, coll, query)
     res = [d for d in res]
 
-    resp_json = {'auth': False}
+    user_token = None
 
     if len(res) != 0:
-        resp_json['auth'] = True
-        resp_json['user_id'] = str(res[0].get('_id', ''))
+        user_id = str(res[0].get('_id', ''))
+        user_token = token_handler.gen_token(user_id)
 
-    return resp_json
+    return user_token
 
 
 def stt_json_to_mongo_frmt(doc, stt_json):
