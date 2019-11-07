@@ -1,19 +1,10 @@
-"""
-This Module contains functions for transcribing a video or audio file:
-transcribe(path, s3_bucket, gcs_bucket, user_fields=None):
-    Trancribe a given file and upload file, audio and transcript to S3
-========================================================================================================================
-transcribe_async(**kwargs)
-    Run transcribe in async thread
-"""
-
 import os
 import sys
 
 REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIRECTORY)
 
-import datetime
+from datetime import date
 from threading import Thread
 from lib.log import getLog
 from lib.ffmpeg import vid_to_flac, \
@@ -24,7 +15,6 @@ from lib.gc import gcs_put_file, \
                    stt_res_to_json
 from lib.mongo import put_to_mongo, \
                       stt_json_to_mongo_frmt, \
-                      enrich_doc, \
                       update_mongo_doc
 from config import MONGO_DBNAME, \
                    TRANSCRIPTS_COLL, \
@@ -37,6 +27,19 @@ from enrichments import enrichments
 
 class Transcribe:
     """
+    Class for transcribing media files and uploading them to S3 and Mongo
+
+    Attributes
+    ----------
+    Attributes are documented in each relevant func.
+    No attributes are used by initiating code later on.
+
+    Methods
+    -------
+    run(self)
+        Run transcription process
+    run_async(self)
+        Run transcription process in async thread
     """
 
     def __init__(self,
@@ -48,6 +51,7 @@ class Transcribe:
                  language=DEFAULT_LANG,
                  user_fields=None):
         """
+        Init Transcribe
 
         :param path: (str) local path of file
         :param s3_bucket: (str) S3 bucket that files will be uploaded to
@@ -66,38 +70,62 @@ class Transcribe:
         self.language = language
         self.user_fields = user_fields or {}
 
-        self.date_for_key = str(datetime.date.today()).replace('-', '/')
+        self.date_for_key = str(date.today()).replace('-', '/')
 
 
     def run(self):
         """
+        Run transcription process
         """
 
         self.log = getLog('Transcribe - %s' % self.path)
         self.log.info('Start')
 
-        self.set_mongo_oid()
-        self.thumbnail_extract_and_upload()
-        self.flac_conv_and_upload()
-        self.handle_stt()
-        self.org_upload()
-        self.handle_mongo()
-        self.clean_up()
+        self._set_mongo_oid()
+        self._thumbnail_extract_and_upload()
+        self._flac_conv_and_upload()
+        self._handle_stt()
+        self._org_upload()
+        self._handle_mongo()
+        self._clean_up()
 
         self.log.info('Done')
 
 
     def run_async(self):
         """
-        Run transcribe in async thread
+        Run transcription process in async thread
         """
 
         t = Thread(target=self.run)
         t.start()
 
 
-    def thumbnail_extract_and_upload(self):
+    def _set_mongo_oid(self):
         """
+        Creates Mongo doc and returns the OID of the created doc
+
+        This is needed in order to perform cleanups in the future
+        All files are uploaded to S3 with keys including this OID
+        When performing cleanups we will be able to see docs
+        that are marked as False and delete \ investigate all their responding files
+
+        :set attr: mongo_oid (str) OID of created Mongo Doc
+        """
+
+        res = put_to_mongo(self.mongo_dbname,
+                           self.mongo_coll,
+                           {'transcribe_complete': False})
+
+        self.mongo_oid = res.inserted_id
+
+
+    def _thumbnail_extract_and_upload(self):
+        """
+        Extract thumbnail from video and upload to S3
+
+        :set attr: thumbnail_key (str) S3 key of thumbnail
+                   thumbnail_path (str) local path of thumbnail
         """
 
         self.thumbnail_key = None
@@ -120,20 +148,13 @@ class Transcribe:
                     self.thumbnail_key)
 
 
-    def set_mongo_oid(self):
+    def _flac_conv_and_upload(self):
         """
+        Convert media to mono FLAC and upload to S3
 
-        """
-
-        res = put_to_mongo(self.mongo_dbname,
-                           self.mongo_coll,
-                           {'transcribe_complete': False})
-
-        self.mongo_oid = res.inserted_id
-
-
-    def flac_conv_and_upload(self):
-        """
+        :set attr: flac_key (str) S3 key of FLAC file
+                   flac_path (str) local path of FLAC file
+                   gcs_blob (bucket.blob) gcs file obj
         """
 
         self.flac_path = vid_to_flac(self.path)
@@ -150,8 +171,13 @@ class Transcribe:
                                      flac_file_name)
 
 
-    def handle_stt(self):
+    def _handle_stt(self):
         """
+        Handle GC STT call and upload JSON to S3
+
+        :set attr: json_key (str) S3 key of JSON file
+                   json_path (str) local path of JSON file
+                   stt_json (dict) STT res as dict
         """
 
         flac_file_name = str(self.mongo_oid) + '.flac'
@@ -174,8 +200,11 @@ class Transcribe:
                     self.json_key)
 
 
-    def org_upload(self):
+    def _org_upload(self):
         """
+        Upload original user file to S3
+
+        :set attr: org_key (str) S3 key of original user file
         """
 
         file_ext = os.path.splitext(self.path)[1]
@@ -203,8 +232,9 @@ class Transcribe:
         return mongo_doc
 
 
-    def handle_mongo(self):
+    def _handle_mongo(self):
         """
+        Handle formatting and updating existing Mongo Doc
         """
 
         mongo_doc = {'s3_bucket': self.s3_bucket,
@@ -216,7 +246,7 @@ class Transcribe:
                      'enrichments': []}
 
         mongo_doc = stt_json_to_mongo_frmt(mongo_doc, self.stt_json)
-        mongo_doc = enrich_doc(mongo_doc)
+        mongo_doc = self._enrich_doc(mongo_doc)
         mongo_doc['transcribe_complete'] = True
 
         update_mongo_doc(self.mongo_dbname,
@@ -225,13 +255,17 @@ class Transcribe:
                          mongo_doc)
 
 
-    def clean_up(self):
+    def _clean_up(self):
         """
+        Delete all files that the process created locally
         """
 
         paths = [self.path,
                  self.flac_path,
                  self.json_path]
+
+        if self.thumbnail_path:
+            paths.append(self.thumbnail_path)
 
         for p in paths:
             if os.path.exists(p):
