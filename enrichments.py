@@ -1,3 +1,7 @@
+"""
+Key words to search for in transcripts
+"""
+
 enrichments = [
   {
     "type": "camp",
