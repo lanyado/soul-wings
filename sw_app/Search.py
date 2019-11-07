@@ -16,7 +16,7 @@ from config import DEFAULT_CONTEXT_BLOCK_SIZE, \
 
 class Search:
     """
-    Class for handling tokens of logged in users
+    Class for performing transcription searches over Mongo
 
     Attributes
     ----------
