@@ -1,5 +1,19 @@
-$($('.btn.btn-outline-primary')[0]).click()
+function error(isUserFault, text){
+    var title;
+    if (isUserFault)
+        title = 'אופס';
+    else
+        title = 'מצטערים';
 
+    Swal.fire({
+        type: 'error',
+        title: title,
+        text: text,
+        confirmButtonText: 'המשך',
+    })
+}
+
+$($('.btn.btn-outline-primary')[0]).click()
 
 $.expr[":"].contains = $.expr.createPseudo(function(arg) {
     return function( elem ) {
@@ -28,9 +42,6 @@ $(document).ready(function() {
     $('#search-field').keypress(function(event) {
         if (event.which == '13') {
             if (($(this).val() != '') && ($(".tags .addedTag:contains('" + $(this).val() + "') ").length == 0 ))  {
-
-
-
                     $('<li class="addedTag">' + $(this).val() + '<span class="tagRemove" onclick="$(this).parent().remove();">x</span><input type="hidden" value="' + $(this).val() + '" name="tags[]"></li>').insertBefore('.tags .tagAdd');
                     $(this).val('');
 
@@ -45,43 +56,82 @@ $(document).ready(function() {
 
 $('#done').click(function() {
 
-    var theFile = $('#theFile').prop('files');
+    var maxFileSize = 1000000000; // 1 Giga
+    var allowedFileExtension = ['mp4', 'mp3'];
+   
+    var theFile = $('#theFile').prop('files')[0];
+    try {
+        var fileSize = theFile.size;
+        var fileExtension = $('#theFile').val().split('.').pop().toLowerCase();
+    }
+    catch(err) {
+        console.log('error')
+    }
+
     var file_name = $('#file_name').val()
     var uploader_name = $('#uploader_name').val()
-    
+
     var language;
     //langChoose
-    if ($($('.btn.btn-outline-primary')[0]).is(':focus'))
+    if ($('#hebrew').hasClass('active'))
         language = 'hebrew';
-    else if ($($('.btn.btn-outline-warning')[0]).is(':focus'))
-        language = 'english'
+    else if ($('#english').hasClass('active'))
+        language = 'english';
 
     var tags = []
     $('.addedTag').each(function(){
       tags.push($(this).text());
     })
 
-    if (!theFile || !file_name || !uploader_name || !language){
-        Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה',
-                    text: 'יש למלא את כל שדות החובה',
-                    confirmButtonText: 'המשך',
-                })
-    }
+    if (!theFile || !file_name || !uploader_name || !language)
+        error(true, 'יש למלא את כל שדות החובה')
+    
+    else if (fileSize > maxFileSize)
+        error(false, 'גודל הקובץ המקסימלי הוא 1 גיגה');
 
+    else if ($.inArray(fileExtension, allowedFileExtension) == -1)
+        error(false, 'סוגי הקבצים האפשריים להעלאה הם: '+allowedFileExtension.join(', '));
+    
     else{
-        console.log(theFile, file_name, uploader_name,language,tags);
+        console.log(theFile, file_name, uploader_name, language, tags);
 
-        $.post('/uploader',{
-            file: theFile,
-            file_name: file_name,
-            uploader_name: uploader_name,
-            language: language,
-            tags: tags
+        var newUpload = new Object();
+        newUpload.file = theFile;
+        newUpload.file_name = file_name;
+        newUpload.uploader_name = uploader_name;
+        newUpload.language = language;
+        newUpload.tags = tags;
+       
+        $.ajax({
+            url: '/uploader',
+            type: 'POST',
+            dataType: 'json',
+            processData: false,
+            data: newUpload
         },function(response){
         })
     }
-
-
 })
+
+/*=============*/
+var $fileInput = $('.file-input');
+var $droparea = $('.file-drop-area');
+
+// highlight drag area
+$fileInput.on('dragenter focus click', function() {
+  $droparea.addClass('is-active');
+});
+
+// back to normal state
+$fileInput.on('dragleave blur drop', function() {
+  $droparea.removeClass('is-active');
+});
+
+// change inner text
+$fileInput.on('change', function() {
+    var filesCount = $(this)[0].files.length;
+    var $textContainer = $(this).prev();
+    var fileName = $(this).val().split('\\').pop();
+    $textContainer.text(fileName);
+ 
+});

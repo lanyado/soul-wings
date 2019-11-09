@@ -97,7 +97,8 @@ textarea:focus, input:focus{
   background-color: #6c757d;
   border-color: #6c757d;
 }
-.inputs , .inputs:hover , input{
+.search_container > .inputs , .search_container > .inputs:hover , .search_container > input{
+  display: none;
   background-color: transparent;
   color: #fff;
   cursor: auto;
