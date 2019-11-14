@@ -17,6 +17,7 @@ import config
 
 clean_working_dir()
 app = Flask(__name__, template_folder='static')
+token_handler = TokenHandler()
 
 
 @app.route("/")
@@ -94,6 +95,7 @@ def login():
 
 
 @app.route('/gallery', methods=['GET'])
+@token_handler.auth_request
 def gallery():
     """
     Fetch gallery for user and render gallery.html with response
@@ -111,6 +113,7 @@ def gallery():
 
 
 @app.route('/search', methods=['GET'])
+@token_handler.auth_request
 def search_testimonies():
     """
     Render search.html
@@ -122,6 +125,7 @@ def search_testimonies():
 
 
 @app.route('/results', methods=['GET'])
+@token_handler.auth_request
 def search_results():
     """
     Perform search against mongo based on user request
