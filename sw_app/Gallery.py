@@ -49,7 +49,7 @@ class Gallery:
         """
 
         res = self._get_user_gallery_docs()
-        self._frmt_mongo_res(res)
+        self._frmt_for_html(res)
 
 
     def _get_user_gallery_docs(self):
@@ -66,13 +66,13 @@ class Gallery:
                    "user_fields":1}
 
         return search_mongo(self.mongo_dbname,
-                           self.mongo_coll,
-                           query,
-                           project)
+                            self.mongo_coll,
+                            query,
+                            project)
 
 
-    def _frmt_mongo_res(self,
-                        res):
+    def _frmt_for_html(self,
+                       res):
         """
         Format Mongo result for frontend
 

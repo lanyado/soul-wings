@@ -25,7 +25,7 @@ class Search:
         keys: term (str), type (str)
     resp_json : (dict)
         response json for frontend
-        keys: terms (list of dicts), results(list of dicts)
+        keys: terms (list of dicts), results (list of dicts)
               search_string (str), operator (str)
 
     Methods
@@ -67,7 +67,7 @@ class Search:
         self._search_string_to_terms()
         query = build_query(self.operator, terms=self.terms)
         res = search_mongo(self.mongo_dbname, self.mongo_coll, query)
-        self._frmt_mongo_res(res)
+        self._frmt_for_html(res)
 
 
     def _set_cntx_block_attrs(self,
@@ -120,13 +120,13 @@ class Search:
         self.resp_json['terms'] = terms
 
 
-    def _frmt_mongo_res(self,
-                        res):
+    def _frmt_for_html(self,
+                       res):
         """
         Format Mongo result for frontend
 
         :param res: (pymongo.cursor.Cursor) Mongo query result
-        :set attr: resp_json (dict) response json for frontend
+        :update attr: resp_json (dict) response json for frontend
         """
 
         results = []
