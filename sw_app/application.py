@@ -4,15 +4,11 @@ import sys
 REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIRECTORY)
 
-import uuid
-import json
-import requests
-from flask import Flask, render_template, request, flash, jsonify
-from flask_mongoengine import MongoEngine
-from flask_user import login_required, UserManager, UserMixin
+from flask import Flask, render_template, request, jsonify, url_for
 from Transcribe import Transcribe
-from search_helpers import perform_search
+from TokenHandler import TokenHandler
 from Search import Search
+from Gallery import Gallery
 from lib.mongo import auth_user
 from lib.helpers import file_to_local_uuid_file, \
                         clean_working_dir
