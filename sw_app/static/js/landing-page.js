@@ -9,28 +9,16 @@ function login(){
 	    	password: pass
 			},function(response){
 	    		$('.cs-loader').css('display','none');
-		        if (response.auth==false){
-					Swal.fire({
-						type: 'error',
-						title: 'שגיאה',
-						text: 'פרטי ההתחברות שגויים',
-						confirmButtonText: 'המשך',
-					})
-		        }
-						else{
-							document.cookie = "soulwings" + "=" + (response.user_token || "") + "; path=/";
-							window.location.href = response.redirect_url
-						}
+		        if (response.auth==false)
+		        	sendError(false,'פרטי ההתחברות שגויים')
+				else{
+					document.cookie = "soulwings" + "=" + (response.user_token || "") + "; path=/";
+					window.location.href = response.redirect_url
+				}
     		})
 	}
-	else{
-		Swal.fire({
-			type: 'error',
-			title: 'שגיאה',
-			text: 'יש למלא שם משתמש וסיסמא',
-			confirmButtonText: 'המשך',
-		})
-	}
+	else
+		sendError(true,'יש למלא שם משתמש וסיסמא')
 }
 
 $('input').keyup(function(e){

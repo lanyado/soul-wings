@@ -1,18 +1,3 @@
-function error(isUserFault, text){
-    var title;
-    if (isUserFault)
-        title = 'אופס';
-    else
-        title = 'מצטערים';
-
-    Swal.fire({
-        type: 'error',
-        title: title,
-        text: text,
-        confirmButtonText: 'המשך',
-    })
-}
-
 $($('.btn.btn-outline-primary')[0]).click()
 
 $.expr[":"].contains = $.expr.createPseudo(function(arg) {
@@ -22,37 +7,34 @@ $.expr[":"].contains = $.expr.createPseudo(function(arg) {
 });
 
 $(document).ready(function() {
-    $('#addTagBtn').click(function() {
-        $('#tags option:selected').each(function() {
-            $(this).appendTo($('#selectedTags'));
-        });
-    });
-    $('#removeTagBtn').click(function() {
-        $('#selectedTags option:selected').each(function(el) {
-            $(this).appendTo($('#tags'));
-        });
-    });
-    $('.tagRemove').click(function(event) {
-        event.preventDefault();
-        $(this).parent().remove();
-    });
-    $('ul.tags').click(function() {
-        $('#search-field').focus();
-    });
-    $('#search-field').keypress(function(event) {
-        if (event.which == '13') {
-            if (($(this).val() != '') && ($(".tags .addedTag:contains('" + $(this).val() + "') ").length == 0 ))  {
-                    $('<li class="addedTag">' + $(this).val() + '<span class="tagRemove" onclick="$(this).parent().remove();">x</span><input type="hidden" value="' + $(this).val() + '" name="tags[]"></li>').insertBefore('.tags .tagAdd');
-                    $(this).val('');
 
-            } else {
-                $(this).val('');
-
-            }
-        }
+$('#addTagBtn').click(function() {
+    $('#tags option:selected').each(function() {
+        $(this).appendTo($('#selectedTags'));
     });
 });
-
+$('#removeTagBtn').click(function() {
+    $('#selectedTags option:selected').each(function(el) {
+        $(this).appendTo($('#tags'));
+    });
+});
+$('.tagRemove').click(function(event) {
+    event.preventDefault();
+    $(this).parent().remove();
+});
+$('ul.tags').click(function() {
+    $('#search-field').focus();
+});
+$('#search-field').keypress(function(event) {
+    if (event.which == '13') {
+        if (($(this).val() != '') && ($(".tags .addedTag:contains('" + $(this).val() + "') ").length == 0 ))  {
+            $('<li class="addedTag">' + $(this).val() + '<span class="tagRemove" onclick="$(this).parent().remove();">x</span><input type="hidden" value="' + $(this).val() + '" name="tags[]"></li>').insertBefore('.tags .tagAdd');
+            $(this).val('');
+        } else {
+            $(this).val('');
+        }
+    }
+});
 
 $('#done').click(function() {
 
@@ -65,7 +47,7 @@ $('#done').click(function() {
         var fileExtension = $('#theFile').val().split('.').pop().toLowerCase();
     }
     catch(err) {
-        console.log('error')
+        sendError(true, 'יש לצרף קובץ');
     }
 
     var file_name = $('#file_name').val()
@@ -84,31 +66,36 @@ $('#done').click(function() {
     })
 
     if (!theFile || !file_name || !uploader_name || !language)
-        error(true, 'יש למלא את כל שדות החובה')
+        sendError(true, 'יש למלא את כל שדות החובה')
     
     else if (fileSize > maxFileSize)
-        error(false, 'גודל הקובץ המקסימלי הוא 1 גיגה');
+        sendError(false, 'גודל הקובץ המקסימלי הוא 1 גיגה');
 
     else if ($.inArray(fileExtension, allowedFileExtension) == -1)
-        error(false, 'סוגי הקבצים האפשריים להעלאה הם: '+allowedFileExtension.join(', '));
+        sendError(false, 'סוגי הקבצים האפשריים להעלאה הם: '+allowedFileExtension.join(', '));
     
     else{
         console.log(theFile, file_name, uploader_name, language, tags);
-
-        var newUpload = new Object();
-        newUpload.file = theFile;
-        newUpload.file_name = file_name;
-        newUpload.uploader_name = uploader_name;
-        newUpload.language = language;
-        newUpload.tags = tags;
+        
+        var form_data = new FormData();
+        
+        form_data.append('file', theFile)
+        form_data.append('file_name', file_name)
+        form_data.append('uploader_name', uploader_name)
+        form_data.append('language', language)
+        form_data.append('tags', tags)
        
         $.ajax({
             url: '/uploader',
             type: 'POST',
             dataType: 'json',
+            data: form_data,
             processData: false,
-            data: newUpload
+            cache: false,
+            contentType: false
         },function(response){
+            console.log(response);
+            sendSecsuss('הקובץ הועלה בהצלחה, ויהיה זמין לחיפוש בקרוב')
         })
     }
 })
@@ -134,4 +121,6 @@ $fileInput.on('change', function() {
     var fileName = $(this).val().split('\\').pop();
     $textContainer.text(fileName);
  
+});
+
 });

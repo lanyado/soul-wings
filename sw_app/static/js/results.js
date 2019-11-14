@@ -40,7 +40,7 @@ $('.popup').on('toggle', function() {
 })
 
 if($('tbody:contains("No data available in table")').length>0){
-    $('#results').html("<h2>מצטערים, לא נמצאו תוצאות עבור שאילתת החיפוש שלך :(</h2>")
+    $('#results').html("<i class=׳far fa-frown׳></i><h2>מצטערים, לא נמצאו תוצאות עבור שאילתת החיפוש שלך :(</h2>")
 }
 setTimeout(function(){ 
     $('.cs-loader').css('display','none');

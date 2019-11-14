@@ -104,15 +104,18 @@ textarea:focus, input:focus{
   cursor: auto;
 }
 
-.search_container > .btn{
+.search_container .btn{
   border-radius: 0;
   border: 5px #62A1EA;
   box-shadow:none !important;
 }
-.search_container > .btn-secondary{
+.btn:focus {
+  outline: none;
+}
+.search_container .btn-secondary{
     background-color: #6c757d !important;
 }
-.search_container > .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle{
+.search_container .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle{
     background-color: #62A1EA !important;
 }
 /*
