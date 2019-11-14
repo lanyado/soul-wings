@@ -9,8 +9,8 @@
     color: black;
     width: 100%;
     text-align: center;
-    margin-top: 0px;
-    font-size: 5em;
+    margin-top: 50px;
+    font-size: 25px;
 }
 .table td, .table th {
     padding: .75rem;
@@ -40,6 +40,18 @@
 .resultContent{
     position: relative;
     padding-left: 90px !important;
+}
+.readMore{
+    width: 40px;
+    cursor: pointer;
+    opacity: 0.7;
+    display: block;
+    position: absolute;
+    right: 21%;
+    bottom: 10%;
+}
+.readMore:hover{
+    opacity: 1
 }
 .playIcon{
     position: absolute;
@@ -147,7 +159,7 @@ details.popup[open] > summary::before {
     z-index: 99;
     background: rgba(27,31,35,0.5);
 }
-details.popup > div {
+details.popup > .video-box {
     top: 0;
     left: 50%;
     margin: 10vh auto;
@@ -157,6 +169,22 @@ details.popup > div {
     z-index: 999;
     background-color: #fff;
     padding: 0em;
+}
+details.popup > .text-box {
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
+    position: absolute;
+    transform: translateX(-50%);
+    z-index: 999;
+    background-color: #fff;
+    padding: 1em;
+    top: -10%;
+    width: 80%;
+
 }
 video{
     width: 100%;

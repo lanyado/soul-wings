@@ -135,12 +135,21 @@
 		          {% for content in result.context_blocks %}
 		              <section style="position: relative; " class="contentSection">
 		                  <div class="timing">{{ content.start_time }}</div>
-		                  <div class="text">{{ content.text }}</div>
+		                  <div class="text">{{ content.text }} </div>
+                      <details class="popup">
+                          <summary>
+                              <img class="readMore" src="{{ url_for('static',  filename='img/3points.png')}}">
+                          </summary>
+                          <div class="text-box">
+                              <p>{{ content.long_text }}</p>
+                          </div>
+                      </details>
+
 		                  <details class="popup">
 		                      <summary>
 		                          <img class="playIcon" src="{{ url_for('static',  filename='img/play.svg')}}">
 		                      </summary>
-		                      <div>
+		                      <div class="video-box">
 		                          <video controls>
 		                              <source src="{{ result.s3_url }}#t={{ content.start_time }}" type="video/mp4">
 		                          </video>

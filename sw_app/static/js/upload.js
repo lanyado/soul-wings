@@ -95,7 +95,8 @@ $('#done').click(function() {
             contentType: false
         },function(response){
             console.log(response);
-            sendSecsuss('הקובץ הועלה בהצלחה, ויהיה זמין לחיפוש בקרוב')
+            if (response.upload_successful)
+                sendSecsuss('הקובץ הועלה בהצלחה, ויהיה זמין לחיפוש בקרוב');
         })
     }
 })
