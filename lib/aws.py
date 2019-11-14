@@ -5,6 +5,9 @@ manage_kwargs(kwargs)
 ========================================================================================================================
 s3_put_file(local_path, bucket, key, **kwargs)
     Upload file content to provided S3 location
+========================================================================================================================
+get_s3_url(bucket, key)
+    Get S3 url for bucket and key pair
 """
 
 import os
@@ -57,3 +60,15 @@ def s3_put_file(local_path, bucket, key, **kwargs):
                                      ExtraArgs={'ACL':'public-read'})
 
     LOG.info('Put to S3 - %s - %s/%s', local_path, bucket, key)
+
+
+def get_s3_url(bucket, key):
+    """
+    Get S3 url for bucket and key pair
+
+    :param bucket: (str) bucket name in S3
+    :param key: (str) full destination path including file name
+    :return: (str) S3 url
+    """
+
+    return 'https://%s.s3.amazonaws.com/%s' % (bucket, key)
