@@ -62,7 +62,11 @@ def login():
 
 @app.route('/gallery', methods=['GET'])
 def gallery():
-    return render_template('gallery.html')
+    g = Gallery(mongo_dbname=config.MONGO_DBNAME,
+                mongo_coll=config.TRANSCRIPTS_COLL)
+    g.run()
+    
+    return render_template('gallery.html', response=g.resp_json)
 
 
 @app.route('/search', methods=['GET'])
