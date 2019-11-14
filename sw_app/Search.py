@@ -71,7 +71,7 @@ class Search:
 
 
     def _set_cntx_block_attrs(self,
-                             cntx_block_size):
+                              cntx_block_size):
         """
         Check that block size is an odd number
         and set half_b\a attrs
@@ -121,7 +121,7 @@ class Search:
 
 
     def _frmt_mongo_res(self,
-                         res):
+                        res):
         """
         Format Mongo result for frontend
 

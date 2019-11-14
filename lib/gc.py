@@ -30,7 +30,9 @@ from config import LANGUAGE_CODE_MAP
 LOG = getLog('GC')
 
 
-def gcs_put_file(local_path, gcs_bucket, gcs_path):
+def gcs_put_file(local_path,
+                 gcs_bucket,
+                 gcs_path):
     """
     Upload a given file to GCS and return blob obj
 
@@ -50,7 +52,9 @@ def gcs_put_file(local_path, gcs_bucket, gcs_path):
     return blob
 
 
-def call_stt(gcs_bucket, gcs_path, language):
+def call_stt(gcs_bucket,
+             gcs_path,
+             language):
     """
     Call Google STT and get transcript for given GCS path
 
@@ -82,7 +86,9 @@ def call_stt(gcs_bucket, gcs_path, language):
     return response
 
 
-def stt_res_to_json(res, path, user_fields):
+def stt_res_to_json(res,
+                    path,
+                    user_fields):
     """
     Save STT result to JSON and return path
 

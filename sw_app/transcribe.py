@@ -217,7 +217,8 @@ class Transcribe:
                     self.org_key)
 
 
-    def _enrich_doc(self, mongo_doc):
+    def _enrich_doc(self,
+                    mongo_doc):
         """
         Search for all enrichments in transcript and add matches to doc body
 

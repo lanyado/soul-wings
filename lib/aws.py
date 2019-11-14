@@ -41,7 +41,10 @@ def manage_kwargs(kwargs):
     return kwargs
 
 
-def s3_put_file(local_path, bucket, key, **kwargs):
+def s3_put_file(local_path,
+                bucket,
+                key,
+                **kwargs):
     """
     Upload file content to provided S3 location
 
@@ -62,7 +65,8 @@ def s3_put_file(local_path, bucket, key, **kwargs):
     LOG.info('Put to S3 - %s - %s/%s', local_path, bucket, key)
 
 
-def get_s3_url(bucket, key):
+def get_s3_url(bucket,
+               key):
     """
     Get S3 url for bucket and key pair
 

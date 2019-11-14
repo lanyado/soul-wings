@@ -48,7 +48,8 @@ from config import TERM_TYPE_MAP, \
 LOG = getLog('MONGO')
 
 
-def get_coll_conn(dbname, coll):
+def get_coll_conn(dbname,
+                  coll):
     """
     Returns a connection to mentioned collection
 
@@ -63,7 +64,9 @@ def get_coll_conn(dbname, coll):
     return coll_conn
 
 
-def put_to_mongo(dbname, coll, doc):
+def put_to_mongo(dbname,
+                 coll,
+                 doc):
     """
     Upload doc to mongo
 
@@ -81,7 +84,10 @@ def put_to_mongo(dbname, coll, doc):
     return res
 
 
-def update_mongo_doc(dbname, coll, id, content):
+def update_mongo_doc(dbname,
+                     coll,
+                     id,
+                     content):
     """
     Update mongo doc based on id
 
@@ -100,7 +106,9 @@ def update_mongo_doc(dbname, coll, id, content):
     return res
 
 
-def search_mongo(dbname, coll, query):
+def search_mongo(dbname,
+                 coll,
+                 query,
                  project=None):
     """
     Run search on MONGO and return results
@@ -158,7 +166,10 @@ def build_query(operator=DEFAULT_OPERATOR,
     return query
 
 
-def auth_user(dbname, coll, auth_dict, token_handler):
+def auth_user(dbname,
+              coll,
+              auth_dict,
+              token_handler):
     """
     Auth user against coll and return token or None if not authorized
 
@@ -182,7 +193,8 @@ def auth_user(dbname, coll, auth_dict, token_handler):
     return user_token
 
 
-def stt_json_to_mongo_frmt(doc, stt_json):
+def stt_json_to_mongo_frmt(doc,
+                           stt_json):
     """
     Converts STT JSON to MONGO formatted doc
 

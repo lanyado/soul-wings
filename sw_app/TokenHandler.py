@@ -31,7 +31,8 @@ class TokenHandler:
         Auth request from user cookie
     """
 
-    def __init__(self, tokens=None):
+    def __init__(self,
+                 tokens=None):
         """
         Init token handler
 
@@ -42,7 +43,8 @@ class TokenHandler:
         self.tokens = tokens or {}
 
 
-    def gen_token(self, user_id):
+    def gen_token(self,
+                  user_id):
         """
         Generate token and save to tokens dict
 
@@ -56,7 +58,8 @@ class TokenHandler:
         return token
 
 
-    def auth_token(self, token):
+    def auth_token(self,
+                   token):
         """
         Auth token and update time if valid
 
@@ -79,7 +82,8 @@ class TokenHandler:
         return True
 
 
-    def auth_request(self, func):
+    def auth_request(self,
+                     func):
         """
         Decorator: Auth request from user cookie
 
