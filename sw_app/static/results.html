@@ -9,7 +9,7 @@
   <title>Soul-Wings</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/fontawesome.css') }}">
- 
+
   <!-- Material Design Bootstrap -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/mdb.css') }}" >
   <!-- The table -->
@@ -34,22 +34,22 @@
       <label> ●</label>
     </div>
   </div>
-<!-- Top NavBar -->  
+<!-- Top NavBar -->
 <div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
   <div class="container">
-      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
+      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">
         <div class="collapse navbar-collapse" id = "example-navbar-collapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></a></li>
             <li class="nav-item"><a href="{{ url_for('gallery') }}">המאגר</a></li>
             <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
-            <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>
           </ul>
         <details class="popup">
               <summary>
-                <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
+                <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
              </summary>
-             
+
              <section id="uploadPopup">
                   <form action="" method="post" name="registration" id="uploadForm">
                       <fieldset>
@@ -65,7 +65,7 @@
                           <label for="tags">תגיות</label>
                           <div id="container">
                             <ul class="tags">
-                                <li class="tagAdd taglist">  
+                                <li class="tagAdd taglist">
                                     <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
                                 </li>
                             </ul>
@@ -80,7 +80,7 @@
      </nav>
   </div>
 </div>
-<!---------------> 
+<!--------------->
 <div class="search_container result-page">
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
     <i class="fa fa-question-circle"></i>
@@ -128,9 +128,9 @@
 		          <td>{{ result.language }}</td>
 		          <td>{{ result.tags }}</td>
 		          <td>{{ result.years }}</td>
-		          <td>{{ result.countries }}</td>
-		          <td>{{ result.cities }}</td>
-		          <td>{{ result.camps }}</td>
+		          <td>{{ result.country }}</td>
+		          <td>{{ result.city }}</td>
+		          <td>{{ result.camp }}</td>
 		          <td class="resultContent">
 		          {% for content in result.context_blocks %}
 		              <section style="position: relative; " class="contentSection">
