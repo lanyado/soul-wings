@@ -101,17 +101,19 @@ def update_mongo_doc(dbname, coll, id, content):
 
 
 def search_mongo(dbname, coll, query):
+                 project=None):
     """
     Run search on MONGO and return results
 
     :param dbname: (str) mongo dbname
     :param coll: (str) mongo collection
     :param query: (dict) mongo query as dict
+    :param project: (dict) mongo projection syntax as dict
     :return: (pymongo.cursor.Cursor) MONGO cursor for iterating over results
     """
 
     conn = get_coll_conn(dbname, coll)
-    res = conn.find(query)
+    res = conn.find(query, project)
 
     LOG.info('Ran Query - %s - %s - %s', dbname, coll, query)
 
