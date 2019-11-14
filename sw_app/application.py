@@ -24,9 +24,6 @@ def landing_page():
     return render_template('landing_page.html')
 
 
-@app.route('/upload')
-def upload_file():
-   return render_template('upload.html')
 
 
 @app.route('/uploader', methods = ['POST'])
