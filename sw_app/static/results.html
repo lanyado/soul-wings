@@ -9,7 +9,7 @@
   <title>Soul-Wings</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/fontawesome.css') }}">
- 
+
   <!-- Material Design Bootstrap -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/mdb.css') }}" >
   <!-- The table -->
@@ -20,7 +20,7 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css')}}">
-
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css')}}">
 </head>
 
 <body dir="rtl">
@@ -34,25 +34,53 @@
       <label> ●</label>
     </div>
   </div>
-<!-- Top NavBar -->  
+<!-- Top NavBar -->
 <div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
   <div class="container">
-      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
+      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">
         <div class="collapse navbar-collapse" id = "example-navbar-collapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></a></li>
             <li class="nav-item"><a href="{{ url_for('gallery') }}">המאגר</a></li>
             <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
-            <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>
           </ul>
-          <a class="navbar-brand" id="upload-a" onclick="$('#upload_input').click();">
-            <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
+        <details class="popup">
+              <summary>
+                <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
+             </summary>
+
+             <section id="uploadPopup">
+                  <form action="" method="post" name="registration" id="uploadForm">
+                      <fieldset>
+                          <label for="file_name">שם הקובץ </label>
+                            <input name="file_name" id="file_name" class="text-input" />
+                            <label for="uploader_name">שם מעלה העדות</label>
+                            <input name="uploader_name" id="uploader_name" class="text-input"/>
+                          <label for="language">שפה</label>
+                          <div id="langChoose">
+                            <button type="button" class="btn btn-outline-primary">עברית</button>
+                            <button type="button" class="btn btn-outline-warning">אנגלית</button>
+                          </div>
+                          <label for="tags">תגיות</label>
+                          <div id="container">
+                            <ul class="tags">
+                                <li class="tagAdd taglist">
+                                    <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
+                                </li>
+                            </ul>
+                          </div>
+                          <input name="regbutton" type="button" class="button" value="Register" />
+                      </fieldset>
+                  </form>
+              </section>
+            </details>
           </a>
         </div>
      </nav>
   </div>
 </div>
-<!---------------> 
+<!--------------->
 <div class="search_container result-page">
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
     <i class="fa fa-question-circle"></i>
@@ -100,19 +128,28 @@
 		          <td>{{ result.language }}</td>
 		          <td>{{ result.tags }}</td>
 		          <td>{{ result.years }}</td>
-		          <td>{{ result.countries }}</td>
-		          <td>{{ result.cities }}</td>
-		          <td>{{ result.camps }}</td>
+		          <td>{{ result.country }}</td>
+		          <td>{{ result.city }}</td>
+		          <td>{{ result.camp }}</td>
 		          <td class="resultContent">
 		          {% for content in result.context_blocks %}
 		              <section style="position: relative; " class="contentSection">
 		                  <div class="timing">{{ content.start_time }}</div>
-		                  <div class="text">{{ content.text }}</div>
+		                  <div class="text">{{ content.text }} </div>
+                      <details class="popup">
+                          <summary>
+                              <img class="readMore" src="{{ url_for('static',  filename='img/3points.png')}}">
+                          </summary>
+                          <div class="text-box">
+                              <p>{{ content.long_text }}</p>
+                          </div>
+                      </details>
+
 		                  <details class="popup">
 		                      <summary>
 		                          <img class="playIcon" src="{{ url_for('static',  filename='img/play.svg')}}">
 		                      </summary>
-		                      <div>
+		                      <div class="video-box">
 		                          <video controls>
 		                              <source src="{{ result.s3_url }}#t={{ content.start_time }}" type="video/mp4">
 		                          </video>
@@ -148,8 +185,11 @@
   <!-- sweetalert JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js') }}"></script>
   <!-- My JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
+
   <script type="text/javascript" src="{{ url_for('static', filename='js/results.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/search.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
 
 </body>
 </html>

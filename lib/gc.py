@@ -30,14 +30,16 @@ from config import LANGUAGE_CODE_MAP
 LOG = getLog('GC')
 
 
-def gcs_put_file(local_path, gcs_bucket, gcs_path):
+def gcs_put_file(local_path,
+                 gcs_bucket,
+                 gcs_path):
     """
     Upload a given file to GCS and return blob obj
 
     :param local_path: (str) local path of file to upload
     :param gcs_bucket: (str) GCS bucket name
     :param gcs_path: (str) Path in bucket to upload to
-    :return: (bucket.blob) gcs gile obj
+    :return: (bucket.blob) gcs file obj
     """
 
     storage_client = storage.Client()
@@ -50,7 +52,9 @@ def gcs_put_file(local_path, gcs_bucket, gcs_path):
     return blob
 
 
-def call_stt(gcs_bucket, gcs_path, language):
+def call_stt(gcs_bucket,
+             gcs_path,
+             language):
     """
     Call Google STT and get transcript for given GCS path
 
@@ -82,7 +86,9 @@ def call_stt(gcs_bucket, gcs_path, language):
     return response
 
 
-def stt_res_to_json(res, path, user_fields):
+def stt_res_to_json(res,
+                    path,
+                    user_fields):
     """
     Save STT result to JSON and return path
 

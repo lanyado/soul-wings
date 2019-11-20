@@ -14,7 +14,7 @@
   <!-- Material Design Bootstrap -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css')}}">
-
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css')}}">
 </head>
 
 <body dir="rtl">
@@ -39,9 +39,56 @@
             <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
             <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
           </ul>
-          <a class="navbar-brand" id="upload-a" onclick="$('#upload_input').click();">
-            <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">
-          </a>
+
+          <details class="popup">
+              <summary>
+                <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
+             </summary>
+             
+             <section id="uploadPopup">
+                  <form id="uploadForm">
+                      <div class="file-drop-area">
+                      <span class="fake-btn">בחר קובץ</span>
+                      <span class="file-msg">או גרור וזרוק פה</span>
+                      <input type="file" class="file-input" id="theFile" accept="video/*,audio/*">
+                    </div>
+
+                <fieldset>
+                    <label for="file_name">שם הקובץ </label>
+                    <input name="file_name" id="file_name" class="text-input" />
+
+                    <label for="uploader_name">שם מעלה העדות</label>
+                    <input name="uploader_name" id="uploader_name" class="text-input"/>
+
+                    <label for="language">שפה</label>
+                    <div id="langChoose">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-outline-primary active language" id="hebrew">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> עברית
+                        </label>
+                        <label class="btn btn-outline-warning language" id="english">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> אנגלית
+                        </label>
+                    </div>
+                    </div>
+
+                    <label for="tags">תגיות</label>
+                    <div id="container">
+                      <ul class="tags">
+                          <li class="tagAdd taglist">  
+                              <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
+                          </li>
+                      </ul>
+                    </div>
+                    <!--<input name="regbutton" type="button" class="button" value="Register" />-->
+
+                    <button type="button" class="btn btn-primary" id="done">העלה</button>
+
+                </fieldset>
+                  </form>
+              </section>
+            </details>
+
         </div>
      </nav>
   </div>
@@ -78,6 +125,10 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js')}}"></script>
   <!-- My JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/search.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
+
+
 </body>
 </html>

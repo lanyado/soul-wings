@@ -108,10 +108,10 @@ input, button{
 .inputText {
   display: block;
   height: 200% !important;
-  width: 70%;
+  width: 80%;
   margin: 5px auto;
   border: none;
-  font-size: 20px;
+  font-size: 17px;
   height: auto;
   outline: 0;
   padding: 10px;

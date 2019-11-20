@@ -1,7 +1,11 @@
-
 import os
+import sys
 
 REPO_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(REPO_DIRECTORY)
+
+from enrichments import enrichments as ens
+
 WORKING_DIR = '{}/working_dir'.format(REPO_DIRECTORY)
 
 S3_BUCKET = 'soul-wings'
@@ -29,3 +33,7 @@ TERM_TYPE_MAP = {'single': lambda t: {"transcript": {'$regex': t}},
 
 OPERATOR_MAP = {'and': '$and',
                 'or': '$or'}
+
+TOKEN_TIMEOUT_HOURS = 168 # 1 week
+
+ENRICHMENT_TYPES = set([e['type'] for e in ens])

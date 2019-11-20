@@ -5,6 +5,12 @@ file_to_local_uuid_file(f)
 ========================================================================================================================
 clean_working_dir(working_dir)
     Delete all files from working dir except .gitignore
+========================================================================================================================
+get_best_alt(alts)
+    Return words list from alternative with highest confidence
+========================================================================================================================
+lower_all_vals(d)
+    Lowers all string \ unicode values in a dict
 """
 
 import os
@@ -84,25 +90,3 @@ def lower_all_vals(d):
             d[k] = v.lower()
 
     return d
-
-
-
-
-
-
-# def copy_keys(source, destination, keys, destination_prefix=''):
-#     """
-#     Copy an array of keys from a source dict to a destination dict
-#
-#     :param source: (dict) source dict
-#     :param destination: (dict) destination dict
-#     :param keys: (list) List of keys to copy
-#     :param destination_prefix: (str) prefix to add to destination keys
-#     :return: (dict) Edited destination dict
-#     """
-#
-#     for key in keys:
-#         if source.has_key(key):
-#             destination[destination_prefix+key] = source[key]
-#
-#     return destination

@@ -7,26 +7,18 @@ function login(){
 		$.post('/login',{
 			user_name: userName,
 	    	password: pass
-	    	},function(response){
+			},function(response){
 	    		$('.cs-loader').css('display','none');
-		        if (!(response.auth)){
-					Swal.fire({
-						type: 'error',
-						title: 'שגיאה',
-						text: 'פרטי ההתחברות שגויים',
-						confirmButtonText: 'המשך',
-					})
-		        }
+		        if (response.auth==false)
+		        	sendError(false,'פרטי ההתחברות שגויים')
+				else{
+					document.cookie = "soulwings" + "=" + (response.user_token || "") + "; path=/";
+					window.location.href = response.redirect_url
+				}
     		})
 	}
-	else{
-		Swal.fire({
-			type: 'error',
-			title: 'שגיאה',
-			text: 'יש למלא שם משתמש וסיסמא',
-			confirmButtonText: 'המשך',
-		})
-	}
+	else
+		sendError(true,'יש למלא שם משתמש וסיסמא')
 }
 
 $('input').keyup(function(e){

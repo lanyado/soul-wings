@@ -1,3 +1,8 @@
+/*var user_token = $.cookie("user_token");
+if (!(user_token)){
+	window.location = 'landing_page';
+}*/
+
 $(".dropdown-menu").on('click', '.dropdown-item', function(){
 	$("#dropdownMenuButton").text($(this).text());
 });
@@ -15,11 +20,11 @@ function sendSearchString(){
 		$('.cs-loader').css('display','block');
 
 		$.get('/results',{
+			//user_token: user_token,
 			search_string: st,
 	    	operator: op
 	   }, function(data) {
 	   		//$('.cs-loader').css('display','none');
-			console.log(data)
 	        document.open('text/html');
 	        document.write(data);
 	        document.close();

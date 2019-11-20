@@ -1,4 +1,3 @@
-
 import os
 import sys
 
@@ -9,9 +8,7 @@ import re
 from DocMatch import DocMatch
 from lib.mongo import search_mongo, \
                       build_query
-from config import TERM_TYPE_MAP, \
-                   OPERATOR_MAP, \
-                   DEFAULT_CONTEXT_BLOCK_SIZE, \
+from config import DEFAULT_CONTEXT_BLOCK_SIZE, \
                    MONGO_DBNAME, \
                    TRANSCRIPTS_COLL, \
                    DEFAULT_OPERATOR
@@ -19,6 +16,22 @@ from config import TERM_TYPE_MAP, \
 
 class Search:
     """
+    Class for performing transcription searches over Mongo
+
+    Attributes
+    ----------
+    terms : (list of dicts)
+        dict per term
+        keys: term (str), type (str)
+    resp_json : (dict)
+        response json for frontend
+        keys: terms (list of dicts), results (list of dicts)
+              search_string (str), operator (str)
+
+    Methods
+    -------
+    run()
+        Run Search and save results to self.resp_json
     """
 
     def __init__(self,
@@ -28,16 +41,18 @@ class Search:
                  mongo_dbname=MONGO_DBNAME,
                  mongo_coll=TRANSCRIPTS_COLL):
         """
-
+        Init Search
 
         :param search_string: (str) Search string
         :param operator: (str) Operator that will act in the query (and \ or)
-        :param cntx_block_size: (int) Size of context block
+        :param cntx_block_size: (int) Size of context block (word count)
+        :param mongo_dbname: (str) Mongo dbname for conn
+        :param mongo_coll: (str) Relevant coll in each doc for query
         """
 
         self.ss = search_string
         self.operator = operator
-        self.set_cntx_block_attrs(cntx_block_size)
+        self._set_cntx_block_attrs(cntx_block_size)
         self.mongo_dbname = mongo_dbname
         self.mongo_coll = mongo_coll
         self.resp_json = {'search_string': search_string,
@@ -46,16 +61,17 @@ class Search:
 
     def run(self):
         """
+        Run Search and save results to self.resp_json
         """
 
-        self.search_string_to_terms()
+        self._search_string_to_terms()
         query = build_query(self.operator, terms=self.terms)
         res = search_mongo(self.mongo_dbname, self.mongo_coll, query)
-        self.frmt_mongo_res(res)
+        self._frmt_for_html(res)
 
 
-    def set_cntx_block_attrs(self,
-                             cntx_block_size):
+    def _set_cntx_block_attrs(self,
+                              cntx_block_size):
         """
         Check that block size is an odd number
         and set half_b\a attrs
@@ -75,12 +91,12 @@ class Search:
         self.cbs_half_a = self.cbs_half_b + 1
 
 
-    def search_string_to_terms(self):
+    def _search_string_to_terms(self):
         """
         Converts a search string to a list of terms
 
         :set attr: terms (list of dicts) dict per term
-            keys - term (str), type (str)
+            keys: term (str), type (str)
         """
 
         terms = []
@@ -104,13 +120,13 @@ class Search:
         self.resp_json['terms'] = terms
 
 
-    def frmt_mongo_res(self,
-                         res):
+    def _frmt_for_html(self,
+                       res):
         """
-
+        Format Mongo result for frontend
 
         :param res: (pymongo.cursor.Cursor) Mongo query result
-        :set attr: resp_json (dict) response json for frontend
+        :update attr: resp_json (dict) response json for frontend
         """
 
         results = []
