@@ -16,11 +16,11 @@ import config
 
 
 clean_working_dir()
-app = Flask(__name__, template_folder='static')
+application = Flask(__name__, template_folder='static')
 token_handler = TokenHandler()
 
 
-@app.route("/")
+@application.route("/")
 def landing_page():
     """
     Render landing_page.html
@@ -31,7 +31,7 @@ def landing_page():
     return render_template('landing_page.html')
 
 
-@app.route('/uploader', methods = ['POST'])
+@application.route('/uploader', methods = ['POST'])
 def uploader():
     """
     Receive user file and start transcription process
@@ -67,7 +67,7 @@ def uploader():
     return jsonify(resp)
 
 
-@app.route('/login', methods = ['POST'])
+@application.route('/login', methods = ['POST'])
 def login():
     """
     Auth user against mongo, gen token and return token
@@ -94,7 +94,7 @@ def login():
     return jsonify(resp)
 
 
-@app.route('/gallery', methods=['GET'])
+@application.route('/gallery', methods=['GET'])
 @token_handler.auth_request
 def gallery():
     """
@@ -112,7 +112,7 @@ def gallery():
     return render_template('gallery.html', response=g.resp_json)
 
 
-@app.route('/search', methods=['GET'])
+@application.route('/search', methods=['GET'])
 @token_handler.auth_request
 def search_testimonies():
     """
@@ -124,7 +124,7 @@ def search_testimonies():
     return render_template('search.html')
 
 
-@app.route('/results', methods=['GET'])
+@application.route('/results', methods=['GET'])
 @token_handler.auth_request
 def search_results():
     """
