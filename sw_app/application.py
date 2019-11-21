@@ -142,3 +142,7 @@ def search_results():
     s.run()
 
     return render_template('results.html', response=s.resp_json)
+
+
+if __name__ == "__main__":
+    application.run()
