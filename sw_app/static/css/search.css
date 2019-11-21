@@ -14,7 +14,7 @@
   width: auto;
 }
 #swal2-content {
-  text-align: right !important;
+  /*text-align: right !important;*/
   line-height: 30px;
 }
 textarea:focus, input:focus{

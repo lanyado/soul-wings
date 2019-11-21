@@ -88,8 +88,7 @@ details.popup summary::-webkit-details-marker {
     padding: 6px 10px;
 }
 #uploadForm input[type="radio"] {
-    left: -999em;
-    position: absolute;
+    display: none;
 }
 #langChoose{
     margin-top: 10px;
@@ -122,7 +121,7 @@ details.popup summary::-webkit-details-marker {
 
 }
 .tags li.addedTag { /*the green*/
-    background: none repeat scroll 0 0 #019f86;
+    background: none repeat scroll 0 0 #889AAE;
     border-radius: 2px;
     color: #fff;
     padding: 0.25em;
@@ -171,6 +170,13 @@ span.tagRemove:hover {
     color: #222222;
 }
 
+#done{
+  background-color: #4498E0;
+  width: 20%;
+}
+#done:hover{
+  background-color: #173B64;
+}
 /*=======*/
 
 
@@ -224,4 +230,20 @@ span.tagRemove:hover {
 }
 .file-input:focus {
   outline: none;
+}
+
+
+
+
+
+.btn-outline-warning:not(:disabled):not(.disabled).active, .btn-outline-warning:not(:disabled):not(.disabled):active, .show>.btn-outline-warning.dropdown-toggle {
+    color: #212529 !important;
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle {
+    color: #fff !important;
+    background-color: #007bff !important;
+    border-color: #007bff !important;
 }
