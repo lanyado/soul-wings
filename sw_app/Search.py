@@ -5,7 +5,7 @@ REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIRECTORY)
 
 import re
-from DocMatch import DocMatch
+from sw_app.DocMatch import DocMatch
 from lib.mongo import search_mongo, \
                       build_query
 from config import DEFAULT_CONTEXT_BLOCK_SIZE, \
