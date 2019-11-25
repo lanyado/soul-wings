@@ -1,14 +1,14 @@
 import os
 import sys
 
-REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(REPO_DIRECTORY)
 
 from flask import Flask, render_template, request, jsonify, url_for
-from Transcribe import Transcribe
-from TokenHandler import TokenHandler
-from Search import Search
-from Gallery import Gallery
+from sw_app.Transcribe import Transcribe
+from sw_app.TokenHandler import TokenHandler
+from sw_app.Search import Search
+from sw_app.Gallery import Gallery
 from lib.mongo import auth_user
 from lib.helpers import file_to_local_uuid_file, \
                         clean_working_dir
