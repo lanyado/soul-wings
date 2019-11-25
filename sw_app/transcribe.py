@@ -21,7 +21,7 @@ from config import MONGO_DBNAME, \
                    DEFAULT_LANG, \
                    GCS_BUCKET, \
                    S3_BUCKET, \
-                   THUMBNAIL_SECONDS
+                   THUMBNAIL_REL_TIME
 from enrichments import enrichments
 
 
@@ -133,7 +133,7 @@ class Transcribe:
 
         try:
             self.thumbnail_path = get_thumbnail(self.path,
-                                                THUMBNAIL_SECONDS)
+                                                THUMBNAIL_REL_TIME)
 
         except Exception as e:
             self.log.warning('Could not extract thumbnail - error:%s', str(e))
