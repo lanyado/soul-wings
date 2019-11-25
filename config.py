@@ -20,7 +20,7 @@ USERS_COLL = 'users'
 
 DEFAULT_CONTEXT_BLOCK_SIZE = 21
 
-THUMBNAIL_SECONDS = 20
+THUMBNAIL_REL_TIME = 0.5 # Fraction of total media time to get thumbnail
 
 DEFAULT_LANG = 'hebrew'
 
