@@ -27,36 +27,10 @@
 
         var $newRow = [];
 
-      
-        //new user
-//add to the new user all the parameters
         for (var _i = 0; _i < $wrapperModalEditor.find('.addNewInputs input, .addNewInputs select').length; _i++) {
 
           $newRow.push($wrapperModalEditor.find('.addNewInputs input, .addNewInputs select').eq(_i).val());
         }
-console.log($newRow)
-        var isError=false                 
-        for(var i=0;i<$newRow.length;i++){
-               if($newRow[i] === "" || $newRow[i] === null)
-               {
-                isError = true
-                swal("שגיאה", "יש למלא את כל השדות", "error");
-               }   
-           }
-
-           if(!isError)
-           {
-            $table.row.add($newRow).draw();
-            setTimeout(() => {
-                $.post( "/addUser", {
-                    javascript_data: $newRow.toString()
-                  });
-
-            }, 25);
-        }
-
-
-
       },
           btnToModalAdd = function btnToModalAdd(e) {
 
@@ -336,22 +310,7 @@ $('#editInputs').find('input').each(function() {
     });
   };
 
-$('#edit').click(function(){    
-    setTimeout(function(){ 
-        $.post('/editUser',{
-            javascript_data: window.d.slice(0,-1),
-            id: window.Id
-        });
-    }, 3000);
-})
 
-$('#download_icon').click(function(){    
-    setTimeout(function(){ 
-        $.post('/giveExcel',{
-            javascript_data: window.dates
-        });
-    }, 3000);
-})
 $('.buttonWrapper').on('click', '.addNewRows', function (e) {
     var $newRow = [];
     for (var i = 0; i < $(e.target).closest('.wrapper-row-editor').find('table thead th').length; i++) {

@@ -17,7 +17,7 @@ function sendError(isUserFault, text){
         type: 'error',
         title: title,
         text: text,
-        confirmButtonText: 'המשך',
+        confirmButtonText: 'הבנתי',
     })
 }
 
@@ -29,6 +29,6 @@ function sendSecsuss(text){
         type: 'success',
         title: title,
         text: text,
-        confirmButtonText: 'המשך',
+        confirmButtonText: 'הבנתי',
     })
 }

@@ -26,47 +26,63 @@
         <div class="collapse navbar-collapse" id = "example-navbar-collapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></a></li>
-            <li class="nav-item active"><a href="{{ url_for('gallery') }}">המאגר</a></li>
-            <li class="nav-item"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
-            <li class="nav-item"><a href="{{ url_for('gallery') }}">אודות</a></li>   
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">המאגר</a></li>
+            <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
           </ul>
-         <details class="popup">
+
+          <details class="popup">
               <summary>
                 <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
              </summary>
              
              <section id="uploadPopup">
-                  <form action="" method="post" name="registration" id="uploadForm">
-                      <fieldset>
-                          <label for="file_name">שם הקובץ </label>
-                            <input name="file_name" id="file_name" class="text-input" />
-                            <label for="uploader_name">שם מעלה העדות</label>
-                            <input name="uploader_name" id="uploader_name" class="text-input"/>
-                          <label for="language">שפה</label>
-                          <div id="langChoose">
-                            <button type="button" class="btn btn-outline-primary">עברית</button>
-                            <button type="button" class="btn btn-outline-warning">אנגלית</button>
-                          </div>
-                          <label for="tags">תגיות</label>
-                          <div id="container">
-                            <ul class="tags">
-                                <li class="tagAdd taglist">  
-                                    <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
-                                </li>
-                            </ul>
-                          </div>
-                          <input name="regbutton" type="button" class="button" value="Register" />
-                      </fieldset>
+                  <form id="uploadForm">
+                      <div class="file-drop-area">
+                      <span class="fake-btn"><b>העלאת קובץ</b> (MP4/MP3)</span>
+                      <span class="file-msg">אפשר גם לגרור קובץ ולזרוק אותו פה</span>
+                      <input type="file" class="file-input" id="theFile" accept="video/*,audio/*">
+                    </div>
+
+                <fieldset>
+                    <label for="file_name"><b>שם הקובץ</b> </label>
+                    <input name="file_name" id="file_name" class="text-input" />
+
+                    <label for="uploader_name"><b>שם מעלה העדות</b></label>
+                    <input name="uploader_name" id="uploader_name" class="text-input"/>
+
+                    <label for="language"><b>שפה</b></label>
+                    <div id="langChoose">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-outline-primary active language" id="hebrew">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> עברית
+                        </label>
+                        <label class="btn btn-outline-warning language" id="english">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> אנגלית
+                        </label>
+                    </div>
+                    </div>
+
+                    <label for="tags"><b>תגיות</b> (מופרדות ב-Enter)</label>
+                    <div id="container">
+                      <ul class="tags">
+                          <li class="tagAdd taglist">  
+                              <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
+                          </li>
+                      </ul>
+                    </div>
+                    <!--<input name="regbutton" type="button" class="button" value="Register" />-->
+
+                    <button type="button" class="btn btn-primary" id="done">העלאה</button>
+
+                </fieldset>
                   </form>
               </section>
             </details>
-          </a>
         </div>
      </nav>
   </div>
 </div>
-<!---------------> 
-
+<!-- Top NavBar -->
 
 
 <ul class="container">

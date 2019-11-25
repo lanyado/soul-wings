@@ -28,6 +28,9 @@ body {
   overflow-x: hidden;
   direction: rtl;
 }
+b, strong {
+    font-weight: bold;
+}
 .navbar {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -179,4 +182,7 @@ body {
 .cs-loader-inner label:nth-child(1) {
   -webkit-animation: lol 3s 500ms infinite ease-in-out;
   animation: lol 3s 500ms infinite ease-in-out;
+}
+.navbar .navbar-default{
+  padding-bottom: 0;
 }
