@@ -45,27 +45,41 @@
             <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
           </ul>
 
-          <details class="popup">
+          <details class="popup upload-details">
+              <div id="grey"></div>
+
               <summary>
                 <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
              </summary>
              
              <section id="uploadPopup">
+              <i class="fas fa-times" id="upload-close-icon"></i>
                   <form id="uploadForm">
+                    <!-- ============= File upload ============== -->
+                       <a href="#" data-toggle="tooltip" title="*שדה חובה
+                    - סוג קובץ: MP3/MP4/MOV
+                    - גודל קובץ מקסימאלי: 1 ג׳יגה " >
                       <div class="file-drop-area">
-                      <span class="fake-btn"><b>העלאת קובץ</b> (MP4/MP3)</span>
+                      <span class="fake-btn">העלאת קובץ</span>
                       <span class="file-msg">אפשר גם לגרור קובץ ולזרוק אותו פה</span>
                       <input type="file" class="file-input" id="theFile" accept="video/*,audio/*">
                     </div>
+                      </a>
 
                 <fieldset>
-                    <label for="file_name"><b>שם הקובץ</b> </label>
-                    <input name="file_name" id="file_name" class="text-input" />
+                  <!-- ============= File name ============== -->
 
-                    <label for="uploader_name"><b>שם מעלה העדות</b></label>
-                    <input name="uploader_name" id="uploader_name" class="text-input"/>
+                    <label for="file_name"> 
+                      שם הקובץ*
+                      <a href="#" data-toggle="tooltip" title="שם הקובץ" >
+                         <i class="far fa-question-circle icon-tooltip"></i>
+                      </a>
+                    </label>
+                    <input name="file_name" id="file_name" class="text-input" maxlength="50"/>
+                  
+                  <!-- ============= File language ============== -->
 
-                    <label for="language"><b>שפה</b></label>
+                    <label for="language">שפה</label>
                     <div id="langChoose">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-outline-primary active language" id="hebrew">
@@ -76,8 +90,28 @@
                         </label>
                     </div>
                     </div>
+                 <!-- ============= File description ============== -->
 
-                    <label for="tags"><b>תגיות</b> (מופרדות ב-Enter)</label>
+                    <label for="file_description"> 
+                      תיאור העדות
+                      <a href="#" data-toggle="tooltip" title="תיאור כללי של העדות, או מידע שאינו נזכר בעדות עצמה." >
+                         <i class="far fa-question-circle icon-tooltip"></i>
+                      </a>
+                    </label>
+                      <textarea rows="4" cols="50"  name="file_description" id="file_description" class="text-input" maxlength="200"></textarea>
+
+                       <div class="the-count">
+                           <p id="characterNotification">נשארו לך  <span id="characterCounter">XXX</span> תווים, מתוך <span id="maximum">XXX</span></p>
+                      </div>
+                <!-- ============= File tags ============== -->
+
+                    <label for="tags"><span>תגיות </span>
+                      <a href="#" data-toggle="tooltip" title="אם הקובץ הוא חלק מסדרה מסויימת אפשר לתייג את כל הסדרה באותם התיוגים" >
+                          <i class="far fa-question-circle icon-tooltip"></i>
+                      </a>
+                      <p>יש ללחוץ על מקש ה-Enter כדי ליצור תגית חדשה</p>
+                     
+                    </label>
                     <div id="container">
                       <ul class="tags">
                           <li class="tagAdd taglist">  
@@ -85,7 +119,6 @@
                           </li>
                       </ul>
                     </div>
-                    <!--<input name="regbutton" type="button" class="button" value="Register" />-->
 
                     <button type="button" class="btn btn-primary" id="done">העלאה</button>
 
@@ -100,7 +133,7 @@
 <!-- Top NavBar -->  
 <div class="search_container result-page">
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <i class="fa fa-question-circle"></i>
+    <i class="fa fa-question-circle search-area"></i>
 
     <label class="btn btn-secondary active">
       <input type="radio" name="options" class="option" autocomplete="off" checked value="או">או

@@ -1,12 +1,12 @@
 /* ======================== Search ============================*/
-.fa-question-circle{
+.fa-question-circle.search-area{
   font-size: 30px;
   position: absolute;
   right: 0;
   top: -40px;
   cursor: pointer;
 }
-.fa-question-circle:hover{
+.fa-question-circle.search-area:hover{
     color: #3fc3ee;
 }
 #swal2-title{

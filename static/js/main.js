@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $(document).bind('keydown', function(e) { 
         if (e.which == 27) {
-            $('details').removeAttr("open"); 
+            $('details').not($('.upload-details')).removeAttr("open"); 
         }
     }); 
 });
@@ -9,7 +9,7 @@ $(document).ready(function(){
 function sendError(isUserFault, text){
     var title;
     if (isUserFault)
-        title = 'אופס';
+        title = 'סליחה';
     else
         title = 'מצטערים';
 
@@ -18,6 +18,7 @@ function sendError(isUserFault, text){
         title: title,
         text: text,
         confirmButtonText: 'הבנתי',
+        showCloseButton: true
     })
 }
 
@@ -30,5 +31,6 @@ function sendSecsuss(text){
         title: title,
         text: text,
         confirmButtonText: 'הבנתי',
+        showCloseButton: true
     })
 }

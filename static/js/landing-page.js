@@ -10,7 +10,7 @@ function login(){
 			},function(response){
 	    		$('.cs-loader').css('display','none');
 		        if (response.auth==false)
-		        	sendError(false,'פרטי ההתחברות שגויים')
+		        	sendError(false,'פרטי ההתחברות שגויים, נסו שוב')
 				else{
 					document.cookie = "soulwings" + "=" + (response.user_token || "") + "; path=/";
 					window.location.href = response.redirect_url

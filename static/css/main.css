@@ -31,6 +31,10 @@ body {
 b, strong {
     font-weight: bold;
 }
+a {
+    text-decoration: none !important;
+}
+
 .navbar {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -85,7 +89,11 @@ b, strong {
 #logo {
   width:2em;
 }
-
+#upload-close-icon{
+  font-size: 20px;
+  color: black;
+  cursor: pointer;
+}
 /*=== snipper ===*/
 
 .cs-loader {

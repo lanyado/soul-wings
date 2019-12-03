@@ -13,6 +13,7 @@
  * Included libraries:
  *   DataTables 1.10.18
  */
+
  table.dataTable thead {
   cursor: pointer; }
   table.dataTable thead > tr > th:active, table.dataTable thead > tr > td:active {
@@ -20,7 +21,11 @@
 
 div.dataTables_wrapper div.dataTables_length.d-flex.flex-row label {
   margin-top: 1.2rem;
-  margin-right: 1rem; }
+  margin-right: 1rem;
+  font-size: 20px;
+  color: black;
+
+   }
 
 div.dataTables_wrapper div.dataTables_length.d-flex.flex-row .select-wrapper.mdb-select span, div.dataTables_wrapper div.dataTables_length.d-flex.flex-row .select-wrapper.mdb-select .select-dropdown {
   margin-top: 1rem; }
@@ -29,13 +34,18 @@ div.dataTables_wrapper div.dataTables_length label {
   text-align: left;
   font-weight: normal;
   padding-top: .5rem;
-  padding-bottom: .5rem; }
+  padding-bottom: .5rem;
+    font-size: 20px;
+    color: black; }
 
 div.dataTables_wrapper div.dataTables_filter label {
   text-align: left;
   font-weight: normal;
   padding-top: .5rem;
-  padding-bottom: .5rem; }
+  padding-bottom: .5rem; 
+  font-size: 20px;
+  color: black;
+}
 
 div.dataTables_wrapper div.dataTables_length select, div.dataTables_wrapper div.dataTables_length input {
   width: auto; }

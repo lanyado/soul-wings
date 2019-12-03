@@ -32,6 +32,17 @@
   line-height: 5px;
   z-index: 2;
 }
+.videoDetails .first{
+  display: block;
+  margin: 5px 0 20px 0;
+}
+.videoDetails .second{
+  display: inline-block;
+}
+.duration{
+  display: inline-block;
+  float: left;
+}
 /*---------------*/
 summary {
   position: relative;
@@ -72,7 +83,7 @@ summary:hover .middle {
 }
 
 .text {
-  color: black;
+  color: #ffff;
   font-size: 100px;
 }
 /*==================================*/

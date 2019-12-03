@@ -51,6 +51,7 @@ $(".fa-question-circle").on('click', function(){
 		title: 'חיפוש קבצים מהמאגר',
 		html: '● &nbsp;הפרדה  בין ביטויים תעשה באמצעות מקש הרווח. <br>● &nbsp;יש להכניס לגרשיים ביטויים המכילים יותר ממילה אחת, (לדוגמא: "הצלב האדום").<br><span class="highlight">או</span> - חיפוש קבצים המכילים <b>לפחות אחד </b>מהביטויים.<br><span class="highlight">וגם</span> - חיפוש קבצים המכילים את <b>כל </b>הביטויים.',
 		confirmButtonText: 'הבנתי',
+		showCloseButton: true
 	})
 });
 
