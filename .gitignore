@@ -1,6 +1,7 @@
 *.pyc
 *.DS_Store
 /proj_secrets
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
