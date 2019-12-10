@@ -37,3 +37,5 @@ OPERATOR_MAP = {'and': '$and',
 TOKEN_TIMEOUT_HOURS = 168 # 1 week
 
 ENRICHMENT_TYPES = set([e['type'] for e in ens])
+
+SECRETS_S3_DETAILS = ('soul-wings-secrets', 'secrets.json')

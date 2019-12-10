@@ -11,9 +11,12 @@ from sw_app.Search import Search
 from sw_app.Gallery import Gallery
 from lib.mongo import auth_user
 from lib.helpers import file_to_local_uuid_file, \
-                        clean_working_dir
+                        clean_working_dir, \
+                        get_secrets
 import config
 
+
+SECRETS = get_secrets()
 
 clean_working_dir()
 application = Flask(__name__, template_folder='static')
@@ -50,6 +53,7 @@ def uploader():
         language = user_fields.get('language', config.DEFAULT_LANG)
 
         t = Transcribe(path=path,
+                       secrets=SECRETS,
                        s3_bucket=config.S3_BUCKET,
                        gcs_bucket=config.GCS_BUCKET,
                        mongo_dbname=config.MONGO_DBNAME,
@@ -82,7 +86,8 @@ def login():
     user_token = auth_user(config.MONGO_DBNAME,
                            config.USERS_COLL,
                            auth_dict,
-                           token_handler)
+                           token_handler,
+                           SECRETS)
 
     if user_token:
         resp = {'redirect_url':url_for('search_testimonies'),
@@ -105,7 +110,8 @@ def gallery():
     :return: (str) html for frontend
     """
 
-    g = Gallery(mongo_dbname=config.MONGO_DBNAME,
+    g = Gallery(secrets=SECRETS,
+                mongo_dbname=config.MONGO_DBNAME,
                 mongo_coll=config.TRANSCRIPTS_COLL)
     g.run()
 
@@ -138,7 +144,8 @@ def search_results():
 
     search_dict = dict(request.args)
     search_dict = {k: v for k, v in search_dict.items() if v}
-    s = Search(**search_dict)
+    s = Search(secrets=SECRETS,
+               **search_dict)
     s.run()
 
     return render_template('results.html', response=s.resp_json)

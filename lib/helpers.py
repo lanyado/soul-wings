@@ -21,7 +21,10 @@ sys.path.append(REPO_DIRECTORY)
 
 import uuid
 import glob
-from config import WORKING_DIR
+import json
+import boto3
+from config import WORKING_DIR, \
+                   SECRETS_S3_DETAILS
 
 
 def file_to_local_uuid_file(f):
@@ -90,3 +93,44 @@ def lower_all_vals(d):
             d[k] = v.lower()
 
     return d
+
+
+def get_secrets_dev(local_path):
+    """
+    Get secrets from proj_secrets/secrets.json
+
+    :param local_path: (str) local path of secrets JSON
+    :return: (dict) key per secret
+    """
+
+    json_file = open(local_path, 'r')
+    return json.load(json_file)
+
+
+def get_secrets_prod():
+    """
+    Get secrets from S3
+
+    :return: (dict) key per secret
+    """
+
+    resource = boto3.resource('s3')
+    file_obj = resource.Object(*SECRETS_S3_DETAILS)
+    content = file_obj.get()['Body'].read()
+
+    return json.loads(content)
+
+
+def get_secrets():
+    """
+    Get secrets from proj_secrets if the folder exists, from S3 if not
+
+    :return: (dict) key per secret
+    """
+
+    local_path = REPO_DIRECTORY + '/proj_secrets/secrets.json'
+
+    if os.path.exists(local_path):
+        return get_secrets_dev(local_path)
+    else:
+        return get_secrets_prod()

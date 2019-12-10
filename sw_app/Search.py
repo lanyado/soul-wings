@@ -36,6 +36,7 @@ class Search:
 
     def __init__(self,
                  search_string,
+                 secrets,
                  operator=DEFAULT_OPERATOR,
                  cntx_block_size=DEFAULT_CONTEXT_BLOCK_SIZE,
                  mongo_dbname=MONGO_DBNAME,
@@ -44,6 +45,7 @@ class Search:
         Init Search
 
         :param search_string: (str) Search string
+        :param secrets: (dict) Result from helpers.get_secrets
         :param operator: (str) Operator that will act in the query (and \ or)
         :param cntx_block_size: (int) Size of context block (word count)
         :param mongo_dbname: (str) Mongo dbname for conn
@@ -51,6 +53,7 @@ class Search:
         """
 
         self.ss = search_string
+        self.secrets = secrets
         self.operator = operator
         self._set_cntx_block_attrs(cntx_block_size)
         self.mongo_dbname = mongo_dbname
@@ -66,7 +69,7 @@ class Search:
 
         self._search_string_to_terms()
         query = build_query(self.operator, terms=self.terms)
-        res = search_mongo(self.mongo_dbname, self.mongo_coll, query)
+        res = search_mongo(self.mongo_dbname, self.mongo_coll, query, self.secrets)
         self._frmt_for_html(res)
 
 

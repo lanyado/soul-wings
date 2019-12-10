@@ -44,6 +44,7 @@ class Transcribe:
 
     def __init__(self,
                  path,
+                 secrets,
                  s3_bucket=S3_BUCKET,
                  gcs_bucket=GCS_BUCKET,
                  mongo_dbname=MONGO_DBNAME,
@@ -54,6 +55,7 @@ class Transcribe:
         Init Transcribe
 
         :param path: (str) local path of file
+        :param secrets: (dict) Result from helpers.get_secrets
         :param s3_bucket: (str) S3 bucket that files will be uploaded to
         :param gcs_bucket: (str) GCS bucket that files will be uploaded to
         :param mongo_dbname: (str) Mongo dbname to insert docs to
@@ -63,6 +65,7 @@ class Transcribe:
         """
 
         self.path = path
+        self.secrets = secrets
         self.s3_bucket = s3_bucket
         self.gcs_bucket = gcs_bucket
         self.mongo_dbname = mongo_dbname
@@ -115,7 +118,8 @@ class Transcribe:
 
         res = put_to_mongo(self.mongo_dbname,
                            self.mongo_coll,
-                           {'transcribe_complete': False})
+                           {'transcribe_complete': False},
+                           self.secrets)
 
         self.mongo_oid = res.inserted_id
 
@@ -145,7 +149,8 @@ class Transcribe:
 
         s3_put_file(self.thumbnail_path,
                     self.s3_bucket,
-                    self.thumbnail_key)
+                    self.thumbnail_key,
+                    self.secrets)
 
 
     def _flac_conv_and_upload(self):
@@ -165,7 +170,8 @@ class Transcribe:
 
         s3_put_file(self.flac_path,
                     self.s3_bucket,
-                    self.flac_key)
+                    self.flac_key,
+                    self.secrets)
         self.gcs_blob = gcs_put_file(self.flac_path,
                                      self.gcs_bucket,
                                      flac_file_name)
@@ -197,7 +203,8 @@ class Transcribe:
 
         s3_put_file(self.json_path,
                     self.s3_bucket,
-                    self.json_key)
+                    self.json_key,
+                    self.secrets)
 
 
     def _org_upload(self):
@@ -214,7 +221,8 @@ class Transcribe:
 
         s3_put_file(self.path,
                     self.s3_bucket,
-                    self.org_key)
+                    self.org_key,
+                    self.secrets)
 
 
     def _enrich_doc(self,
@@ -253,7 +261,8 @@ class Transcribe:
         update_mongo_doc(self.mongo_dbname,
                          self.mongo_coll,
                          self.mongo_oid,
-                         mongo_doc)
+                         mongo_doc,
+                         self.secrets)
 
 
     def _clean_up(self):
