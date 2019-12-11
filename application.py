@@ -22,10 +22,6 @@ clean_working_dir()
 application = Flask(__name__, template_folder='static')
 token_handler = TokenHandler()
 
-path = '/home/ec2-user/soulwings-94e1c45b141d.json'
-
-open(path, 'r')
-
 
 @application.route("/")
 def landing_page():
