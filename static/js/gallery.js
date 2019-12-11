@@ -1,3 +1,4 @@
+// add the duration ton each video
 $('video').one('loadedmetadata',function() {
 	duration = this.duration;
 	var minutes = String(parseInt(duration / 60, 10));

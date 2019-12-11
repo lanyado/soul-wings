@@ -11,23 +11,36 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/modules/fontawesome.css')}}">
   <!-- Bootstrap core CSS -->
   <link href="{{ url_for('static', filename='css/modules/bootstrap.min.css')}}" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
+  <!-- My CSS -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/gallery.css')}}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css')}}">
 </head>
 
 <body dir="rtl">
-  
-<!-- Top NavBar -->  
+
+<!-- the loader -->
+<div class="cs-loader">
+  <div class="cs-loader-inner">
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+  </div>
+</div>
+
+<!-- Top NavBar BEGIN-->  
 <div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
   <div class="container">
       <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
         <div class="collapse navbar-collapse" id = "example-navbar-collapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></a></li>
-            <li class="nav-item"><a href="{{ url_for('gallery') }}">המאגר</a></li>
-            <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item"><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></li>
+            <li class="nav-item active"><a href="{{ url_for('gallery') }}">המאגר</a></li>
+            <li class="nav-item"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item"><a href="{{ url_for('about') }}">אודות</a></li>
           </ul>
 
           <details class="popup upload-details">
@@ -44,9 +57,9 @@
                        <a href="#" data-toggle="tooltip" title="*שדה חובה
                     - סוג קובץ: MP3/MP4/MOV
                     - גודל קובץ מקסימאלי: 1 ג׳יגה " >
-                      <div class="file-drop-area">
+                      <div class="file-drop-area" style="border: 3px dashed grey;">
                       <span class="fake-btn">העלאת קובץ</span>
-                      <span class="file-msg">אפשר גם לגרור קובץ ולזרוק אותו פה</span>
+                      <span class="file-msg">אפשר גם לגרור קובץ למלבן האפור</span>
                       <input type="file" class="file-input" id="theFile" accept="video/*,audio/*">
                     </div>
                       </a>
@@ -83,6 +96,7 @@
                          <i class="far fa-question-circle icon-tooltip"></i>
                       </a>
                     </label>
+                    <br>
                       <textarea rows="4" cols="50"  name="file_description" id="file_description" class="text-input" maxlength="200"></textarea>
 
                        <div class="the-count">
@@ -94,8 +108,7 @@
                       <a href="#" data-toggle="tooltip" title="אם הקובץ הוא חלק מסדרה מסויימת אפשר לתייג את כל הסדרה באותם התיוגים" >
                           <i class="far fa-question-circle icon-tooltip"></i>
                       </a>
-                      <p>יש ללחוץ על מקש ה-Enter כדי ליצור תגית חדשה</p>
-                     
+                      <p style="margin-bottom: 0;">יש ללחוץ על מקש ה-Enter כדי ליצור תגית חדשה</p>
                     </label>
                     <div id="container">
                       <ul class="tags">
@@ -105,7 +118,7 @@
                       </ul>
                     </div>
 
-                    <button type="button" class="btn btn-primary" id="done">העלאה</button>
+                    <button type="button" class="btn btn-primary" id="done" disabled>העלאה</button>
 
                 </fieldset>
                   </form>
@@ -115,19 +128,14 @@
      </nav>
   </div>
 </div>
-<!-- Top NavBar -->
-
+<!-- Top NavBar END -->
 
 <ul class="container">
   {% for video in response.videos %}
     <li class="item">
       <details class="popup">
         <summary>
-        <img src="{% if video.s3_thumbnail_url|length > 1 %}
-                      {{ video.s3_thumbnail_url }} 
-                  {% else %}
-                      {{ url_for('static',  filename='img/logo.png')}}
-                  {% endif %} " class="screenShot" alt="video snapshot">
+        <img src="{% if video.s3_thumbnail_url!='https://soul-wings.s3.amazonaws.com/None' %}{{ video.s3_thumbnail_url }}{% else %}{{ url_for('static', filename='img/big-logo.png')}}{% endif %} " class="screenShot" alt="video snapshot">
         <div class="middle">
           <div class="text"><i class="far fa-play-circle"></i></div>
         </div>
@@ -152,13 +160,13 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js')}}"></script>
   <!-- sweetalert JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script>
-  <!-- Drop down -->
+  <!-- Bootstrap -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js')}}"></script>
+  <!-- My JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/gallery.js')}}"></script>
-  <!-- My JavaScript -->
   <script type="text/javascript">
     $('.popup').on('toggle', function() {
        if ($(this).attr("open") == "open")

@@ -1,10 +1,13 @@
-$(document).ready(function(){
-    $(document).bind('keydown', function(e) { 
-        if (e.which == 27) {
-            $('details').not($('.upload-details')).removeAttr("open"); 
-        }
-    }); 
+$(function() {
+    $('.cs-loader').css('display','none');
 });
+
+// close all the popups exept the upload popup, when click on esc keyboard button
+$(document).bind('keydown', function(e) { 
+    if (e.which == 27) {
+        $('details').not($('.upload-details')).removeAttr("open"); 
+    }
+}); 
 
 function sendError(isUserFault, text){
     var title;

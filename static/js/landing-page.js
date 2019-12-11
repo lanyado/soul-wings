@@ -1,4 +1,3 @@
-/*================ login ====================*/
 function login(){
 	userName = $('#login-username').val();
 	pass = $('#login-password').val();
@@ -25,6 +24,7 @@ $('input').keyup(function(e){
     if(e.keyCode == 13)
         $("#login").click();
 });
+
 $("#login").on('click', function(){
     login();
 });

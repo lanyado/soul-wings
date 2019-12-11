@@ -24,25 +24,29 @@
 </head>
 
 <body dir="rtl">
- <div class="cs-loader">
-    <div class="cs-loader-inner">
-      <label> ●</label>
-      <label> ●</label>
-      <label> ●</label>
-      <label> ●</label>
-      <label> ●</label>
-      <label> ●</label>
-    </div>
+  
+<!-- the loader -->
+<div class="cs-loader">
+  <div class="cs-loader-inner">
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
   </div>
+</div>
+
 <!-- Top NavBar -->  
 <div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
   <div class="container">
       <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
         <div class="collapse navbar-collapse" id = "example-navbar-collapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a href=""><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></a></li>
+            <li class="nav-item"><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></li>
             <li class="nav-item"><a href="{{ url_for('gallery') }}">המאגר</a></li>
-            <li class="nav-item active"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item"><a href="{{ url_for('about') }}">אודות</a></li>
           </ul>
 
           <details class="popup upload-details">
@@ -59,9 +63,9 @@
                        <a href="#" data-toggle="tooltip" title="*שדה חובה
                     - סוג קובץ: MP3/MP4/MOV
                     - גודל קובץ מקסימאלי: 1 ג׳יגה " >
-                      <div class="file-drop-area">
+                      <div class="file-drop-area" style="border: 3px dashed grey;">
                       <span class="fake-btn">העלאת קובץ</span>
-                      <span class="file-msg">אפשר גם לגרור קובץ ולזרוק אותו פה</span>
+                      <span class="file-msg">אפשר גם לגרור קובץ למלבן האפור</span>
                       <input type="file" class="file-input" id="theFile" accept="video/*,audio/*">
                     </div>
                       </a>
@@ -98,6 +102,7 @@
                          <i class="far fa-question-circle icon-tooltip"></i>
                       </a>
                     </label>
+                    <br>
                       <textarea rows="4" cols="50"  name="file_description" id="file_description" class="text-input" maxlength="200"></textarea>
 
                        <div class="the-count">
@@ -109,8 +114,7 @@
                       <a href="#" data-toggle="tooltip" title="אם הקובץ הוא חלק מסדרה מסויימת אפשר לתייג את כל הסדרה באותם התיוגים" >
                           <i class="far fa-question-circle icon-tooltip"></i>
                       </a>
-                      <p>יש ללחוץ על מקש ה-Enter כדי ליצור תגית חדשה</p>
-                     
+                      <p style="margin-bottom: 0;">יש ללחוץ על מקש ה-Enter כדי ליצור תגית חדשה</p>
                     </label>
                     <div id="container">
                       <ul class="tags">
@@ -120,7 +124,7 @@
                       </ul>
                     </div>
 
-                    <button type="button" class="btn btn-primary" id="done">העלאה</button>
+                    <button type="button" class="btn btn-primary" id="done" disabled>העלאה</button>
 
                 </fieldset>
                   </form>
