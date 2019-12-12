@@ -35,6 +35,7 @@ def landing_page():
 
 
 @application.route("/about")
+@token_handler.auth_request
 def about():
     """
     Render about.html
