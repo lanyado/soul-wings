@@ -32,7 +32,7 @@ def landing_page():
     """
 
     return render_template('landing_page.html')
-    
+
 
 @application.route("/about")
 def about():
