@@ -26,7 +26,8 @@ DEFAULT_LANG = 'hebrew'
 
 DEFAULT_OPERATOR = 'and'
 
-LANGUAGE_CODE_MAP = {'hebrew': 'he-IL'}
+LANGUAGE_CODE_MAP = {'hebrew': 'he-IL',
+                     'english': 'en'}
 
 TERM_TYPE_MAP = {'single': lambda t: {"transcript": {'$regex': t}},
                  'qouted': lambda t: {"transcript": {'$regex': t}}}
