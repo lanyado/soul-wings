@@ -50,9 +50,9 @@ summary {
 .screenShot {
   opacity: 1;
   display: block;
-  display: block;
-  max-width:300px;
-  max-height:250px;
+  max-width: 270px;
+  max-height: 200px;
+  margin: 0 auto;
   width: auto;
   height: auto;
   height: auto;
@@ -89,7 +89,6 @@ summary:hover .middle {
 details.popup summary {
   cursor: pointer;
   outline: none !important;
-  display: inline-block;
   border-radius: 4px;
   overflow: hidden;
   background: #173B64;
@@ -98,6 +97,8 @@ details.popup summary {
   font-size: 1.2em;
   letter-spacing: 0.025em;
   text-transform: uppercase;
+  margin: 0 auto;
+  display: block;
 }
 
 details.popup[open] > summary::before {

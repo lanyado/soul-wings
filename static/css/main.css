@@ -34,6 +34,19 @@ b, strong {
 a {
     text-decoration: none !important;
 }
+input, button{
+    font-family: "Assistant";
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 70px white inset !important;
+}
+
+details summary::-webkit-details-marker {
+  display:none;
+}
 .navbar {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -97,13 +110,13 @@ a {
 
 .cs-loader {
   background:black;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  bottom: 0;
+  right: 0;
   opacity:0.95;
-  z-index: 999999999999999;
+  z-index: 9999999999;
   display: block;
 }
 

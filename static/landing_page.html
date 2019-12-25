@@ -27,30 +27,22 @@
     </div>
     
     <!-- logo -->
-    <img id="logo" src="{{ url_for('static', filename='img/logo.png') }}">
     <div class="fullscreen-bg">
         <video loop muted autoplay class="fullscreen-bg__video">
             <source src="{{ url_for('static', filename='img/video.mp4') }}" type="video/mp4">
         </video>
     </div>
     <div class="area">
+        <img id="logo" src="{{ url_for('static', filename='img/logo.png') }}">
         <form class="form" id="login-form">
             <input id="login-username" class="inputText" type="text" placeholder="שם משתמש">
             <input id="login-password"  class="inputText" type="password" placeholder="סיסמא">
             <button id="login" type="button" value="send" class="btn btn-primary">התחברות</button>
         </form>
     </div>
-
-    <div id="welcomeText">
-        <h1><span>"כנפי רוח"</span> <br> מיזם חברתי להנגשת עדויות של ניצולי השואה.</h1>
-        <hr>
-        <br><br><br>
-        <p>
-        המיזם הוקם בשיתוף המרכז ללימודי השואה במכללת ירושלים <br>ומאפשר <span>העלאת עדויות וידאו ואודיו, וחיפוש טקסטואלי בתוכן שלהם </span>לצורכי מחקר שונים.
-        <br><br>
-        למידע נוסף, מוזמנים להשאיר פרטים בטופס צור קשר <br> או לשלוח פניה למייל : nishofi@gmail.com
-        </p>
-    </div>
+    <a href="{{ url_for('about_us') }}"><div id="about-button">
+        אודותינו
+    </div></a>
 <!-- SCRIPTS -->
     <!-- JQuery -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js') }}"></script>

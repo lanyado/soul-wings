@@ -12,8 +12,7 @@ function sendSearchString(){
 	var searchString = $.trim($('#searchBar').val());
 	searchString = searchString.replace(/\s\s+/g, ' ');
 	if (searchString.length>0){
-		$('.cs-loader').css('display','block');
-
+		runLoadingAnimation();
 		$.get('/results',{
 			search_string: searchString,
 	    	operator: operator

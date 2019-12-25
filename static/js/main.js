@@ -37,3 +37,11 @@ function sendSecsuss(text){
         showCloseButton: true
     })
 }
+function runLoadingAnimation(){
+    $('.cs-loader').css('display','block');
+    $('body').css('overflow-y','hidden');
+}
+function stopLoadingAnimation(){
+    $('.cs-loader').css('display','none');
+    $('body').css('overflow-y','auto');
+}
