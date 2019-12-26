@@ -34,6 +34,17 @@ def landing_page():
     return render_template('landing_page.html')
 
 
+@application.route("/about_us")
+def about_us():
+    """
+    Render about.html
+
+    :return: (str) html for frontend
+    """
+
+    return render_template('about_us.html')
+
+
 @application.route("/about")
 @token_handler.auth_request
 def about():
