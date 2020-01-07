@@ -114,13 +114,16 @@ details.popup[open] > summary::before {
     background: rgba(27,31,35,0.5);
 }
 details.popup > div {
-    left: 50%;
-    margin: 10vh auto;
-    max-height: 70vh;
-    max-width: 150vw;
     position: fixed;
     top: 0;
+    bottom: 0;
+    right: 0;
+    left: 50%;
+    width: auto;
+    display: flex;
+    margin: auto;
     transform: translateX(-50%);
+       
     z-index: 999;
     animation-name: fadein;
     animation-duration: 300ms;

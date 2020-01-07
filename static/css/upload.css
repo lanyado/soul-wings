@@ -144,8 +144,13 @@ details.popup summary::-webkit-details-marker {
     color: black;
     width: 80%;
 }
-#uploadForm input[type=button] {
-   float:none;
+#uploadForm input[type=button] , #uploadForm .btn{
+  float:none;
+  border-radius: 0px !important;
+  -webkit-box-shadow: none !important;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  border-width: 2px !important;
 }
 
 #container {

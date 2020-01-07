@@ -91,12 +91,7 @@ $(document).ready(function() {
   $('#search-field').keypress(function(event) {
       if (event.which == '13') {
 
-          var tags = []
-          $('.addedTag').each(function(){
-            tags.push($(this).text());
-          })
-
-          if (tags.length < 10){
+          if ($('.addedTag').length < 10){
               if (($(this).val() != '') && ($(".tags .addedTag:contains('" + $(this).val() + "') ").length == 0 ))  {
                   $('<li class="addedTag">' + $(this).val() + '<span class="tagRemove" onclick="$(this).parent().remove();">x</span><input type="hidden" value="' + $(this).val() + '" name="tags[]"></li>').insertBefore('.tags .tagAdd');
                   $(this).val('');
@@ -106,7 +101,6 @@ $(document).ready(function() {
           }
           else
               sendError(true, 'ישנה הגבלה של 10 תגיות לקובץ')
-
       }
   });
   
@@ -146,7 +140,7 @@ $(document).ready(function() {
 
       var tags = []
       $('.addedTag').each(function(){
-        tags.push($(this).text());
+        tags.push($(this).text().slice(0,-1));
       })
 
       if (fileSize > maxFileSize)
@@ -159,13 +153,17 @@ $(document).ready(function() {
           console.log(theFile, file_name, file_description, language, tags);
           
           var form_data = new FormData();
-          
+
+    
           form_data.append('file', theFile)
           form_data.append('file_name', file_name)
           form_data.append('file_description', file_description)
           form_data.append('language', language)
-          form_data.append('tags', tags)
-         
+
+          for (var i = 0; i < tags.length; i++) {
+              form_data.append('tags[]', tags[i]);
+          }
+          
           $.ajax({
               url: '/uploader',
               type: 'POST',
@@ -180,6 +178,8 @@ $(document).ready(function() {
                     sendSecsuss('הקובץ הועלה בהצלחה, ויהיה זמין לחיפוש בקרוב');
                     $('.upload-details').removeAttr("open");
                     $('#uploadForm').trigger("reset");
+                    $('#done').attr('disabled', 'disabled');
+                    $('#uploadPopup').scrollTop(0);  
                 }
             })
             .fail((jqXhr) => {
@@ -189,8 +189,8 @@ $(document).ready(function() {
       }
   })
 
-  // === the colse icon
-  $('#upload-close-icon').click(function() {
+// === the colse icon
+$('#upload-close-icon').click(function() {
       Swal.fire({
         title: 'התחרטת?',
         text: "אם נפסיק את תהליך העלאת הקובץ, הנתונים לא יישמרו ונצטרך להתחיל מחדש את ההעלאה.",
@@ -209,3 +209,57 @@ $(document).ready(function() {
       })
   })
 })
+
+/* https://jsfiddle.net/hgnyjdz6/ => Check the user's upload speed */
+/*
+function checkUploadSpeed( iterations, update ) {
+    var average = 0,
+        index = 0,
+        timer = window.setInterval( check, 5000 ); //check every 5 seconds
+    check();
+    
+    function check() {
+        var xhr = new XMLHttpRequest(),
+            url = '?cache=' + Math.floor( Math.random() * 10000 ), //prevent url cache
+            data = getRandomString( 1 ), //1 meg POST size handled by all servers
+            startTime,
+            speed = 0;
+        xhr.onreadystatechange = function ( event ) {
+            if( xhr.readyState == 4 ) {
+                speed = Math.round( 1024 / ( ( new Date() - startTime ) / 1000 ) );
+                average == 0 
+                    ? average = speed 
+                    : average = Math.round( ( average + speed ) / 2 );
+                update( speed, average );
+                index++;
+                if( index == iterations ) {
+                    window.clearInterval( timer );
+                };
+            };
+        };
+        xhr.open( 'POST', url, true );
+        startTime = new Date();
+        xhr.send( data );
+    };
+    
+    function getRandomString( sizeInMb ) {
+        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&*()_+`-=[]\{}|;':,./<>?", //random data prevents gzip effect
+            iterations = sizeInMb * 1024 * 1024, //get byte count
+            result = '';
+        for( var index = 0; index < iterations; index++ ) {
+            result += chars.charAt( Math.floor( Math.random() * chars.length ) );
+        };     
+        return result;
+    };
+};
+
+checkUploadSpeed( 5, function ( speed, average ) {
+    window.averageUploadSpeed = average
+} );
+
+var fileSizeMB = fileSize/1000000;
+var uploadSpeedMBS = window.averageUploadSpeed/1000;
+var secondsToUpload = (fileSizeMB/uploadSpeedMBS)/60;
+var minutesToUpload = Math.ceil(secondsToUpload)+3;
+console.log(minutesToUpload);
+*/

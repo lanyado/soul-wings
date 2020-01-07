@@ -56,15 +56,15 @@
                 <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
              </summary>
              
-             <section id="uploadPopup">
+                        <section id="uploadPopup">
               <i class="fas fa-times" id="upload-close-icon"></i>
                   <form id="uploadForm">
                     <!-- ============= File upload ============== -->
-                       <a href="#" data-toggle="tooltip" title="*שדה חובה
-                    - סוג קובץ: MP3/MP4/MOV
-                    - גודל קובץ מקסימאלי: 1 ג׳יגה " >
+                       <a href="#" data-toggle="tooltip" title="
+                    סוגי הקבצים הנתמכים: MP3/MP4/MOV
+                    | גודל קובץ מקסימאלי: 1 ג׳יגה " >
                       <div class="file-drop-area" style="border: 3px dashed grey;">
-                      <span class="fake-btn">העלאת קובץ</span>
+                      <span class="fake-btn">העלאת קובץ*</span>
                       <span class="file-msg">אפשר גם לגרור קובץ למלבן האפור</span>
                       <input type="file" class="file-input" id="theFile" accept="video/*,audio/*">
                     </div>
@@ -74,8 +74,8 @@
                   <!-- ============= File name ============== -->
 
                     <label for="file_name"> 
-                      שם הקובץ*
-                      <a href="#" data-toggle="tooltip" title="שם הקובץ" >
+                      שם העדות*
+                      <a href="#" data-toggle="tooltip" title="כל שם שתרצו" >
                          <i class="far fa-question-circle icon-tooltip"></i>
                       </a>
                     </label>
@@ -83,7 +83,11 @@
                   
                   <!-- ============= File language ============== -->
 
-                    <label for="language">שפה</label>
+                    <label for="language">שפה*
+                    <a href="#" data-toggle="tooltip" title="השפה בה העדות ניתנה" >
+                        <i class="far fa-question-circle icon-tooltip"></i>
+                    </a>
+                    </label>
                     <div id="langChoose">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-outline-primary active language" id="hebrew">
@@ -199,11 +203,12 @@
                           </div>
                       </details>
 
-		                  <details class="popup">
+		                  <details class="popup video-popup">
 		                      <summary>
 		                          <img class="playIcon" src="{{ url_for('static',  filename='img/play.svg')}}">
 		                      </summary>
 		                      <div class="video-box">
+                            <i class="fas fa-times" id="video-close-icon"></i>
 		                          <video controls>
 		                              <source src="{{ result.s3_url }}#t={{ content.start_time }}" type="video/mp4">
 		                          </video>
