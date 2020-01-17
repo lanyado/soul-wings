@@ -1,15 +1,18 @@
-$(document).ready(function(){
-    $(document).bind('keydown', function(e) { 
-        if (e.which == 27) {
-            $('details').removeAttr("open"); 
-        }
-    }); 
+$(function() {
+    $('.cs-loader').css('display','none');
 });
+
+// close all the popups exept the upload popup, when click on esc keyboard button
+$(document).bind('keydown', function(e) { 
+    if (e.which == 27) {
+        $('details').not($('.upload-details')).removeAttr("open"); 
+    }
+}); 
 
 function sendError(isUserFault, text){
     var title;
     if (isUserFault)
-        title = 'אופס';
+        title = 'סליחה';
     else
         title = 'מצטערים';
 
@@ -18,6 +21,7 @@ function sendError(isUserFault, text){
         title: title,
         text: text,
         confirmButtonText: 'הבנתי',
+        showCloseButton: true
     })
 }
 
@@ -30,5 +34,14 @@ function sendSecsuss(text){
         title: title,
         text: text,
         confirmButtonText: 'הבנתי',
+        showCloseButton: true
     })
+}
+function runLoadingAnimation(){
+    $('.cs-loader').css('display','block');
+    $('body').css('overflow-y','hidden');
+}
+function stopLoadingAnimation(){
+    $('.cs-loader').css('display','none');
+    $('body').css('overflow-y','auto');
 }

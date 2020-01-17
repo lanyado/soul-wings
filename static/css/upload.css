@@ -18,21 +18,31 @@
   background-color: #555;
 }
 
-    details.popup summary {
+details.popup summary {
   outline: none !important;
 }
 
-details.popup[open] > summary::before {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: block;
-    cursor: default;
-    content: " ";
-    z-index: 99;
+#grey{
+  display: none;
 }
+
+details.popup[open] > #grey {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background: rgba(27,31,35,0.5);
+  left: 0;
+  margin: 0;
+  border: 0;
+  max-width: 100%;
+  max-height: 100%;
+  transform: none;
+}
+
 details.popup > section {
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -41,9 +51,10 @@ details.popup > section {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
   padding: 2em;
-  width: 60%;
-  height: 80%;
-  right: 20%;
+  width: 65%;
+  height: 90%;
+  right: 17%;
+  top: 5%;
   display: block;
   text-align:center;
   box-sizing: border-box; 
@@ -55,7 +66,6 @@ details.popup > section {
   background-color:#ffff;
   overflow-y: auto;
   overflow-x: hidden;
-
 }
 
 details.popup summary::-webkit-details-marker {
@@ -63,14 +73,21 @@ details.popup summary::-webkit-details-marker {
 }
 
 #uploadForm label:not(.language) {
-    height: 20px;
-    margin: 15px 10px 10px 30px;
-    clear: both;
-    float:right;
-    color: black;
-    font-size: 26px;
+  margin: 15px 10px 10px 30px;
+  clear: both;
+  float:right;
+  color: black;
+  font-size: 26px;
+  line-height: 37px; 
+  text-align: right;
+}
+#uploadForm span {
     line-height: 37px; 
-    text-align: right;
+  }
+#uploadForm p {
+  font-size: 16px;
+  color: black;
+  opacity: 0.6;
 }
 #uploadForm input.text-input {
     height: 50px;
@@ -87,6 +104,36 @@ details.popup summary::-webkit-details-marker {
     border-radius: 2px;
     padding: 6px 10px;
 }
+
+#uploadForm textarea {
+    border: 1px solid #979797;
+    margin-top: 10px;
+    display: inline-block;
+    background-color: #FFFF;
+    font-size: 20px;
+    color: black;
+    cursor: auto;
+    box-sizing: border-box; 
+    border-radius: 2px;
+    padding: 6px 10px;
+}
+
+.the-count {
+  padding: 0 10% 0 0;
+  font-size: 20px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 #uploadForm input[type="radio"] {
     display: none;
 }
@@ -97,8 +144,13 @@ details.popup summary::-webkit-details-marker {
     color: black;
     width: 80%;
 }
-#uploadForm input[type=button] {
-   float:none;
+#uploadForm input[type=button] , #uploadForm .btn{
+  float:none;
+  border-radius: 0px !important;
+  -webkit-box-shadow: none !important;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  border-width: 2px !important;
 }
 
 #container {
@@ -126,9 +178,9 @@ details.popup summary::-webkit-details-marker {
     color: #fff;
     padding: 0.25em;
     height: 2em;
-    margin-bottom: 10px;
     font-size: 26px;
     display: table;
+    margin: 5px 10px 5px 0;
 }
 
 .tags input, li.addedTag {
@@ -141,7 +193,6 @@ details.popup summary::-webkit-details-marker {
 .tags input{
     height: 50px;
     border: 1px solid #979797;
-    margin-top: 1px;
     float: right;
     display: inline-block;
     background-color: #FFFF;
@@ -152,7 +203,7 @@ details.popup summary::-webkit-details-marker {
     border-radius: 2px;
     padding: 2px 5px;
     display: table;
-    margin-bottom: 10px;
+    margin: 5px 0 5px 0;
     width: 5em;
 }
 .tags input:hover {
@@ -162,8 +213,7 @@ span.tagRemove {
     cursor: pointer;
     display: inline-block;
     padding-right: 0.5em;
-        padding-left: 0.5em;
-
+    padding-left: 0.5em;
     float: left;
 }
 span.tagRemove:hover {
@@ -173,9 +223,6 @@ span.tagRemove:hover {
 #done{
   background-color: #4498E0;
   width: 20%;
-}
-#done:hover{
-  background-color: #173B64;
 }
 /*=======*/
 
@@ -193,7 +240,7 @@ span.tagRemove:hover {
   width: 80%;
   max-width: 100%;
   padding: 25px;
-  border: 1px dashed rgba(255, 255, 255, 0.4);
+  border: 3px dashed grey;
   border-radius: 3px;
   transition: 0.2s;
   margin: 0 auto;
@@ -211,7 +258,7 @@ span.tagRemove:hover {
 }
 
 .file-msg {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 300;
   line-height: 1.4;
   white-space: nowrap;
@@ -232,9 +279,15 @@ span.tagRemove:hover {
   outline: none;
 }
 
+/*====== Tool tips ============= */
 
+.icon-tooltip{
+  font-size: 17px;
+  color: black;
+  opacity: 0.6;
+}
 
-
+/*=========================*/
 
 .btn-outline-warning:not(:disabled):not(.disabled).active, .btn-outline-warning:not(:disabled):not(.disabled):active, .show>.btn-outline-warning.dropdown-toggle {
     color: #212529 !important;

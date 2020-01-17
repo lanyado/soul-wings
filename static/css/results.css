@@ -160,16 +160,39 @@ details.popup[open] > summary::before {
     background: rgba(27,31,35,0.5);
 }
 details.popup > .video-box {
-    top: 10%;
-    left: 50%;
-    width: 50%;
-    height: 0;
     position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 50%;
+    width: auto;
+    display: flex;
+    margin: auto;
     transform: translateX(-50%);
+       
     z-index: 999;
+    animation-name: fadein;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
     background-color: #fff;
+    border: 1px solid #173B64;
+    border-radius: 3px;
+    font-size: 2em;
+    font-weight: bold;
     padding: 0em;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+    border-top: 4px solid #173B64;
 }
+details.popup > .video-box > #video-close-icon {
+    font-size: 30px;
+    color: black;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 999999;
+}
+
 details.popup > .text-box {
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -184,7 +207,6 @@ details.popup > .text-box {
     padding: 1em;
     top: -10%;
     width: 80%;
-
 }
 video{
     width: 100%;

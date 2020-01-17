@@ -26,7 +26,8 @@ DEFAULT_LANG = 'hebrew'
 
 DEFAULT_OPERATOR = 'and'
 
-LANGUAGE_CODE_MAP = {'hebrew': 'he-IL'}
+LANGUAGE_CODE_MAP = {'hebrew': 'he-IL',
+                     'english': 'en'}
 
 TERM_TYPE_MAP = {'single': lambda t: {"transcript": {'$regex': t}},
                  'qouted': lambda t: {"transcript": {'$regex': t}}}
@@ -37,3 +38,5 @@ OPERATOR_MAP = {'and': '$and',
 TOKEN_TIMEOUT_HOURS = 168 # 1 week
 
 ENRICHMENT_TYPES = set([e['type'] for e in ens])
+
+SECRETS_S3_DETAILS = ('soul-wings-secrets', 'secrets.json')

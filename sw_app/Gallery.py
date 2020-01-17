@@ -27,17 +27,20 @@ class Gallery:
     """
 
     def __init__(self,
+                 secrets,
                  user_info=None,
                  mongo_dbname=MONGO_DBNAME,
                  mongo_coll=TRANSCRIPTS_COLL):
         """
         Init Gallery
 
+        :param secrets: (dict) Result from helpers.get_secrets
         :param user_info: (dict) user info dict from TokenHandler
         :param mongo_dbname: (str) Mongo dbname for conn
         :param mongo_coll: (str) Relevant coll in each doc for query
         """
 
+        self.secrets = secrets
         self.user_info = user_info or {}
         self.mongo_dbname = mongo_dbname
         self.mongo_coll = mongo_coll
@@ -68,6 +71,7 @@ class Gallery:
         return search_mongo(self.mongo_dbname,
                             self.mongo_coll,
                             query,
+                            self.secrets,
                             project)
 
 

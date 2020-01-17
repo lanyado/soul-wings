@@ -1,15 +1,15 @@
 """
 This Module contains Mongo helper functions:
-get_coll_conn(dbname, coll)
+get_coll_conn(dbname, coll, secrets)
     Returns a connection to mentioned collection
 ========================================================================================================================
-put_to_mongo(dbname, coll, doc)
+put_to_mongo(dbname, coll, doc, secrets)
     Upload doc to mongo
 ========================================================================================================================
-update_mongo_doc(dbname, coll, id, content)
+update_mongo_doc(dbname, coll, id, content, secrets)
     Update mongo doc based on id
 ========================================================================================================================
-search_mongo(dbname, coll, query)
+search_mongo(dbname, coll, query, secrets, project)
     Run search on MONGO and return results
 ========================================================================================================================
 get_query_part(term)
@@ -23,7 +23,7 @@ build_query(operator=DEFAULT_OPERATOR,
             kv_pairs=None)
     Builds mongo query from given params
 ========================================================================================================================
-auth_user(dbname, coll, auth_dict, token_handler)
+auth_user(dbname, coll, auth_dict, token_handler, secrets)
     Auth user against coll and return token or None if not authorized
 ========================================================================================================================
 stt_json_to_mongo_frmt(doc, stt_json)
@@ -37,7 +37,6 @@ REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIRECTORY)
 
 import pymongo
-from proj_secrets import secrets
 from lib.log import getLog
 import lib.helpers as helpers
 from config import TERM_TYPE_MAP, \
@@ -49,16 +48,19 @@ LOG = getLog('MONGO')
 
 
 def get_coll_conn(dbname,
-                  coll):
+                  coll,
+                  secrets):
     """
     Returns a connection to mentioned collection
 
     :param dbname: (str) mongo dbname
     :param coll: (str) mongo collection
+    :param secrets: (dict) Result from helpers.get_secrets
     :return: (pymongo.collection.Collection)
     """
 
-    db_conn = pymongo.MongoClient(secrets.mongo_endpoint)[dbname]
+    mongo_endpoint = secrets.get('mongo_endpoint')
+    db_conn = pymongo.MongoClient(mongo_endpoint)[dbname]
     coll_conn = db_conn[coll]
 
     return coll_conn
@@ -66,17 +68,19 @@ def get_coll_conn(dbname,
 
 def put_to_mongo(dbname,
                  coll,
-                 doc):
+                 doc,
+                 secrets):
     """
     Upload doc to mongo
 
     :param dbname: (str) mongo dbname
     :param coll: (str) mongo collection
     :param doc: (dict) doc as dict
+    :param secrets: (dict) Result from helpers.get_secrets
     :return: (pymongo.results.InsertOneResult) Mongo response
     """
 
-    conn = get_coll_conn(dbname, coll)
+    conn = get_coll_conn(dbname, coll, secrets)
     res = conn.insert_one(doc)
 
     LOG.info('Put to MONGO - %s - %s - %s', dbname, coll, res.inserted_id)
@@ -87,7 +91,8 @@ def put_to_mongo(dbname,
 def update_mongo_doc(dbname,
                      coll,
                      id,
-                     content):
+                     content,
+                     secrets):
     """
     Update mongo doc based on id
 
@@ -95,10 +100,11 @@ def update_mongo_doc(dbname,
     :param coll: (str) mongo collection
     :param id: (bson.objectid.ObjectId) mongo OID
     :param content: (dict) Content to update in the doc
+    :param secrets: (dict) Result from helpers.get_secrets
     :return: (pymongo.results.UpdateResult) Mongo response
     """
 
-    conn = get_coll_conn(dbname, coll)
+    conn = get_coll_conn(dbname, coll, secrets)
     res = conn.update_one({'_id': id}, {'$set': content})
 
     LOG.info('Updated doc - %s - %s - %s', dbname, coll, id)
@@ -109,6 +115,7 @@ def update_mongo_doc(dbname,
 def search_mongo(dbname,
                  coll,
                  query,
+                 secrets,
                  project=None):
     """
     Run search on MONGO and return results
@@ -116,11 +123,12 @@ def search_mongo(dbname,
     :param dbname: (str) mongo dbname
     :param coll: (str) mongo collection
     :param query: (dict) mongo query as dict
+    :param secrets: (dict) Result from helpers.get_secrets
     :param project: (dict) mongo projection syntax as dict
     :return: (pymongo.cursor.Cursor) MONGO cursor for iterating over results
     """
 
-    conn = get_coll_conn(dbname, coll)
+    conn = get_coll_conn(dbname, coll, secrets)
     res = conn.find(query, project)
 
     LOG.info('Ran Query - %s - %s - %s', dbname, coll, query)
@@ -169,19 +177,22 @@ def build_query(operator=DEFAULT_OPERATOR,
 def auth_user(dbname,
               coll,
               auth_dict,
-              token_handler):
+              token_handler,
+              secrets):
     """
     Auth user against coll and return token or None if not authorized
 
     :param dbname: (str) mongo dbname
     :param coll: (str) mongo collection
     :param auth_dict: (dict) Dict with user details for query
+    :param token_handler: (TokenHandler)
+    :param secrets: (dict) Result from helpers.get_secrets
     :return: (bool) True if exists \ False if not
     """
 
-    conn = get_coll_conn(dbname, coll)
+    conn = get_coll_conn(dbname, coll, secrets)
     query = build_query('and', kv_pairs=auth_dict)
-    res = search_mongo(dbname, coll, query)
+    res = search_mongo(dbname, coll, query, secrets)
     res = [d for d in res]
 
     user_token = None
