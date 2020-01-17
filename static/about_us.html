@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Favicon and Meta Tags -->
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.png')}}"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Soul-Wings</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/modules/fontawesome.css')}}">
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='css/modules/bootstrap.min.css')}}" rel="stylesheet">
+  <!-- My CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/about.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/landing-page.css') }}">
+</head>
+
+<body dir="rtl">
+
+<!-- the loader -->
+<div class="cs-loader">
+  <div class="cs-loader-inner">
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+  </div>
+</div>
+
+ <details class="popup">
+      <summary>
+          <div id="login-button">התחברות</div>
+      </summary>
+
+      <div id="login-box">
+        <div class="area">
+          <img id="logo" src="{{ url_for('static', filename='img/logo.png') }}">
+          <form class="form" id="login-form">
+              <input id="login-username" class="inputText" type="text" placeholder="שם משתמש">
+              <input id="login-password"  class="inputText" type="password" placeholder="סיסמא">
+              <button id="login" type="button" value="send" class="btn btn-primary">התחברות</button>
+          </form>
+        </div>
+      </div>
+  </details>
+  
+<div class="main-page">
+  <h1>קצת עלינו</h1>
+  <p>מיזם "כנפי רוח" הינו מיזם חברתי להנגשת עדויות של ניצולי השואה.
+  <br><br>
+  המיזם הונבט בהאקאתון "ניצוץ לדורות" שמטרתו הייתה פיתוח טכנולוגיות שייתנו מענה לאתגרים שאיתם מתמודדים ניצולי השואה ויסייעו לחינוך ולהנצחת השואה והגבורה.
+  <br><br>
+  אחד האתגרים, שהועלה ע"י המרכז ללימודי השואה במכללת ירושלים, היה מציאת דרך להנגשת אוסף העדויות הייחודי הקיים בצורת קבצי אודיו ווידאו במרכז ובארגונים אחרים. 
+  <br><br>
+  המערכת שפותחה מאפשרת העלאת עדויות וידאו ואודיו, תמלול אוטומטי וחיפוש טקסטואלי בתוכן שלהם. שימוש במערכת מאפשר חיפוש חומר בנושאים ספציפיים, צפיה בחלקי העדויות הרלוונטיות ושימוש בהם לצורכי מחקר, לפעילויות חינוכיות או כבסיס לדיון. 
+  <br><br>
+  המערכת פותחה בהתנדבות כדי לספק למרכז ללימודי השואה ולארגונים אחרים כלי עבודה עוצמתי שיאפשר להם להמשיך בעבודת הקודש של חינוך והנצחת זכר השואה אותה הם מבצעים מידי יום.
+  </p>
+</div>
+
+<div class="team-members">
+  <div class="titles2"> 
+    <h1>חברי הצוות</h1>
+    <p></p>
+  </div>
+  <section class="container">
+    <li class="item">
+        <img class='profile-pic' src="{{ url_for('static',  filename='img/rotem.jpg')}}">
+        <h3>רותם לניאדו</h3>
+        <h4>Full Stack Developer</h4>
+        <a href="https://www.linkedin.com/in/rotem-lanyado/"><img class="social-media-icon" src="{{ url_for('static',  filename='img/linkedin.svg')}}"></a>
+    </li>
+    <li class="item">
+        <img class='profile-pic' src="{{ url_for('static',  filename='img/gal.jpeg')}}">
+        <h3>גל סומך</h3>
+        <h4>Data Architect & Backend Developer</h4>
+        <a href="https://www.linkedin.com/in/gal-somekh-52052414a"><img class="social-media-icon" src="{{ url_for('static',  filename='img/linkedin.svg')}}"></a>
+    </li>
+    <li class="item">
+        <img class='profile-pic' src="{{ url_for('static',  filename='img/matan.jpeg')}}">
+        <h3>מתן שריג</h3>
+        <h4>Data architect</h4>
+        <a href="https://www.linkedin.com/in/matan-sarig-704850a1"><img class="social-media-icon" src="{{ url_for('static',  filename='img/linkedin.svg')}}"></a>
+    </li>
+    <li class="item">
+        <img class='profile-pic' src="{{ url_for('static',  filename='img/nisim.jpeg')}}">
+        <h3>ניסים חופי</h3>
+        <h4>Innovation Leader</h4>
+        <a href="https://www.linkedin.com/in/nissim-hofi"><img class="social-media-icon" src="{{ url_for('static',  filename='img/linkedin.svg')}}"></a>
+    </li>
+  </section>
+
+  <p style="text-align: center;">למידע נוסף, ניתן לפנות במייל: nishofi@gmail.com ונשמח לחזור אליכם.</p>
+</div>
+
+<!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js')}}"></script>
+  <!-- sweetalert JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script>
+  <!--  Bootstrap -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js')}}"></script>
+  <!-- My JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/landing-page.js') }}"></script>
+</body>
+</html>
