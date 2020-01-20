@@ -308,8 +308,8 @@ class DocMatch:
         user_fields = self.body.get('user_fields', {})
 
         result['tags'] = ' ,'.join(user_fields.get('tags', []))
-        result['file_name'] = user_fields.get('name', '')
-        result['language'] = user_fields.get('lang', '')
+        result['file_name'] = user_fields.get('file_name', '')
+        result['language'] = user_fields.get('language', '')
         result['context_blocks'] = list(self.cntx_blocks)
 
         s3_bucket = self.body.get('s3_bucket', '')
