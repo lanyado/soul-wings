@@ -183,15 +183,6 @@ details.popup > .video-box {
     box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
     border-top: 4px solid #173B64;
 }
-details.popup > .video-box > #video-close-icon {
-    font-size: 30px;
-    color: black;
-    cursor: pointer;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 999999;
-}
 
 details.popup > .text-box {
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);

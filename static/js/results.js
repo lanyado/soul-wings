@@ -73,13 +73,28 @@ function addFunctionsToTr(){
                 $($(this).find("video")).get(0).pause();
         })
 
-        $tr.find('#video-close-icon').click(function() {
+        $tr.find('.video-close-icon').click(function() {
             // trigger ESC key press
             var e = jQuery.Event("keydown");
             e.which = 27; // # Some key code value
             $("body").trigger(e);
             
             //$tr.find('.video-popup').removeAttr("open");
+        })
+
+        $tr.find('.video-close-icon').click(function() {
+            // trigger ESC key press
+            var e = jQuery.Event("keydown");
+            e.which = 27; // # Some key code value
+            $("body").trigger(e);
+            
+            //$tr.find('.video-popup').removeAttr("open");
+        })
+        $tr.find('.timing').each(function(){
+            time = $(this).text();
+            formatedTime = getFormatedTime(time);
+            
+            $(this).text(formatedTime); 
         })
     })
 }
