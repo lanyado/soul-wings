@@ -45,3 +45,14 @@ function stopLoadingAnimation(){
     $('.cs-loader').css('display','none');
     $('body').css('overflow-y','auto');
 }
+function getFormatedTime(time){
+    var minutes = String(parseInt(time / 60, 10));
+    var seconds = String(parseInt(time % 60, 10));
+    
+    if (minutes<10)
+        minutes = '0'+minutes;
+    if (seconds<10)
+        seconds = '0'+seconds;
+
+    return minutes+":"+seconds;
+}

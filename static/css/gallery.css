@@ -48,16 +48,16 @@ summary {
 }
 
 .screenShot {
-  opacity: 1;
-  display: block;
-  max-width: 270px;
-  max-height: 200px;
-  margin: 0 auto;
-  width: auto;
-  height: auto;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
+    opacity: 1;
+    display: block;
+    /* max-width: 270px; */
+    max-height: 200px;
+    margin: 0 auto;
+    /* width: auto; */
+    /* height: auto; */
+    /* height: auto; */
+    transition: .5s ease;
+    backface-visibility: hidden;
 }
 
 .middle {

@@ -208,7 +208,7 @@
 		                          <img class="playIcon" src="{{ url_for('static',  filename='img/play.svg')}}">
 		                      </summary>
 		                      <div class="video-box">
-                            <i class="fas fa-times" id="video-close-icon"></i>
+                            <i class="fas fa-times video-close-icon"></i>
 		                          <video controls>
 		                              <source src="{{ result.s3_url }}#t={{ content.start_time }}" type="video/mp4">
 		                          </video>

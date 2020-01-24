@@ -1,14 +1,15 @@
 // add the duration ton each video
 $('video').one('loadedmetadata',function() {
 	duration = this.duration;
-	var minutes = String(parseInt(duration / 60, 10));
-	var seconds = String(parseInt(duration % 60, 10));
+	formatedDuration = getFormatedTime(duration);
 	
-	if (minutes<10)
-		minutes = '0'+minutes;
-	if (seconds<10)
-		seconds = '0'+seconds;
-
 	durationTag = $(this).closest('.popup').find('.duration')[0];
-	$(durationTag).text(minutes+":"+seconds); 
+	$(durationTag).text(formatedDuration); 
+})
+
+$('.video-close-icon').on('click', function(){
+    // trigger ESC key press, in order to close the video box	
+    var e = jQuery.Event("keydown");
+    e.which = 27; // # Some key code value
+    $("body").trigger(e);
 })
