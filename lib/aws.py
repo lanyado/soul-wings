@@ -8,6 +8,12 @@ s3_put_file(local_path, bucket, key, secrets, **kwargs)
 ========================================================================================================================
 get_s3_url(bucket, key)
     Get S3 url for bucket and key pair
+========================================================================================================================
+s3_list_objects(bucket, secrets, **kwargs)
+    List all keys in a given bucket
+========================================================================================================================
+s3_delete_key(bucket, key, secrets, **kwargs)
+    Delete a given key
 """
 
 import os
@@ -81,3 +87,44 @@ def get_s3_url(bucket,
     """
 
     return 'https://%s.s3.amazonaws.com/%s' % (bucket, key)
+
+
+def s3_list_objects(bucket,
+                    secrets,
+                    **kwargs):
+    """
+    List all keys in a given bucket
+
+    :param bucket: (str) bucket name in S3
+    :param secrets: (dict) Result from helpers.get_secrets
+    :param kwargs: kwargs for boto3.client
+    :return: (list of dicts) dict per key
+    """
+
+    kwargs = manage_kwargs(kwargs, secrets)
+    client = boto3.client('s3', **kwargs)
+
+    res = client.list_objects_v2(Bucket=bucket)
+
+    return res.get('Contents', [])
+
+
+def s3_delete_key(bucket,
+                  key,
+                  secrets,
+                  **kwargs):
+    """
+    Delete a given key
+
+    :param bucket: (str) bucket name in S3
+    :param key: (str) full destination path including file name
+    :param secrets: (dict) Result from helpers.get_secrets
+    :param kwargs: kwargs for boto3.client
+    """
+
+    kwargs = manage_kwargs(kwargs, secrets)
+    resource = boto3.resource('s3', **kwargs)
+
+    resource.Object(bucket, key).delete()
+
+    LOG.info('Deleted from S3 - %s/%s', bucket, key)
