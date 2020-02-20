@@ -28,6 +28,9 @@ auth_user(dbname, coll, auth_dict, token_handler, secrets)
 ========================================================================================================================
 stt_json_to_mongo_frmt(doc, stt_json)
     Converts STT JSON to MONGO formatted doc
+========================================================================================================================
+delete_from_mongo(dbname, coll, id, secrets)
+    Delete doc from mongo
 """
 
 import os
@@ -227,3 +230,25 @@ def stt_json_to_mongo_frmt(doc,
     doc['transcript'] = transcript
 
     return doc
+
+
+def delete_from_mongo(dbname,
+                      coll,
+                      id,
+                      secrets):
+    """
+    Delete doc from mongo
+
+    :param dbname: (str) mongo dbname
+    :param coll: (str) mongo collection
+    :param id: (bson.objectid.ObjectId) mongo OID
+    :param secrets: (dict) Result from helpers.get_secrets
+    :return: (pymongo.results.InsertOneResult) Mongo response
+    """
+
+    conn = get_coll_conn(dbname, coll, secrets)
+    res = conn.delete_one({'_id': id})
+
+    LOG.info('Deleted doc - %s - %s - %s', dbname, coll, id)
+
+    return res
