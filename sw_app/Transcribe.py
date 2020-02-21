@@ -6,6 +6,7 @@ sys.path.append(REPO_DIRECTORY)
 
 from datetime import date
 from threading import Thread
+from sw_app.DeleteTranscript import DeleteTranscript
 from lib.log import getLog
 from lib.ffmpeg import vid_to_flac, \
                        get_thumbnail
@@ -273,15 +274,22 @@ class Transcribe:
 
     def _clean_up(self):
         """
-        Delete all files that the process created locally
+        Delete all files that the process created locally, in S3 and the mongo doc
         """
 
-        paths = [self.path,
-                 self.flac_path,
-                 self.json_path]
+        if getattr(self, 'mongo_oid', None):
+            DeleteTranscript(str(self.mongo_oid),
+                             self.secrets,
+                             self.s3_bucket,
+                             self.mongo_dbname,
+                             self.mongo_coll).delete()
 
-        if self.thumbnail_path:
-            paths.append(self.thumbnail_path)
+        path_attrs = ['path',
+                      'flac_path',
+                      'json_path',
+                      'thumbnail_path']
+
+        paths = [getattr(self, p) for p in path_attrs if getattr(self, p, None)]
 
         for p in paths:
             if os.path.exists(p):
