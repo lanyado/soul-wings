@@ -80,7 +80,7 @@ def put_to_mongo(dbname,
     :param coll: (str) mongo collection
     :param doc: (dict) doc as dict
     :param secrets: (dict) Result from helpers.get_secrets
-    :return: (pymongo.results.InsertOneResult) Mongo response
+    :return: (bson.objectid.ObjectId) mongo OID
     """
 
     conn = get_coll_conn(dbname, coll, secrets)

@@ -113,7 +113,7 @@ class Transcribe:
         When performing cleanups we will be able to see docs
         that are marked as False and delete \ investigate all their responding files
 
-        :set attr: mongo_oid (str) OID of created Mongo Doc
+        :set attr: mongo_oid (bson.objectid.ObjectId) mongo OID of created doc
         """
 
         res = put_to_mongo(self.mongo_dbname,
