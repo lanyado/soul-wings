@@ -81,18 +81,24 @@ class Transcribe:
         Run transcription process
         """
 
-        self.log = getLog('Transcribe - %s' % self.path)
-        self.log.info('Start')
+        try:
+            self.log = getLog('Transcribe - %s' % self.path)
+            self.log.info('Start')
 
-        self._set_mongo_oid()
-        self._thumbnail_extract_and_upload()
-        self._flac_conv_and_upload()
-        self._handle_stt()
-        self._org_upload()
-        self._handle_mongo()
-        self._clean_up()
+            self._set_mongo_oid()
+            self._thumbnail_extract_and_upload()
+            self._flac_conv_and_upload()
+            self._handle_stt()
+            self._org_upload()
+            self._handle_mongo()
+            self._clean_up()
 
-        self.log.info('Done')
+            self.log.info('Done')
+
+        except Exception as e:
+            self.log.error(str(e))
+            self._clean_up()
+            raise
 
 
     def run_async(self):
