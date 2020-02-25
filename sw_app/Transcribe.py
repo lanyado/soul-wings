@@ -98,7 +98,7 @@ class Transcribe:
 
         except Exception as e:
             self.log.error(str(e))
-            self._clean_up()
+            self._clean_up(True)
             raise
 
 
@@ -197,12 +197,14 @@ class Transcribe:
         res = call_stt(self.gcs_bucket,
                        flac_file_name,
                        self.language)
+        print('self.gcs_blob', sys.getsizeof(self.gcs_blob))              
+        print('res', sys.getsizeof(res))
         self.gcs_blob.delete()
 
         self.json_path = os.path.splitext(self.path)[0] + '.json'
         self.stt_json = stt_res_to_json(res,
-                                   self.json_path,
-                                   self.user_fields)
+                                        self.json_path,
+                                        self.user_fields)
 
         json_file_name = str(self.mongo_oid) + '.json'
         self.json_key = 'text/{}/{}'.format(self.date_for_key,
@@ -272,12 +274,16 @@ class Transcribe:
                          self.secrets)
 
 
-    def _clean_up(self):
+    def _clean_up(self,
+                  err_cleanup=False):
         """
-        Delete all files that the process created locally, in S3 and the mongo doc
+        Delete all files that the process created locally
+        if err, also delete in S3 and the mongo doc
+
+        :param err_cleanup: (bool) cleans up files in S3 and mongo doc if err
         """
 
-        if getattr(self, 'mongo_oid', None):
+        if getattr(self, 'mongo_oid', None) and err_cleanup:
             DeleteTranscript(str(self.mongo_oid),
                              self.secrets,
                              self.s3_bucket,
