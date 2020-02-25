@@ -16,6 +16,7 @@ import sys
 REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIRECTORY)
 
+from time import sleep
 import json
 import codecs
 from google.cloud import speech
@@ -79,6 +80,10 @@ def call_stt(gcs_bucket,
         language_code=language_code)
 
     operation = client.long_running_recognize(config, audio)
+
+    while not operation.done():
+        sleep(10)
+
     response = operation.result()
 
     LOG.info('Got STT - %s/%s', gcs_bucket, gcs_path)
