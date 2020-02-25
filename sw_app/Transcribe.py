@@ -201,8 +201,8 @@ class Transcribe:
 
         self.json_path = os.path.splitext(self.path)[0] + '.json'
         self.stt_json = stt_res_to_json(res,
-                                   self.json_path,
-                                   self.user_fields)
+                                        self.json_path,
+                                        self.user_fields)
 
         json_file_name = str(self.mongo_oid) + '.json'
         self.json_key = 'text/{}/{}'.format(self.date_for_key,
