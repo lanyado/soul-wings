@@ -13,6 +13,7 @@ from lib.mongo import auth_user
 from lib.helpers import file_to_local_uuid_file, \
                         clean_working_dir, \
                         get_secrets
+from lib.log import getLog
 import config
 
 
@@ -67,6 +68,8 @@ def uploader():
     """
 
     try:
+        trans_log = getLog('Transcribe')
+
         resp = {'upload_successful': False}
 
         f = request.files['file']
@@ -89,7 +92,7 @@ def uploader():
 
 
     except Exception as e:
-        log.error('Transcribe - error:%s' % e, exc_info=True)
+        trans_log.error('error:%s' % e, exc_info=True)
 
     return jsonify(resp)
 
