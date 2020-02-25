@@ -98,7 +98,7 @@ class Transcribe:
 
         except Exception as e:
             self.log.error(str(e))
-            self._clean_up()
+            self._clean_up(True)
             raise
 
 
@@ -272,12 +272,16 @@ class Transcribe:
                          self.secrets)
 
 
-    def _clean_up(self):
+    def _clean_up(self,
+                  err_cleanup=False):
         """
-        Delete all files that the process created locally, in S3 and the mongo doc
+        Delete all files that the process created locally
+        if err, also delete in S3 and the mongo doc
+
+        :param err_cleanup: (bool) cleans up files in S3 and mongo doc if err
         """
 
-        if getattr(self, 'mongo_oid', None):
+        if getattr(self, 'mongo_oid', None) and err_cleanup:
             DeleteTranscript(str(self.mongo_oid),
                              self.secrets,
                              self.s3_bucket,
