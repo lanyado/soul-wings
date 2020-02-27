@@ -1,0 +1,212 @@
+#results .far{
+    color: black;
+    width: 100%;
+    text-align: center;
+    margin-top: 100px;
+    font-size: 5em;
+}
+#results h2{
+    color: black;
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 25px;
+}
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #2F2F2F;
+    background-color: #fff;
+    color:#000;
+    font-size: 17px;
+    font-weight: 500;
+}
+.unsortable {
+  cursor: auto;
+}
+#dtBasicExample{
+    display: block;
+    width: 100%;
+}
+#firstSearch{
+    width: 150px !important;
+}
+#numOfResults{
+    display: block;
+    color: #000;
+    font-size: 17px;
+    font-weight: 600;
+}
+.resultContent{
+    position: relative;
+    padding-left: 90px !important;
+}
+.readMore{
+    width: 40px;
+    cursor: pointer;
+    opacity: 0.7;
+    display: block;
+    position: absolute;
+    right: 21%;
+    bottom: 10%;
+}
+.readMore:hover{
+    opacity: 1
+}
+.playIcon{
+    position: absolute;
+    left: -20px;
+    top: 0px;
+    width: 30px;
+    cursor: pointer;
+}
+.playIcon:hover {
+    opacity: 0.8;
+}
+.tr-color-selected {
+  background-color: #fff !important;
+}
+.timing {
+  width: 10%;
+  display: inline-block;
+      vertical-align: top;
+}
+.text {
+	width:70%;
+	display: inline-block;
+	padding-right: 30px;
+	vertical-align: top;
+}
+.th-sm{
+	font-weight: 300 !important;
+	color: #606060!important;
+}
+.search_container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+}
+#searchString{
+    color: black;
+    text-align: center;
+}
+.searchbar {
+	float: right;
+	color: #606060;
+	padding: 6px 10px;
+	width: 400px;
+	border: none;
+	margin-top: 1px;
+	margin-right: 8px;
+	font-size: 2em;
+	font-weight: bold;
+	border-bottom: #62A1EA solid 2px;
+	transition: 0.4s;
+	display: block !important;
+}
+.searchbar::placeholder {
+    color: #606060;
+    font-size: 1em;
+    font-weight: bold;
+    /* transition: 0.2s; */
+}
+.searchbar:focus {
+    width: 600px;
+    font-size: 2em;
+    font-weight: bold;
+    transition: 0.4s;
+    /* Stops the input box from inheriting the styling from the inputs on the request form */
+    border-bottom: #62A1EA solid 2px;
+    outline: none;
+    margin-right: 0 !important;
+}
+.btn-search {
+    cursor: pointer;
+    color: #A5A5A5;;
+    text-decoration: none !important;
+    font-size: 2em;
+    padding-top: 5px;
+    margin-right: 40px;
+}
+mark {
+  background-color: yellow;
+}
+details.popup summary {
+	cursor: pointer;
+	outline: none !important;
+	display: inline-block;
+	border-radius: 4px;
+	overflow: hidden;
+	background: #173B64;
+	color: white;
+	font-weight: bold;
+	font-size: 1.2em;
+	letter-spacing: 0.025em;
+	text-transform: uppercase;
+}
+
+details.popup[open] > summary::before {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    cursor: default;
+    content: " ";
+    z-index: 99;
+    background: rgba(27,31,35,0.5);
+}
+details.popup > .video-box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 50%;
+    width: auto;
+    display: flex;
+    margin: auto;
+    transform: translateX(-50%);
+       
+    z-index: 999;
+    animation-name: fadein;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    background-color: #fff;
+    border: 1px solid #173B64;
+    border-radius: 3px;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 0em;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+    border-top: 4px solid #173B64;
+}
+
+details.popup > .text-box {
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
+    position: absolute;
+    transform: translateX(-50%);
+    z-index: 999;
+    background-color: #fff;
+    padding: 1em;
+    top: -10%;
+    width: 80%;
+}
+video{
+    width: 100%;
+}
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+details.popup summary::-webkit-details-marker {
+  display:none;
+}

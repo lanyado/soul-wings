@@ -1,0 +1,148 @@
+.container {
+  display: flex; /* or inline-flex */
+  flex-direction: row;
+  align-content: space-around;
+  flex-wrap: wrap;
+  height: 100%; /* Or whatever */
+  margin: 100px auto;
+}
+.item {
+  order: 0; /* default is 0 */
+  align-self: flex-start;
+  max-width: 300px;
+  max-height: 250px;
+  width: 300px;
+  height: 250px;
+  margin: 10px auto;
+  display: inline-block;
+  position: relative;
+}
+.videoDetails{
+  background-color: rgb(94,146,202);
+  opacity: 0.7;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  color: white;
+  font-size: 17px;
+  padding: 10px;
+  padding-bottom: 0;
+  line-height: 5px;
+  z-index: 2;
+}
+.videoDetails .first{
+  display: block;
+  margin: 5px 0 20px 0;
+}
+.videoDetails .second{
+  display: inline-block;
+}
+.duration{
+  display: inline-block;
+  float: left;
+}
+/*---------------*/
+summary {
+  position: relative;
+}
+
+.screenShot {
+    opacity: 1;
+    display: block;
+    /* max-width: 270px; */
+    max-height: 200px;
+    margin: 0 auto;
+    /* width: auto; */
+    /* height: auto; */
+    /* height: auto; */
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.middle {
+  width: 100%;
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 3;
+}
+
+summary:hover .screenShot {
+  opacity: 0.3;
+}
+
+summary:hover .middle {
+  opacity: 1;
+}
+
+.text {
+  color: #ffff;
+  font-size: 100px;
+}
+/*==================================*/
+details.popup summary {
+  cursor: pointer;
+  outline: none !important;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #173B64;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2em;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  margin: 0 auto;
+  display: block;
+}
+
+details.popup[open] > summary::before {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    cursor: default;
+    content: " ";
+    z-index: 99;
+    background: rgba(27,31,35,0.5);
+}
+details.popup > div {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 50%;
+    width: auto;
+    display: flex;
+    margin: auto;
+    transform: translateX(-50%);
+       
+    z-index: 999;
+    animation-name: fadein;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    background-color: #fff;
+    border: 1px solid #173B64;
+    border-radius: 3px;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 0em;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+    border-top: 4px solid #173B64;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+details.popup summary::-webkit-details-marker {
+  display:none;
+}

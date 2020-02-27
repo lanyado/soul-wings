@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Favicon and Meta Tags -->
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static',  filename='img/logo.png') }}"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Soul-Wings</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/fontawesome.css') }}">
+
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/mdb.css') }}" >
+  <!-- The table -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/datatables.css') }}">
+   <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/bootstrap.min.css') }}">
+  <!-- My custom styles -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css')}}">
+</head>
+
+<body dir="rtl">
+  
+<!-- the loader -->
+<div class="cs-loader">
+  <div class="cs-loader-inner">
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+    <label> ●</label>
+  </div>
+</div>
+
+<!-- Top NavBar -->  
+<div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
+  <div class="container">
+      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
+        <div class="collapse navbar-collapse" id = "example-navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></li>
+            <li class="nav-item"><a href="{{ url_for('gallery') }}">המאגר</a></li>
+            <li class="nav-item"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item"><a href="{{ url_for('about') }}">אודות</a></li>
+          </ul>
+
+          <details class="popup upload-details">
+              <div id="grey"></div>
+
+              <summary>
+                <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
+             </summary>
+             
+                        <section id="uploadPopup">
+              <i class="fas fa-times" id="upload-close-icon"></i>
+                  <form id="uploadForm">
+                    <!-- ============= File upload ============== -->
+                       <a href="#" data-toggle="tooltip" title="
+                    סוגי הקבצים הנתמכים: MP3/MP4/MOV
+                    | גודל קובץ מקסימאלי: 1 ג׳יגה " >
+                      <div class="file-drop-area" style="border: 3px dashed grey;">
+                      <span class="fake-btn">העלאת קובץ*</span>
+                      <span class="file-msg">אפשר גם לגרור קובץ למלבן האפור</span>
+                      <input type="file" class="file-input" id="theFile" accept="video/*,audio/*">
+                    </div>
+                      </a>
+
+                <fieldset>
+                  <!-- ============= File name ============== -->
+
+                    <label for="file_name"> 
+                      שם העדות*
+                      <a href="#" data-toggle="tooltip" title="כל שם שתרצו" >
+                         <i class="far fa-question-circle icon-tooltip"></i>
+                      </a>
+                    </label>
+                    <input name="file_name" id="file_name" class="text-input" maxlength="50"/>
+                  
+                  <!-- ============= File language ============== -->
+
+                    <label for="language">שפה*
+                    <a href="#" data-toggle="tooltip" title="השפה בה העדות ניתנה" >
+                        <i class="far fa-question-circle icon-tooltip"></i>
+                    </a>
+                    </label>
+                    <div id="langChoose">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-outline-primary active language" id="hebrew">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> עברית
+                        </label>
+                        <label class="btn btn-outline-warning language" id="english">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> אנגלית
+                        </label>
+                    </div>
+                    </div>
+                 <!-- ============= File description ============== -->
+
+                    <label for="file_description"> 
+                      תיאור העדות
+                      <a href="#" data-toggle="tooltip" title="תיאור כללי של העדות, או מידע שאינו נזכר בעדות עצמה." >
+                         <i class="far fa-question-circle icon-tooltip"></i>
+                      </a>
+                    </label>
+                    <br>
+                      <textarea rows="4" cols="50"  name="file_description" id="file_description" class="text-input" maxlength="200"></textarea>
+
+                       <div class="the-count">
+                           <p id="characterNotification">נשארו לך  <span id="characterCounter">XXX</span> תווים, מתוך <span id="maximum">XXX</span></p>
+                      </div>
+                <!-- ============= File tags ============== -->
+
+                    <label for="tags"><span>תגיות </span>
+                      <a href="#" data-toggle="tooltip" title="אם הקובץ הוא חלק מסדרה מסויימת אפשר לתייג את כל הסדרה באותם התיוגים" >
+                          <i class="far fa-question-circle icon-tooltip"></i>
+                      </a>
+                      <p style="margin-bottom: 0;">יש ללחוץ על מקש ה-Enter כדי ליצור תגית חדשה</p>
+                    </label>
+                    <div id="container">
+                      <ul class="tags">
+                          <li class="tagAdd taglist">  
+                              <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
+                          </li>
+                      </ul>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" id="done" disabled>העלאה</button>
+
+                </fieldset>
+                  </form>
+              </section>
+            </details>
+        </div>
+     </nav>
+  </div>
+</div>
+<!-- Top NavBar -->  
+<div class="search_container result-page">
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <i class="fa fa-question-circle search-area"></i>
+
+    <label class="btn btn-secondary active">
+      <input type="radio" name="options" class="option" autocomplete="off" checked value="או">או
+    </label>
+    <label class="btn btn-secondary">
+      <input type="radio" name="options" class="option" autocomplete="off" value='וגם'> וגם
+    </label>
+  </div>
+  <div class="searchBar-wrapper">
+    <input id="searchBar" class="searchbar" type="text" value="{{response.search_string}}" placeholder='לדוגמא: פולין 1943 "הצלב האדום"'>
+    <i class="search-icons fas fa-times"></i>
+    <i class="search-icons fa fa-search"></i>
+</div>
+</div>
+
+<div class="container mb-2" id="results">
+  <h2 id="numOfResults"></h2>
+  <div class="wrapper-modal-editor">
+
+  <div class="row d-flex justify-content-center modalWrapper">
+	<div class="modal fade addNewInputs" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd"
+	  aria-hidden="true">
+	</div>
+  </div>
+    <table id="dtBasicExample" class="table table-striped display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th class="th-sm" id="firstSearch">שם הקובץ</th>
+          <th class="th-sm">שפה</th>
+          <th class="th-sm unsortable">תגיות</th>
+          <th class="th-sm">שנים</th>
+          <th class="th-sm unsortable">מדינות</th>
+          <th class="th-sm unsortable">ערים</th>
+          <th class="th-sm unsortable">מחנות</th>
+          <th class="th-sm" id="lastSearch">תזמון&nbsp;  &nbsp;  &nbsp;  &nbsp;&nbsp;  תוכן שהתאמת</th>
+        </tr>
+    </thead>
+		<tbody>
+		    {% for result in response.results %}
+		        <tr>
+		          <td>{{ result.file_name }}</td>
+		          <td>{{ result.language }}</td>
+		          <td>{{ result.tags }}</td>
+		          <td>{{ result.years }}</td>
+		          <td>{{ result.country }}</td>
+		          <td>{{ result.city }}</td>
+		          <td>{{ result.camp }}</td>
+		          <td class="resultContent">
+		          {% for content in result.context_blocks %}
+		              <section style="position: relative; " class="contentSection">
+		                  <div class="timing">{{ content.start_time }}</div>
+		                  <div class="text">{{ content.text }} </div>
+                      <details class="popup">
+                          <summary>
+                              <img class="readMore" src="{{ url_for('static',  filename='img/3points.png')}}">
+                          </summary>
+                          <div class="text-box">
+                              <p>{{ content.long_text }}</p>
+                          </div>
+                      </details>
+
+		                  <details class="popup video-popup">
+		                      <summary>
+		                          <img class="playIcon" src="{{ url_for('static',  filename='img/play.svg')}}">
+		                      </summary>
+		                      <div class="video-box">
+                            <i class="fas fa-times video-close-icon"></i>
+		                          <video controls>
+		                              <source src="{{ result.s3_url }}#t={{ content.start_time }}" type="video/mp4">
+		                          </video>
+		                      </div>
+		                  </details>
+		              </section>
+		          {% endfor %}
+		          </td>
+		      </tr>
+		    {% endfor %}
+		</tbody>
+      </table>
+    </div>
+  </div>
+
+
+</div> <!-- End Container -->
+
+<!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js') }}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js') }}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js') }}"></script>
+  <!-- Material Design Bootstrap core -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/mdb.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/mdb-editor.js') }}"></script>
+  <!-- The table JavaScript-->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/datatables.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/singlepagenav.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/queryloader.js') }}"></script>
+  <!-- sweetalert JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js') }}"></script>
+  <!-- My JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
+
+  <script type="text/javascript" src="{{ url_for('static', filename='js/results.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/search.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
+
+</body>
+</html>

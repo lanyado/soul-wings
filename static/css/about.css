@@ -1,0 +1,98 @@
+.main-page{
+  width:100%;
+  display: block;
+  background: url('../img/about.png');
+  background-size: cover;
+  background-position: top;
+  padding: 5% 5% 20% 40%;
+}
+.main-page h1{
+  color: #FFFFFF;
+  font-weight: bold;
+  text-align: right;
+  margin-bottom: 5%;
+}
+.main-page p{
+  color: #FFFFFF;
+  font-size: 25px;
+  line-height: 37px;
+  text-align: right;
+  word-wrap: break-word;
+}
+/*=========*/
+.team-members{
+    width:100%;
+    background-color: #ffff;
+    display: block;
+}
+.team-members .titles2{
+  width: 100%;
+  height: 20%;
+  display: block;
+  padding: 10% 10% 0 10%;
+  color: #606060;
+}
+
+.team-members h1{
+  color: #606060;
+  font-weight: bold;
+  text-align: right;
+  margin-bottom: 5%;
+}
+.team-members p{
+  color: #606060;
+  font-size: 25px;
+  line-height: 37px;
+  text-align: right;
+  word-wrap: break-word;
+}
+.team-members .container {
+  display: flex; /* or inline-flex */
+  flex-direction: row;
+  align-content: space-around;
+  flex-wrap: wrap;
+  height: 100%; /* Or whatever */
+  width: 90%;
+  margin: 100px auto;
+}
+.team-members .item {
+  order: 0; /* default is 0 */
+  align-self: flex-start;
+  width: 15%;
+  margin: auto;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+color: #606060;
+}
+.team-members .item .profile-pic{
+  width: 100%;
+  margin: 5% auto;
+  border-radius: 50%;
+
+}
+.team-members .item h3{
+  width: 90%;
+  margin: 10% auto;
+  font-size: 25px;
+}
+.item h4{
+    margin: 0 auto;
+    word-wrap: break-word;
+    height: 70px;
+    display: -webkit-inline-box;
+    text-align: center;
+    font-size: 17px;
+}
+.team-members .item .social-media-icon{
+  display: block;
+  width: 20%;
+  margin: 0 auto;
+}
+.hamerkaz-logo{
+    width: 250px;
+    margin: 50px auto;
+    position: relative;
+    display: block;
+}
+}

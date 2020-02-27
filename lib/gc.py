@@ -3,6 +3,9 @@ This Module contains Google Cloud helper functions:
 gcs_put_file(local_path, gcs_bucket, gcs_path)
     Upload a given file to GCS and return blob obj
 ========================================================================================================================
+gcs_del_file(gcs_bucket, gcs_path)
+    Delete a given file from GCS
+========================================================================================================================
 call_stt(gcs_bucket, gcs_path)
     Call Google STT and get transcript for given GCS path
 ========================================================================================================================
@@ -30,14 +33,15 @@ from config import LANGUAGE_CODE_MAP
 LOG = getLog('GC')
 
 
-def gcs_put_file(local_path, gcs_bucket, gcs_path):
+def gcs_put_file(local_path,
+                 gcs_bucket,
+                 gcs_path):
     """
-    Upload a given file to GCS and return blob obj
+    Upload a given file to GCS
 
     :param local_path: (str) local path of file to upload
     :param gcs_bucket: (str) GCS bucket name
     :param gcs_path: (str) Path in bucket to upload to
-    :return: (bucket.blob) gcs gile obj
     """
 
     storage_client = storage.Client()
@@ -47,10 +51,26 @@ def gcs_put_file(local_path, gcs_bucket, gcs_path):
 
     LOG.info('Put to GCS - %s - %s/%s', local_path, gcs_bucket, gcs_path)
 
-    return blob
+
+def gcs_del_file(gcs_bucket,
+                 gcs_path):
+    """
+    Delete a given file from GCS
+
+    :param gcs_bucket: (str) GCS bucket name
+    :param gcs_path: (str) Path in bucket to delete file from
+    """
+
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(gcs_bucket)
+    blob = bucket.delete_blob(gcs_path)
+
+    LOG.info('Deleted from GCS - %s/%s', gcs_bucket, gcs_path)
 
 
-def call_stt(gcs_bucket, gcs_path, language):
+def call_stt(gcs_bucket,
+             gcs_path,
+             language):
     """
     Call Google STT and get transcript for given GCS path
 
@@ -82,13 +102,16 @@ def call_stt(gcs_bucket, gcs_path, language):
     return response
 
 
-def stt_res_to_json(res, path, user_fields):
+def stt_res_to_json(res,
+                    path,
+                    user_fields):
     """
     Save STT result to JSON and return path
 
     :param res: (protobuf response) stt API response result
     :param path: (str) local path to save the file to
     :param user_fields: (dict) Fields filled out by the user in upload screen
+    :return: (dict) STT res as dict
     """
 
     serialized = MessageToDict(res)
@@ -99,3 +122,5 @@ def stt_res_to_json(res, path, user_fields):
     json_file.close()
 
     LOG.info('Saved JSON - %s', path)
+
+    return serialized
