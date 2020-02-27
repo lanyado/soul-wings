@@ -116,7 +116,8 @@ def login():
                            SECRETS)
 
     if user_token:
-        resp = {'redirect_url':url_for('search_testimonies'),
+        resp = {'auth': True,
+                'redirect_url':url_for('search_testimonies'),
                 'user_token': user_token}
 
     else:
