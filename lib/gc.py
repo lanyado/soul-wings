@@ -104,13 +104,10 @@ def stt_res_to_json(res,
     """
 
     serialized = MessageToDict(res)
-    print('serialized', sys.getsizeof(serialized))
     serialized['user_fields'] = user_fields
 
     json_file = codecs.open(path, 'w', encoding='utf-8')
-    print('json dump start')
     json.dump(serialized, json_file, ensure_ascii=False)
-    print('json dump done')
     json_file.close()
 
     LOG.info('Saved JSON - %s', path)

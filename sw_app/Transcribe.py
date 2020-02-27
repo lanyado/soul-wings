@@ -197,8 +197,6 @@ class Transcribe:
         res = call_stt(self.gcs_bucket,
                        flac_file_name,
                        self.language)
-        print('self.gcs_blob', sys.getsizeof(self.gcs_blob))              
-        print('res', sys.getsizeof(res))
         self.gcs_blob.delete()
 
         self.json_path = os.path.splitext(self.path)[0] + '.json'
