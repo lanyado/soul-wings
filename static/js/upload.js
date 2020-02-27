@@ -160,7 +160,7 @@ $(document).ready(function() {
           form_data.append('language', language)
 
           for (var i = 0; i < tags.length; i++) {
-              form_data.append('tags[]', tags[i]);
+              form_data.append('tags', tags[i]);
           }
           
           $.ajax({
