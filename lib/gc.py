@@ -3,6 +3,9 @@ This Module contains Google Cloud helper functions:
 gcs_put_file(local_path, gcs_bucket, gcs_path)
     Upload a given file to GCS and return blob obj
 ========================================================================================================================
+gcs_del_file(gcs_bucket, gcs_path)
+    Delete a given file from GCS
+========================================================================================================================
 call_stt(gcs_bucket, gcs_path)
     Call Google STT and get transcript for given GCS path
 ========================================================================================================================
@@ -35,12 +38,11 @@ def gcs_put_file(local_path,
                  gcs_bucket,
                  gcs_path):
     """
-    Upload a given file to GCS and return blob obj
+    Upload a given file to GCS
 
     :param local_path: (str) local path of file to upload
     :param gcs_bucket: (str) GCS bucket name
     :param gcs_path: (str) Path in bucket to upload to
-    :return: (bucket.blob) gcs file obj
     """
 
     storage_client = storage.Client()
@@ -50,7 +52,21 @@ def gcs_put_file(local_path,
 
     LOG.info('Put to GCS - %s - %s/%s', local_path, gcs_bucket, gcs_path)
 
-    return blob
+
+def gcs_del_file(gcs_bucket,
+                 gcs_path):
+    """
+    Delete a given file from GCS
+
+    :param gcs_bucket: (str) GCS bucket name
+    :param gcs_path: (str) Path in bucket to delete file from
+    """
+
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(gcs_bucket)
+    blob = bucket.delete_blob(gcs_path)
+
+    LOG.info('Deleted from GCS - %s/%s', gcs_bucket, gcs_path)
 
 
 def call_stt(gcs_bucket,

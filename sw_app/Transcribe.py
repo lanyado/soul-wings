@@ -12,6 +12,7 @@ from lib.ffmpeg import vid_to_flac, \
                        get_thumbnail
 from lib.aws import s3_put_file
 from lib.gc import gcs_put_file, \
+                   gcs_del_file, \
                    call_stt, \
                    stt_res_to_json
 from lib.mongo import put_to_mongo, \
@@ -166,7 +167,7 @@ class Transcribe:
 
         :set attr: flac_key (str) S3 key of FLAC file
                    flac_path (str) local path of FLAC file
-                   gcs_blob (bucket.blob) gcs file obj
+                   gcs_path (str) gcs file path
         """
 
         self.flac_path = vid_to_flac(self.path)
@@ -179,9 +180,11 @@ class Transcribe:
                     self.s3_bucket,
                     self.flac_key,
                     self.secrets)
-        self.gcs_blob = gcs_put_file(self.flac_path,
-                                     self.gcs_bucket,
-                                     flac_file_name)
+
+        self.gcs_path = flac_file_name
+        gcs_put_file(self.flac_path,
+                     self.gcs_bucket,
+                     self.gcs_path)
 
 
     def _handle_stt(self):
@@ -197,7 +200,8 @@ class Transcribe:
         res = call_stt(self.gcs_bucket,
                        flac_file_name,
                        self.language)
-        self.gcs_blob.delete()
+        gcs_del_file(self.gcs_bucket,
+                     self.gcs_path)
 
         self.json_path = os.path.splitext(self.path)[0] + '.json'
         self.stt_json = stt_res_to_json(res,
