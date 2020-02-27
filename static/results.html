@@ -172,7 +172,6 @@
           <th class="th-sm" id="firstSearch">שם הקובץ</th>
           <th class="th-sm">שפה</th>
           <th class="th-sm unsortable">תגיות</th>
-          <th class="th-sm">שנים</th>
           <th class="th-sm unsortable">מדינות</th>
           <th class="th-sm unsortable">ערים</th>
           <th class="th-sm unsortable">מחנות</th>
@@ -185,7 +184,6 @@
 		          <td>{{ result.file_name }}</td>
 		          <td>{{ result.language }}</td>
 		          <td>{{ result.tags }}</td>
-		          <td>{{ result.years }}</td>
 		          <td>{{ result.country }}</td>
 		          <td>{{ result.city }}</td>
 		          <td>{{ result.camp }}</td>
@@ -242,7 +240,8 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/singlepagenav.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/queryloader.js') }}"></script>
   <!-- sweetalert JavaScript -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js') }}"></script>
+  <!--   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!-- My JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
 

@@ -1,14 +1,15 @@
 // add the duration ton each video
 $('video').one('loadedmetadata',function() {
-	duration = this.duration;
-	formatedDuration = getFormatedTime(duration);
+	var duration = this.duration;
+	var formatedDuration = getFormatedTime(duration);
 	
-	durationTag = $(this).closest('.popup').find('.duration')[0];
+	var durationTag = $(this).closest('.popup').find('.duration')[0];
 	$(durationTag).text(formatedDuration); 
 })
 
+// when the user clicks on the closing button it triggers ESC key press,
+// in order to close the video box	
 $('.video-close-icon').on('click', function(){
-    // trigger ESC key press, in order to close the video box	
     var e = jQuery.Event("keydown");
     e.which = 27; // # Some key code value
     $("body").trigger(e);

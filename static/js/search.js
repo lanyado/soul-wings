@@ -1,8 +1,4 @@
-$(".dropdown-menu").on('click', '.dropdown-item', function(){
-	$("#dropdownMenuButton").text($(this).text());
-});
-
-/*================ sendSearchString====================*/
+/*================ send search string ====================*/
 function sendSearchString(){
 	var type = $.trim($($('.option:checked')[0]).val())
 	if (type=='או')
@@ -23,6 +19,10 @@ function sendSearchString(){
 	    })
 	}
 }
+
+$(".dropdown-menu").on('click', '.dropdown-item', function(){
+	$("#dropdownMenuButton").text($(this).text());
+});
 
 $('#searchBar').keyup(function(e){
     if(e.keyCode == 13)

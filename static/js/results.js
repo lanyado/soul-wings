@@ -1,4 +1,4 @@
-//animation until the page is loaded
+// animation until the page is loaded
 runLoadingAnimation();
 
 $(window).on('load', function() {
@@ -49,21 +49,21 @@ function addFunctionsToTr(){
         $tr = $(this);
         $tr.addClass('withFunctions');
 
-        $tr.find('.contentSection').each(function(){
-            // Mark the words in yellow
-            $.each(words, function (index, value) {
-                $tr.find(".text:contains(" + value + ")").html(function (_, html) {
-                    var regex = new RegExp(value, 'g');
-                    return html.replace(regex, '<mark>' + value + '</mark>');
-                });
+        //$tr.find('.contentSection').each(function(){
+        // Mark the words in yellow
+        $.each(words, function (index, value) {
+            $tr.find(".text:contains(" + value + ")").html(function (_, html) {
+                var regex = new RegExp(value, 'g');
+                return html.replace(regex, '<mark>' + value + '</mark>');
             });
+        });
 
-            // separate multi sentences in one document with <hr>
-            $(this).find('.contentSection').each(function(){
-                if($(this).next().attr('class')=='contentSection')
-                    $('<hr>').insertAfter( $(this) );
-            })
+        // separate multi sentences in one document with <hr>
+        $tr.find('.contentSection').each(function(){
+            if($(this).next().attr('class')=='contentSection')
+                $('<hr>').insertAfter( $(this) );
         })
+        //})
 
         // auto play when open the video and auto pause when close the video
         $tr.find('.video-popup').on('toggle', function() {
