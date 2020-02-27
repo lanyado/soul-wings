@@ -116,7 +116,7 @@ $(document).ready(function() {
   // === the submit function that uploads the file
   $('#done').click(function() {
 
-      var maxFileSize = 1000000000; // 1 Giga
+      var maxFileSize = 2000000000; // 1 Giga
       var allowedFileExtension = ['mp4', 'mp3'];
      
       var theFile = $('#theFile').prop('files')[0];
