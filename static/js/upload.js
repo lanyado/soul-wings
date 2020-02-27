@@ -46,7 +46,7 @@ $(document).ready(function() {
   $('#characterCounterDetails').text(myMaxLength);
   $('#maximum').text(myMaxLength);
 
-  /* respond to each keydown by incrementing or decrementing the current character count */
+   // respond to each keydown by incrementing or decrementing the current character count 
   $('textarea').keydown(function() {
 
     var characterCount = $(this).val().length,
@@ -132,7 +132,7 @@ $(document).ready(function() {
       var file_description = $('#file_description').val()
 
       var language;
-      //langChoose
+      //set a language
       if ($('#hebrew').hasClass('active'))
           language = 'hebrew';
       else if ($('#english').hasClass('active'))
@@ -153,8 +153,7 @@ $(document).ready(function() {
           console.log(theFile, file_name, file_description, language, tags);
           
           var form_data = new FormData();
-
-    
+          
           form_data.append('file', theFile)
           form_data.append('file_name', file_name)
           form_data.append('file_description', file_description)
@@ -171,23 +170,64 @@ $(document).ready(function() {
               data: form_data,
               processData: false,
               cache: false,
-              contentType: false
+              contentType: false,
+     
+              xhr: function () {
+                  var xhr = $.ajaxSettings.xhr();
+                  xhr.upload.onprogress = function (e) {
+                      // For uploads
+
+                      if (e.lengthComputable) {
+
+                       window.precents = (parseInt((e.loaded / e.total)*100));
+                        if (precents < 1){
+                            runProgressBar()
+                        }
+                      }
+                  };
+                  return xhr;          
+              }
           })
-            .done((response) => {
-                if (response.upload_successful){
-                    sendSecsuss('הקובץ הועלה בהצלחה, ויהיה זמין לחיפוש בקרוב');
-                    $('.upload-details').removeAttr("open");
-                    $('#uploadForm').trigger("reset");
-                    $('#done').attr('disabled', 'disabled');
-                    $('#uploadPopup').scrollTop(0);  
-                }
-            })
-            .fail((jqXhr) => {
-                console.log(jqXhr.responseJSON)
-                sendError(false,'נראה שיש בעיית תקשורת, כדאי לנסות שוב בעוד זמן קצר');              //on success code here
-          });
+          .done((response) => {
+              Swal.close() // close the progress bar
+              if (response.upload_successful){
+                  sendSecsuss('הקובץ הועלה בהצלחה, אנחנו עכשיו מתחילים לנתח אותו, בעוד מספר דקות הוא יהיה זמין לחיפוש');
+                  $('.upload-details').removeAttr("open");
+                  $('#uploadForm').trigger("reset");
+                  $('#done').attr('disabled', 'disabled');
+                  $('#uploadPopup').scrollTop(0);  
+              }
+          })
+          .fail((jqXhr) => {
+              Swal.close() // close the progress bar
+              console.log(jqXhr.responseJSON)
+              sendError(false,'נראה שיש בעיית תקשורת, כדאי לנסות שוב בעוד זמן קצר');              //on success code here
+        });
       }
   })
+
+function runProgressBar(){
+  let timerInterval
+
+  Swal.fire({
+    title: 'מעלה את הקובץ למערכת',
+    html: 'עד כה הועלה <b></b> מהקובץ',
+    allowOutsideClick: false,
+    onBeforeOpen: () => {
+      Swal.showLoading()
+      setInterval(() => {
+        const content = Swal.getContent()
+        if (content) {
+          const b = content.querySelector('b')
+          if (b) {
+            if (window.precents<100)
+              b.textContent = window.precents.toString() + '%'
+          }
+        }
+      }, 100)
+    }
+  })
+}
 
 // === the colse icon
 $('#upload-close-icon').click(function() {
@@ -210,7 +250,8 @@ $('#upload-close-icon').click(function() {
   })
 })
 
-/* https://jsfiddle.net/hgnyjdz6/ => Check the user's upload speed */
+// https://jsfiddle.net/hgnyjdz6/ => Check the user's upload speed
+// ===================================================================
 /*
 function checkUploadSpeed( iterations, update ) {
     var average = 0,
