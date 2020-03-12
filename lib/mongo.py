@@ -44,7 +44,8 @@ from lib.log import getLog
 import lib.helpers as helpers
 from config import TERM_TYPE_MAP, \
                    OPERATOR_MAP, \
-                   DEFAULT_OPERATOR
+                   DEFAULT_OPERATOR, \
+                   EXCLUDE_KEYS_FROM_AUTH_QUERY
 
 
 LOG = getLog('MONGO')
@@ -195,14 +196,14 @@ def auth_user(dbname,
 
     conn = get_coll_conn(dbname, coll, secrets)
     query = build_query('and', kv_pairs=auth_dict)
-    res = search_mongo(dbname, coll, query, secrets)
+    res = search_mongo(dbname, coll, query, secrets, EXCLUDE_KEYS_FROM_AUTH_QUERY)
     res = [d for d in res]
 
     user_token = None
 
     if len(res) != 0:
-        user_id = str(res[0].get('_id', ''))
-        user_token = token_handler.gen_token(user_id)
+        user_doc = res[0]
+        user_token = token_handler.gen_token(user_doc)
 
     return user_token
 
