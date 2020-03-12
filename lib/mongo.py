@@ -18,9 +18,7 @@ get_query_part(term)
 get_query_part(term)
     Get query part based on term type
 ========================================================================================================================
-build_query(operator=DEFAULT_OPERATOR,
-            terms=None,
-            kv_pairs=None)
+build_query(operator, terms, kv_pairs)
     Builds mongo query from given params
 ========================================================================================================================
 auth_user(dbname, coll, auth_dict, token_handler, secrets)
