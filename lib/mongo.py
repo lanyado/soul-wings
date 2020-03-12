@@ -202,8 +202,8 @@ def auth_user(dbname,
     user_token = None
 
     if len(res) != 0:
-        user_doc = res[0]
-        user_token = token_handler.gen_token(user_doc)
+        user_info = res[0]
+        user_token = token_handler.gen_token(user_info)
 
     return user_token
 

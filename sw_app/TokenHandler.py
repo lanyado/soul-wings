@@ -45,17 +45,17 @@ class TokenHandler:
 
 
     def gen_token(self,
-                  user_doc):
+                  user_info):
         """
         Generate token and save to tokens dict
 
         :return: (str) token
         """
 
-        user_doc['last_contact'] = datetime.now()
+        user_info['last_contact'] = datetime.now()
 
         token = secrets.token_hex()
-        self.tokens[token] = user_doc
+        self.tokens[token] = user_info
 
         return token
 
@@ -65,11 +65,11 @@ class TokenHandler:
         """
         Auth token and update time if valid
 
-        :return: (dict or None) user_doc dict if authorized, None if not
+        :return: (dict or None) user_info dict if authorized, None if not
         """
 
-        user_doc = self.tokens.get(token, {})
-        token_time = user_doc.get('last_contact', None)
+        user_info = self.tokens.get(token, {})
+        token_time = user_info.get('last_contact', None)
 
         if not token_time:
             return None
@@ -81,7 +81,7 @@ class TokenHandler:
 
         self.tokens[token]['last_contact'] = datetime.now()
 
-        return user_doc
+        return user_info
 
 
     def auth_request(self,
@@ -95,12 +95,12 @@ class TokenHandler:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             user_token = request.cookies.get('soulwings', '')
-            user_doc = self.auth_token(user_token)
+            user_info = self.auth_token(user_token)
 
-            if user_doc:
+            if user_info:
                 prms = list(inspect.signature(func).parameters)
-                if 'user_doc' in prms:
-                    kwargs['user_doc'] = user_doc
+                if 'user_info' in prms:
+                    kwargs['user_info'] = user_info
                 return func(*args, **kwargs)
 
             else:
