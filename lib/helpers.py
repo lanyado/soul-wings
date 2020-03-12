@@ -153,7 +153,7 @@ def request_form_to_dict(form,
     """
     Converts a request form to a dict and converts the relevant keys to lists
 
-    :param form: (werkzeug.datastructures.ImmutableMultiDict)
+    :param form: (werkzeug.datastructures.ImmutableMultiDict) form from app flask.request.form
     :param keys_to_list: (list of str) keys to convert to lists
     :return: (dict) form as dict
     """
