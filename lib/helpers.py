@@ -12,6 +12,15 @@ get_best_alt(alts)
 lower_all_vals(d)
     Lowers all string \ unicode values in a dict
 ========================================================================================================================
+get_secrets_dev(local_path)
+    Get secrets from proj_secrets/secrets.json
+========================================================================================================================
+def get_secrets_prod()
+    Get secrets from S3
+========================================================================================================================
+get_secrets()
+    Get secrets from proj_secrets if the folder exists, from S3 if not
+========================================================================================================================
 request_form_to_dict(form, keys_to_list=None)
     Converts a request form to a dict and converts the relevant keys to lists
 """
