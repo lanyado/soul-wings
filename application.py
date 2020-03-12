@@ -12,7 +12,8 @@ from sw_app.Gallery import Gallery
 from lib.mongo import auth_user
 from lib.helpers import file_to_local_uuid_file, \
                         clean_working_dir, \
-                        get_secrets
+                        get_secrets, \
+                        request_form_to_dict
 from lib.log import getLog
 import config
 
@@ -74,8 +75,7 @@ def uploader():
 
         f = request.files['file']
         path = file_to_local_uuid_file(f)
-        user_fields = request.form.to_dict()
-        user_fields = {k: v for k, v in user_fields.items() if v}
+        user_fields = request_form_to_dict(request.form, ['tags'])
         language = user_fields.get('language', config.DEFAULT_LANG)
 
         t = Transcribe(path=path,
@@ -107,8 +107,7 @@ def login():
         keys: redirect_url (str), user_token (str)
     """
 
-    auth_dict = request.form.to_dict()
-    auth_dict = {k: v for k, v in auth_dict.items() if v}
+    auth_dict = request_form_to_dict(request.form)
     user_token = auth_user(config.MONGO_DBNAME,
                            config.USERS_COLL,
                            auth_dict,
