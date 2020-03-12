@@ -107,8 +107,7 @@ def login():
         keys: redirect_url (str), user_token (str)
     """
 
-    auth_dict = request.form.to_dict()
-    auth_dict = {k: v for k, v in auth_dict.items() if v}
+    auth_dict = request_form_to_dict(request.form)
     user_token = auth_user(config.MONGO_DBNAME,
                            config.USERS_COLL,
                            auth_dict,
