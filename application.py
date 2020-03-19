@@ -159,7 +159,7 @@ def search_testimonies():
 
 @application.route('/results', methods=['GET'])
 @token_handler.auth_request
-def search_results():
+def search_results(user_info):
     """
     Perform search against mongo based on user request
     and render results.html with response
@@ -172,6 +172,7 @@ def search_results():
     search_dict = dict(request.args)
     search_dict = {k: v for k, v in search_dict.items() if v}
     s = Search(secrets=SECRETS,
+               user_info=user_info,
                **search_dict)
     s.run()
 

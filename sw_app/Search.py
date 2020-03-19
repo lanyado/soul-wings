@@ -6,7 +6,7 @@ sys.path.append(REPO_DIRECTORY)
 
 import re
 from sw_app.DocMatch import DocMatch
-from lib.mongo import search_mongo, \
+from lib.mongo import org_filter_wrap_and_search, \
                       build_query
 from config import DEFAULT_CONTEXT_BLOCK_SIZE, \
                    MONGO_DBNAME, \
@@ -40,7 +40,8 @@ class Search:
                  operator=DEFAULT_OPERATOR,
                  cntx_block_size=DEFAULT_CONTEXT_BLOCK_SIZE,
                  mongo_dbname=MONGO_DBNAME,
-                 mongo_coll=TRANSCRIPTS_COLL):
+                 mongo_coll=TRANSCRIPTS_COLL,
+                 user_info=None):
         """
         Init Search
 
@@ -50,6 +51,7 @@ class Search:
         :param cntx_block_size: (int) Size of context block (word count)
         :param mongo_dbname: (str) Mongo dbname for conn
         :param mongo_coll: (str) Relevant coll in each doc for query
+        :param user_info: (dict) user info dict from TokenHandler
         """
 
         self.ss = search_string
@@ -58,6 +60,7 @@ class Search:
         self._set_cntx_block_attrs(cntx_block_size)
         self.mongo_dbname = mongo_dbname
         self.mongo_coll = mongo_coll
+        self.user_info = user_info or {}
         self.resp_json = {'search_string': search_string,
                           'operator': operator}
 
@@ -69,7 +72,11 @@ class Search:
 
         self._search_string_to_terms()
         query = build_query(self.operator, terms=self.terms)
-        res = search_mongo(self.mongo_dbname, self.mongo_coll, query, self.secrets)
+        res = org_filter_wrap_and_search(self.mongo_dbname,
+                                         self.mongo_coll,
+                                         query,
+                                         self.secrets,
+                                         user_info=self.user_info)
         self._frmt_for_html(res)
 
 
