@@ -127,7 +127,7 @@ def login():
 
 @application.route('/gallery', methods=['GET'])
 @token_handler.auth_request
-def gallery():
+def gallery(user_info):
     """
     Fetch gallery for user and render gallery.html with response
 
@@ -137,6 +137,7 @@ def gallery():
     """
 
     g = Gallery(secrets=SECRETS,
+                user_info=user_info,
                 mongo_dbname=config.MONGO_DBNAME,
                 mongo_coll=config.TRANSCRIPTS_COLL)
     g.run()
