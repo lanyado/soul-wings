@@ -42,3 +42,5 @@ ENRICHMENT_TYPES = set([e['type'] for e in ens])
 SECRETS_S3_DETAILS = ('soul-wings-secrets', 'secrets.json')
 
 EXCLUDE_KEYS_FROM_AUTH_QUERY = {'password':False}
+
+COLL_USER_ID_FIELD_MAP = {'transcripts': 'uploader_id'}
