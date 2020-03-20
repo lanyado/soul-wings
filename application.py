@@ -60,7 +60,8 @@ def about():
 
 
 @application.route('/uploader', methods = ['POST'])
-def uploader():
+@token_handler.auth_request
+def uploader(user_info):
     """
     Receive user file and start transcription process
 
@@ -85,11 +86,11 @@ def uploader():
                        mongo_dbname=config.MONGO_DBNAME,
                        mongo_coll=config.TRANSCRIPTS_COLL,
                        language=language,
-                       user_fields=user_fields)
+                       user_fields=user_fields,
+                       user_info=user_info)
         t.run_async()
 
         resp['upload_successful'] = True
-
 
     except Exception as e:
         trans_log.error('error:%s' % e, exc_info=True)
@@ -127,7 +128,7 @@ def login():
 
 @application.route('/gallery', methods=['GET'])
 @token_handler.auth_request
-def gallery():
+def gallery(user_info):
     """
     Fetch gallery for user and render gallery.html with response
 
@@ -137,6 +138,7 @@ def gallery():
     """
 
     g = Gallery(secrets=SECRETS,
+                user_info=user_info,
                 mongo_dbname=config.MONGO_DBNAME,
                 mongo_coll=config.TRANSCRIPTS_COLL)
     g.run()
@@ -158,7 +160,7 @@ def search_testimonies():
 
 @application.route('/results', methods=['GET'])
 @token_handler.auth_request
-def search_results():
+def search_results(user_info):
     """
     Perform search against mongo based on user request
     and render results.html with response
@@ -171,6 +173,7 @@ def search_results():
     search_dict = dict(request.args)
     search_dict = {k: v for k, v in search_dict.items() if v}
     s = Search(secrets=SECRETS,
+               user_info=user_info,
                **search_dict)
     s.run()
 

@@ -4,6 +4,7 @@ import sys
 REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIRECTORY)
 
+import inspect
 import secrets
 from flask import request, redirect
 import functools
@@ -44,16 +45,17 @@ class TokenHandler:
 
 
     def gen_token(self,
-                  user_id):
+                  user_info):
         """
         Generate token and save to tokens dict
 
         :return: (str) token
         """
 
+        user_info['last_contact'] = datetime.now()
+
         token = secrets.token_hex()
-        self.tokens[token] = {'last_contact': datetime.now(),
-                              'user_id': user_id}
+        self.tokens[token] = user_info
 
         return token
 
@@ -63,23 +65,23 @@ class TokenHandler:
         """
         Auth token and update time if valid
 
-        :return: (bool) True if valid, False if not
+        :return: (dict or None) user_info dict if authorized, None if not
         """
 
-        token_dict = self.tokens.get(token, {})
-        token_time = token_dict.get('last_contact', None)
+        user_info = self.tokens.get(token, {})
+        token_time = user_info.get('last_contact', None)
 
         if not token_time:
-            return False
+            return None
 
         time_diff = (datetime.now() - token_time).total_seconds()/3600
         if time_diff > TOKEN_TIMEOUT_HOURS:
             self.tokens.pop(token, None)
-            return False
+            return None
 
         self.tokens[token]['last_contact'] = datetime.now()
 
-        return True
+        return user_info
 
 
     def auth_request(self,
@@ -93,10 +95,15 @@ class TokenHandler:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             user_token = request.cookies.get('soulwings', '')
+            user_info = self.auth_token(user_token)
 
-            if not self.auth_token(user_token):
-                return redirect('/')
-            else:
+            if user_info:
+                prms = list(inspect.signature(func).parameters)
+                if 'user_info' in prms:
+                    kwargs['user_info'] = user_info
                 return func(*args, **kwargs)
+
+            else:
+                return redirect('/')
 
         return wrapper

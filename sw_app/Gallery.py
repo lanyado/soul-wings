@@ -4,7 +4,7 @@ import sys
 REPO_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIRECTORY)
 
-from lib.mongo import search_mongo
+from lib.mongo import org_filter_wrap_and_search
 from lib.aws import get_s3_url
 from config import MONGO_DBNAME, \
                    TRANSCRIPTS_COLL
@@ -68,11 +68,12 @@ class Gallery:
                    "s3_thumbnail_key":1,
                    "user_fields":1}
 
-        return search_mongo(self.mongo_dbname,
-                            self.mongo_coll,
-                            query,
-                            self.secrets,
-                            project)
+        return org_filter_wrap_and_search(self.mongo_dbname,
+                                          self.mongo_coll,
+                                          query,
+                                          self.secrets,
+                                          project,
+                                          self.user_info)
 
 
     def _frmt_for_html(self,
