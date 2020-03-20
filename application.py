@@ -60,7 +60,8 @@ def about():
 
 
 @application.route('/uploader', methods = ['POST'])
-def uploader():
+@token_handler.auth_request
+def uploader(user_info):
     """
     Receive user file and start transcription process
 
@@ -85,11 +86,11 @@ def uploader():
                        mongo_dbname=config.MONGO_DBNAME,
                        mongo_coll=config.TRANSCRIPTS_COLL,
                        language=language,
-                       user_fields=user_fields)
+                       user_fields=user_fields,
+                       user_info=user_info)
         t.run_async()
 
         resp['upload_successful'] = True
-
 
     except Exception as e:
         trans_log.error('error:%s' % e, exc_info=True)

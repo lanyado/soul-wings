@@ -52,7 +52,8 @@ class Transcribe:
                  mongo_dbname=MONGO_DBNAME,
                  mongo_coll=TRANSCRIPTS_COLL,
                  language=DEFAULT_LANG,
-                 user_fields=None):
+                 user_fields=None,
+                 user_info=None):
         """
         Init Transcribe
 
@@ -64,6 +65,7 @@ class Transcribe:
         :param mongo_coll: (str) Mongo collection to insert docs to
         :param language: (str) Language spoken in given file
         :param user_fields: (dict) Fields filled out by the user in upload screen
+        :param user_info: (dict) user info dict from TokenHandler
         """
 
         self.path = path
@@ -74,6 +76,7 @@ class Transcribe:
         self.mongo_coll = mongo_coll
         self.language = language
         self.user_fields = user_fields or {}
+        self.user_info = user_info or {}
 
         self.date_for_key = str(date.today()).replace('-', '/')
 
@@ -257,7 +260,8 @@ class Transcribe:
         Handle formatting and updating existing Mongo Doc
         """
 
-        mongo_doc = {'s3_bucket': self.s3_bucket,
+        mongo_doc = {'uploader_id': self.user_info.get('_id'),
+                     's3_bucket': self.s3_bucket,
                      's3_original_key': self.org_key,
                      's3_flac_key': self.flac_key,
                      's3_json_key': self.json_key,
