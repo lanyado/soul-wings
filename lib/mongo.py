@@ -29,6 +29,9 @@ stt_json_to_mongo_frmt(doc, stt_json)
 ========================================================================================================================
 delete_from_mongo(dbname, coll, id, secrets)
     Delete doc from mongo
+========================================================================================================================
+org_filter_wrap_and_search(dbname, coll, query, secrets, project, user_info)
+    Wraps a given mongo query with an organization filter and executes the query
 """
 
 import os
@@ -267,7 +270,7 @@ def org_filter_wrap_and_search(dbname,
                                project=None,
                                user_info=None):
     """
-    Wraps a given mongo query with an organization filter
+    Wraps a given mongo query with an organization filter and executes the query
 
     This will only return results that were uploaded by
     users in the same org as the current user
