@@ -12,7 +12,8 @@ from sw_app.Gallery import Gallery
 from lib.mongo import auth_user
 from lib.helpers import file_to_local_uuid_file, \
                         clean_working_dir, \
-                        get_secrets
+                        get_secrets, \
+                        request_form_to_dict
 from lib.log import getLog
 import config
 
@@ -59,7 +60,8 @@ def about():
 
 
 @application.route('/uploader', methods = ['POST'])
-def uploader():
+@token_handler.auth_request
+def uploader(user_info):
     """
     Receive user file and start transcription process
 
@@ -74,8 +76,7 @@ def uploader():
 
         f = request.files['file']
         path = file_to_local_uuid_file(f)
-        user_fields = request.form.to_dict()
-        user_fields = {k: v for k, v in user_fields.items() if v}
+        user_fields = request_form_to_dict(request.form, ['tags'])
         language = user_fields.get('language', config.DEFAULT_LANG)
         print(request.form.getlist('tags'))
         '''
@@ -86,11 +87,11 @@ def uploader():
                        mongo_dbname=config.MONGO_DBNAME,
                        mongo_coll=config.TRANSCRIPTS_COLL,
                        language=language,
-                       user_fields=user_fields)
+                       user_fields=user_fields,
+                       user_info=user_info)
         t.run_async()
         '''
         resp['upload_successful'] = True
-
 
     except Exception as e:
         trans_log.error('error:%s' % e, exc_info=True)
@@ -108,8 +109,7 @@ def login():
         keys: redirect_url (str), user_token (str)
     """
 
-    auth_dict = request.form.to_dict()
-    auth_dict = {k: v for k, v in auth_dict.items() if v}
+    auth_dict = request_form_to_dict(request.form)
     user_token = auth_user(config.MONGO_DBNAME,
                            config.USERS_COLL,
                            auth_dict,
@@ -117,7 +117,8 @@ def login():
                            SECRETS)
 
     if user_token:
-        resp = {'redirect_url':url_for('search_testimonies'),
+        resp = {'auth': True,
+                'redirect_url':url_for('search_testimonies'),
                 'user_token': user_token}
 
     else:
@@ -128,7 +129,7 @@ def login():
 
 @application.route('/gallery', methods=['GET'])
 @token_handler.auth_request
-def gallery():
+def gallery(user_info):
     """
     Fetch gallery for user and render gallery.html with response
 
@@ -138,6 +139,7 @@ def gallery():
     """
 
     g = Gallery(secrets=SECRETS,
+                user_info=user_info,
                 mongo_dbname=config.MONGO_DBNAME,
                 mongo_coll=config.TRANSCRIPTS_COLL)
     g.run()
@@ -159,7 +161,7 @@ def search_testimonies():
 
 @application.route('/results', methods=['GET'])
 @token_handler.auth_request
-def search_results():
+def search_results(user_info):
     """
     Perform search against mongo based on user request
     and render results.html with response
@@ -172,6 +174,7 @@ def search_results():
     search_dict = dict(request.args)
     search_dict = {k: v for k, v in search_dict.items() if v}
     s = Search(secrets=SECRETS,
+               user_info=user_info,
                **search_dict)
     s.run()
 

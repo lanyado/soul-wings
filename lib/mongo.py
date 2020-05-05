@@ -18,9 +18,7 @@ get_query_part(term)
 get_query_part(term)
     Get query part based on term type
 ========================================================================================================================
-build_query(operator=DEFAULT_OPERATOR,
-            terms=None,
-            kv_pairs=None)
+build_query(operator, terms, kv_pairs)
     Builds mongo query from given params
 ========================================================================================================================
 auth_user(dbname, coll, auth_dict, token_handler, secrets)
@@ -31,6 +29,9 @@ stt_json_to_mongo_frmt(doc, stt_json)
 ========================================================================================================================
 delete_from_mongo(dbname, coll, id, secrets)
     Delete doc from mongo
+========================================================================================================================
+org_filter_wrap_and_search(dbname, coll, query, secrets, project, user_info)
+    Wraps a given mongo query with an organization filter and executes the query
 """
 
 import os
@@ -44,7 +45,9 @@ from lib.log import getLog
 import lib.helpers as helpers
 from config import TERM_TYPE_MAP, \
                    OPERATOR_MAP, \
-                   DEFAULT_OPERATOR
+                   DEFAULT_OPERATOR, \
+                   EXCLUDE_KEYS_FROM_AUTH_QUERY, \
+                   COLL_USER_ID_FIELD_MAP
 
 
 LOG = getLog('MONGO')
@@ -132,7 +135,13 @@ def search_mongo(dbname,
     """
 
     conn = get_coll_conn(dbname, coll, secrets)
-    res = conn.find(query, project)
+
+    if isinstance(query, dict):
+        res = conn.find(query, project)
+    if isinstance(query, list):
+        if project:
+            query.append({'$project': project})
+        res = conn.aggregate(query)
 
     LOG.info('Ran Query - %s - %s - %s', dbname, coll, query)
 
@@ -195,14 +204,14 @@ def auth_user(dbname,
 
     conn = get_coll_conn(dbname, coll, secrets)
     query = build_query('and', kv_pairs=auth_dict)
-    res = search_mongo(dbname, coll, query, secrets)
+    res = search_mongo(dbname, coll, query, secrets, EXCLUDE_KEYS_FROM_AUTH_QUERY)
     res = [d for d in res]
 
     user_token = None
 
     if len(res) != 0:
-        user_id = str(res[0].get('_id', ''))
-        user_token = token_handler.gen_token(user_id)
+        user_info = res[0]
+        user_token = token_handler.gen_token(user_info)
 
     return user_token
 
@@ -252,3 +261,67 @@ def delete_from_mongo(dbname,
     LOG.info('Deleted doc - %s - %s - %s', dbname, coll, id)
 
     return res
+
+
+def org_filter_wrap_and_search(dbname,
+                               coll,
+                               query,
+                               secrets,
+                               project=None,
+                               user_info=None):
+    """
+    Wraps a given mongo query with an organization filter and executes the query
+
+    This will only return results that were uploaded by
+    users in the same org as the current user
+
+    Returned query should be run with: conn.aggregate(query)
+    and not: conn.find(query)
+
+    :param dbname: (str) mongo dbname
+    :param coll: (str) mongo collection
+    :param query: (dict) mongo query as dict
+    :param secrets: (dict) Result from helpers.get_secrets
+    :param project: (dict) mongo projection syntax as dict
+    :param user_info: (dict) current user info from TokenHandler
+    :return: (dict) mongo aggregate query as dicts
+    """
+
+    user_info = user_info or {}
+    user_id = user_info.get('_id') # (bson.objectid.ObjectId)
+    is_admin = user_info.get('admin', False)
+
+    coll_user_id_field = COLL_USER_ID_FIELD_MAP.get(coll)
+    if not coll_user_id_field:
+        raise Exception('Coll %s Missing in COLL_USER_ID_FIELD_MAP' % coll)
+
+    if not user_id or is_admin:
+        wrapped_query = query
+    else:
+        wrapped_query = [
+            {'$match': {'user_id': user_id}},
+            {'$project': {'organization_id':1}},
+            {'$lookup': {'from': 'users_organizations',
+                         'localField': 'organization_id',
+                         'foreignField': 'organization_id',
+                         'as': 'users'}},
+            {'$unwind': '$users'},
+            {'$project': {'users.user_id':1}},
+            {'$lookup': {'from': coll,
+                         'localField': 'users.user_id',
+                         'foreignField': coll_user_id_field,
+                         'as': 'lookup_res'}},
+            {'$unwind': '$lookup_res'},
+            {'$project': {'lookup_res':1, '_id':0}},
+            {'$replaceRoot': {'newRoot': '$lookup_res'}},
+            {'$match': query}
+        ]
+        # Change coll since it is required for the wrapped query
+        # Results will still be returned from original coll
+        coll = 'users_organizations'
+
+    return search_mongo(dbname,
+                        coll,
+                        wrapped_query,
+                        secrets,
+                        project)

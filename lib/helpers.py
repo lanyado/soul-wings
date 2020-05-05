@@ -11,6 +11,18 @@ get_best_alt(alts)
 ========================================================================================================================
 lower_all_vals(d)
     Lowers all string \ unicode values in a dict
+========================================================================================================================
+get_secrets_dev(local_path)
+    Get secrets from proj_secrets/secrets.json
+========================================================================================================================
+def get_secrets_prod()
+    Get secrets from S3
+========================================================================================================================
+get_secrets()
+    Get secrets from proj_secrets if the folder exists, from S3 if not
+========================================================================================================================
+request_form_to_dict(form, keys_to_list=None)
+    Converts a request form to a dict and converts the relevant keys to lists
 """
 
 import os
@@ -134,3 +146,26 @@ def get_secrets():
         return get_secrets_dev(local_path)
     else:
         return get_secrets_prod()
+
+
+def request_form_to_dict(form,
+                         keys_to_list=None):
+    """
+    Converts a request form to a dict and converts the relevant keys to lists
+
+    :param form: (werkzeug.datastructures.ImmutableMultiDict) form from app flask.request.form
+    :param keys_to_list: (list of str) keys to convert to lists
+    :return: (dict) form as dict
+    """
+
+    keys_to_list = keys_to_list or []
+
+    user_fields = form.to_dict()
+    user_fields = {k: v for k, v in user_fields.items() if v}
+
+    keys_to_list = [k for k in keys_to_list if k in user_fields.keys()]
+
+    for k in keys_to_list:
+        user_fields[k] = form.getlist(k)
+
+    return user_fields
