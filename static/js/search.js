@@ -1,40 +1,46 @@
-/*================ send search string ====================*/
-function sendSearchString(){
-	var type = $.trim($($('.option:checked')[0]).val())
-	if (type=='או')
-		operator = "or";
-	else
-		operator = "and";
-	var searchString = $.trim($('#searchBar').val());
+function sendSearchString (searchString, operator) {
+	$.get('/results', {
+		search_string: searchString,
+		operator,
+	}, (data) => {
+		document.open('text/html');
+		document.write(data);
+		document.close();
+	});
+}
+
+function getSearchVariables () {
+	const type = $.trim($($('.option:checked')[0]).val());
+	const operator = (type === 'או') ? 'or' : 'and';
+	let searchString = $.trim($('#searchBar').val());
 	searchString = searchString.replace(/\s\s+/g, ' ');
-	if (searchString.length>0){
+
+	return { searchString, operator };
+}
+
+function search() {
+	const { searchString, operator } = getSearchVariables();
+
+	if (searchString.length > 0) {
 		runLoadingAnimation();
-		$.get('/results',{
-			search_string: searchString,
-	    	operator: operator
-	   }, function(data) {
-	        document.open('text/html');
-	        document.write(data);
-	        document.close();
-	    })
+		sendSearchString(searchString, operator);
 	}
 }
 
-$(".dropdown-menu").on('click', '.dropdown-item', function(){
-	$("#dropdownMenuButton").text($(this).text());
+$('.dropdown-menu').on('click', '.dropdown-item', () => {
+	$('#dropdownMenuButton').text($(this).text());
 });
 
-$('#searchBar').keyup(function(e){
-    if(e.keyCode == 13)
-        sendSearchString();
+$('#searchBar').keyup((e) => {
+	if (e.keyCode === 13) search(); // ENTER key code
 });
 
-$(".fa-search").on('click', function(){
-	sendSearchString();
+$('.fa-search').on('click', () => { // search icon
+	search();
 });
 
-$(".search-icons").on('click', function(){
+$('. fa-times').on('click', () => { // X icon
 	$('#searchBar').val('');
 });
 
-$('.btn.btn-secondary').removeClass('waves-effect waves-light')
+$('.btn.btn-secondary').removeClass('waves-effect waves-light');

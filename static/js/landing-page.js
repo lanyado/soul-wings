@@ -1,40 +1,53 @@
-function login(){
-	var userName = $('#login-username').val();
-	var pass = $('#login-password').val();
-	if (userName && pass){
-		runLoadingAnimation();
-		$.post('/login',{
-			user_name: userName,
-	    	password: pass
-			},function(response){
-				stopLoadingAnimation();
-		        if (response.auth){
-		        	document.cookie = "soulwings" + "=" + (response.user_token || "") + "; path=/";
-					window.location.href = response.redirect_url
-		        }
-				else
-					sendError(false,'פרטי ההתחברות שגויים, נסו שוב')
-    		})
-	}
-	else
-		sendError(true,'יש למלא שם משתמש וסיסמא')
+function sendLoginRequest (loginDict) {
+	$.post('/login', loginDict, (response) => {
+		if (response.auth) {
+			// add the token we got from the server into a cookie
+			document.cookie = `soulwings=${response.user_token || ''}; path=/`;
+			// open the result page
+			window.location.href = response.redirect_url;
+		} else {
+			stopLoadingAnimation();
+			errorAlert(false, 'פרטי ההתחברות שגויים, נסו שוב');
+		}
+	});
 }
 
-$("#login").on('click', function(){
-    login();
+function getLloginAttributes () {
+	const userName = $('#login-username').val();
+	const password = $('#login-password').val();
+
+	return { userName, password };
+}
+
+function login () {
+	const { userName, password } = getLloginAttributes();
+	const loginDict = {
+		user_name: userName,
+		password,
+	};
+
+	if (userName && password) {
+		runLoadingAnimation();
+		sendLoginRequest(loginDict);
+	} else {
+		errorAlert(true, 'יש למלא שם משתמש וסיסמא');
+	}
+}
+
+$('#login').on('click', () => { // login button
+	login();
 });
 
 // let the user to login on enter key press
-$('input').keyup(function(e){
-    if(e.keyCode == 13)
-       login();
+$('input').keyup((e) => {
+	if (e.keyCode === 13) login();
 });
 
 // 5 seconds after the user reaches the bottom of the page, he gets a login popup
-$(window).scroll(function() {
-   if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-	setTimeout(function(){ 
-		$('details').prop('open', true);
-	 }, 5000);
+$(window).scroll(() => {
+	if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+		setTimeout(() => {
+			$('details').prop('open', true);
+		}, 5000);
 	}
 });

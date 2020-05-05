@@ -1,5 +1,6 @@
 ::-webkit-scrollbar-track
 {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   border-radius: 10px;
   background-color: #F5F5F5;
@@ -14,6 +15,7 @@
 ::-webkit-scrollbar-thumb
 {
   border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: #555;
 }
@@ -90,12 +92,12 @@ details.popup summary::-webkit-details-marker {
   opacity: 0.6;
 }
 #uploadForm input.text-input {
+    display: block;
     height: 50px;
     width: 30%;
     border: 1px solid #979797;
     margin-top: 10px;
     float: right;
-    display: inline-block;
     background-color: #FFFF;
     font-size: 26px;
     color: black;
@@ -147,6 +149,7 @@ details.popup summary::-webkit-details-marker {
 #uploadForm input[type=button] , #uploadForm .btn{
   float:none;
   border-radius: 0px !important;
+  box-shadow: none !important;
   -webkit-box-shadow: none !important;
   padding-top: 0.7rem;
   padding-bottom: 0.7rem;
@@ -191,30 +194,29 @@ details.popup summary::-webkit-details-marker {
     padding: 0.5em;
 }
 .tags input{
-    height: 50px;
-    border: 1px solid #979797;
+    display: table;
     float: right;
-    display: inline-block;
-    background-color: #FFFF;
+    width: 5em;
+    height: 50px;
+    margin: 5px 0 5px 0;
+    padding: 2px 5px;
+    border: 1px solid #979797;
     font-size: 26px;
-    color: black;
-    cursor: auto;
     box-sizing: border-box; 
     border-radius: 2px;
-    padding: 2px 5px;
-    display: table;
-    margin: 5px 0 5px 0;
-    width: 5em;
+    background-color: #FFFF;
+    color: black;
+    cursor: auto;
 }
 .tags input:hover {
     border: 1px solid #000;
 }
 span.tagRemove {
-    cursor: pointer;
-    display: inline-block;
+    display: block;
+    float: left;
     padding-right: 0.5em;
     padding-left: 0.5em;
-    float: left;
+    cursor: pointer;
 }
 span.tagRemove:hover {
     color: #222222;

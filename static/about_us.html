@@ -19,17 +19,7 @@
 
 <body dir="rtl">
 
-<!-- the loader -->
-<div class="cs-loader">
-  <div class="cs-loader-inner">
-    <label> ●</label>
-    <label> ●</label>
-    <label> ●</label>
-    <label> ●</label>
-    <label> ●</label>
-    <label> ●</label>
-  </div>
-</div>
+  {% include 'loader.html' %}
 
  <details class="popup">
       <summary>
@@ -69,25 +59,25 @@
   </div>
   <section class="container">
     <li class="item">
-        <img class='profile-pic' src="{{ url_for('static',  filename='img/rotem.jpg')}}">
+        <img class="profile-pic" src="{{ url_for('static',  filename='img/rotem.jpg')}}">
         <h3>רותם לניאדו</h3>
         <h4>Full Stack Developer</h4>
         <a href="https://www.linkedin.com/in/rotem-lanyado/"><img class="social-media-icon" src="{{ url_for('static',  filename='img/linkedin.svg')}}"></a>
     </li>
     <li class="item">
-        <img class='profile-pic' src="{{ url_for('static',  filename='img/gal.jpeg')}}">
+        <img class="profile-pic" src="{{ url_for('static',  filename='img/gal.jpeg')}}">
         <h3>גל סומך</h3>
         <h4>Data Architect & Backend Developer</h4>
         <a href="https://www.linkedin.com/in/gal-somekh-52052414a"><img class="social-media-icon" src="{{ url_for('static',  filename='img/linkedin.svg')}}"></a>
     </li>
     <li class="item">
-        <img class='profile-pic' src="{{ url_for('static',  filename='img/matan.jpeg')}}">
+        <img class="profile-pic" src="{{ url_for('static',  filename='img/matan.jpeg')}}">
         <h3>מתן שריג</h3>
         <h4>Data architect</h4>
         <a href="https://www.linkedin.com/in/matan-sarig-704850a1"><img class="social-media-icon" src="{{ url_for('static',  filename='img/linkedin.svg')}}"></a>
     </li>
     <li class="item">
-        <img class='profile-pic' src="{{ url_for('static',  filename='img/nisim.jpeg')}}">
+        <img class="profile-pic" src="{{ url_for('static',  filename='img/nisim.jpeg')}}">
         <h3>ניסים חופי</h3>
         <h4>Innovation Leader</h4>
         <a href="https://www.linkedin.com/in/nissim-hofi"><img class="social-media-icon" src="{{ url_for('static',  filename='img/linkedin.svg')}}"></a>

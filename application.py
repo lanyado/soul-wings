@@ -77,7 +77,8 @@ def uploader():
         user_fields = request.form.to_dict()
         user_fields = {k: v for k, v in user_fields.items() if v}
         language = user_fields.get('language', config.DEFAULT_LANG)
-
+        print(request.form.getlist('tags'))
+        '''
         t = Transcribe(path=path,
                        secrets=SECRETS,
                        s3_bucket=config.S3_BUCKET,
@@ -87,7 +88,7 @@ def uploader():
                        language=language,
                        user_fields=user_fields)
         t.run_async()
-
+        '''
         resp['upload_successful'] = True
 
 

@@ -14,17 +14,7 @@
 <body>
     <div id="bg"></div>
 
-    <!-- the loader -->
-    <div class="cs-loader">
-      <div class="cs-loader-inner">
-        <label> ●</label>
-        <label> ●</label>
-        <label> ●</label>
-        <label> ●</label>
-        <label> ●</label>
-        <label> ●</label>
-      </div>
-    </div>
+    {% include 'loader.html' %}
     
     <!-- logo -->
     <div class="fullscreen-bg">
@@ -36,13 +26,15 @@
         <img id="logo" src="{{ url_for('static', filename='img/logo.png') }}">
         <form class="form" id="login-form">
             <input id="login-username" class="inputText" type="text" placeholder="שם משתמש">
-            <input id="login-password"  class="inputText" type="password" placeholder="סיסמא">
+            <input id="login-password"  class="inputText" type="password" placeholder="סיסמה">
             <button id="login" type="button" value="send" class="btn btn-primary">התחברות</button>
         </form>
     </div>
-    <a href="{{ url_for('about_us') }}"><div id="about-button">
+    <a href="{{ url_for('about_us') }}">
+        <div id="about-button">
         אודותינו
-    </div></a>
+        </div>
+    </a>
 <!-- SCRIPTS -->
     <!-- JQuery -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js') }}"></script>

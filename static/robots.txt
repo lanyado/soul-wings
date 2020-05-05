@@ -1,0 +1,17 @@
+# Notice: Collection of data on Soulwings through automated means is
+# prohibited unless you have express written permission from Soulwings
+# and may only be conducted for the limited purpose contained in said
+# permission.
+
+ser-agent: *
+Allow: /landing_page/
+Allow: /about_us/
+Disallow: /search/
+Disallow: /about/
+Disallow: /result/
+Disallow: /results/
+Disallow: /gallery/
+
+
+
+Sitemap: https://soulwings.co.il/sitemap.xml

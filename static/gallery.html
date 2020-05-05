@@ -19,120 +19,8 @@
 
 <body dir="rtl">
 
-<!-- the loader -->
-<div class="cs-loader">
-  <div class="cs-loader-inner">
-    <label> ●</label>
-    <label> ●</label>
-    <label> ●</label>
-    <label> ●</label>
-    <label> ●</label>
-    <label> ●</label>
-  </div>
-</div>
-
-<!-- Top NavBar BEGIN-->  
-<div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
-  <div class="container">
-      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
-        <div class="collapse navbar-collapse" id = "example-navbar-collapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></li>
-            <li class="nav-item active"><a href="{{ url_for('gallery') }}">המאגר</a></li>
-            <li class="nav-item"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
-            <li class="nav-item"><a href="{{ url_for('about') }}">אודות</a></li>
-          </ul>
-
-          <details class="popup upload-details">
-              <div id="grey"></div>
-
-              <summary>
-                <img src="{{ url_for('static',  filename='img/upload.png') }}" id="upload-img" title="upload a video">     
-             </summary>
-             
-                          <section id="uploadPopup">
-              <i class="fas fa-times" id="upload-close-icon"></i>
-                  <form id="uploadForm">
-                    <!-- ============= File upload ============== -->
-                       <a href="#" data-toggle="tooltip" title="
-                    סוגי הקבצים הנתמכים: MP3/MP4/MOV
-                    | גודל קובץ מקסימאלי: 2 ג׳יגה " >
-                      <div class="file-drop-area" style="border: 3px dashed grey;">
-                      <span class="fake-btn">העלאת קובץ*</span>
-                      <span class="file-msg">אפשר גם לגרור קובץ למלבן האפור</span>
-                      <input type="file" class="file-input" id="theFile" accept="video/*,audio/*">
-                    </div>
-                      </a>
-
-                <fieldset>
-                  <!-- ============= File name ============== -->
-
-                    <label for="file_name"> 
-                      שם העדות*
-                      <a href="#" data-toggle="tooltip" title="כל שם שתרצו" >
-                         <i class="far fa-question-circle icon-tooltip"></i>
-                      </a>
-                    </label>
-                    <input name="file_name" id="file_name" class="text-input" maxlength="50"/>
-                  
-                  <!-- ============= File language ============== -->
-
-                    <label for="language">שפה*
-                    <a href="#" data-toggle="tooltip" title="השפה בה העדות ניתנה" >
-                        <i class="far fa-question-circle icon-tooltip"></i>
-                    </a>
-                    </label>
-                    <div id="langChoose">
-                    <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-outline-primary active language" id="hebrew">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked> עברית
-                        </label>
-                        <label class="btn btn-outline-warning language" id="english">
-                            <input type="radio" name="options" id="option2" autocomplete="off"> אנגלית
-                        </label>
-                    </div>
-                    </div>
-                 <!-- ============= File description ============== -->
-
-                    <label for="file_description"> 
-                      תיאור העדות
-                      <a href="#" data-toggle="tooltip" title="תיאור כללי של העדות, או מידע שאינו נזכר בעדות עצמה." >
-                         <i class="far fa-question-circle icon-tooltip"></i>
-                      </a>
-                    </label>
-                    <br>
-                      <textarea rows="4" cols="50"  name="file_description" id="file_description" class="text-input" maxlength="200"></textarea>
-
-                       <div class="the-count">
-                           <p id="characterNotification">נשארו לך  <span id="characterCounter">XXX</span> תווים, מתוך <span id="maximum">XXX</span></p>
-                      </div>
-                <!-- ============= File tags ============== -->
-
-                    <label for="tags"><span>תגיות </span>
-                      <a href="#" data-toggle="tooltip" title="אם הקובץ הוא חלק מסדרה מסויימת אפשר לתייג את כל הסדרה באותם התיוגים" >
-                          <i class="far fa-question-circle icon-tooltip"></i>
-                      </a>
-                      <p style="margin-bottom: 0;">יש ללחוץ על מקש ה-Enter כדי ליצור תגית חדשה</p>
-                    </label>
-                    <div id="container">
-                      <ul class="tags">
-                          <li class="tagAdd taglist">  
-                              <input type="text" id="search-field" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';">
-                          </li>
-                      </ul>
-                    </div>
-
-                    <button type="button" class="btn btn-primary" id="done" disabled>העלאה</button>
-
-                </fieldset>
-                  </form>
-              </section>
-            </details>
-        </div>
-     </nav>
-  </div>
-</div>
-<!-- Top NavBar END -->
+  {% include 'loader.html' %}
+  {% include 'top-nav.html' with page_name=gallery %}
 
 <ul class="container">
   {% for video in response.videos %}
@@ -174,12 +62,7 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/gallery.js')}}"></script>
   <script type="text/javascript">
-    $('.popup').on('toggle', function() {
-       if ($(this).attr("open") == "open")
-            $($(this).find("video")).get(0).play();
-    else
-      $($(this).find("video")).get(0).pause();
-    })
+    
   </script>
 </body>
 </html>
