@@ -1,5 +1,5 @@
 // ================== file input and drop area ======================
-const $fileInput = $('.file-input');
+let $fileInput = $('.file-input');
 const $droparea = $('.file-drop-area');
 
 // highlight drag area

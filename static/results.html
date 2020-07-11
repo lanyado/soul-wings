@@ -17,21 +17,22 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modules/bootstrap.min.css') }}">
   <!-- My custom styles -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css')}}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
 </head>
 
 <body dir="rtl">
   
-  {% include 'loader.html' %}
-
-  {% include 'top-nav.html' with page_name='' %}
+  {% include 'components/loader.html' %}
+  {% with page_name="" %}
+      {% include 'components/top-nav.html'%}
+  {% endwith %}
 
 <div class="search_container result-page">
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <!-- operator choice -->
     <i class="fa fa-question-circle search-area"></i>
-
     <label class="btn btn-secondary active">
       <input type="radio" name="options" class="option" autocomplete="off" checked value="או">או
     </label>
@@ -39,11 +40,13 @@
       <input type="radio" name="options" class="option" autocomplete="off" value="וגם"> וגם
     </label>
   </div>
+
   <div class="searchBar-wrapper">
+    <!-- search input -->
     <input id="searchBar" class="searchbar" type="text" value="{{response.search_string}}" placeholder='לדוגמא: פולין 1943 "הצלב האדום"'>
     <i class="search-icons fas fa-times"></i>
     <i class="search-icons fa fa-search"></i>
-</div>
+  </div>
 </div>
 
 <div class="container mb-2" id="results">
@@ -119,11 +122,10 @@
 
 <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js') }}"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js') }}"></script>
-  <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.5.1.min.js') }}"></script>
+  <!-- Bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <!-- Material Design Bootstrap core -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/mdb.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/mdb-editor.js') }}"></script>
@@ -132,14 +134,18 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/singlepagenav.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/queryloader.js') }}"></script>
   <!-- sweetalert JavaScript -->
-  <!--   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!-- My JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
-
-  <script type="text/javascript" src="{{ url_for('static', filename='js/results.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/search.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/results.js') }}"></script>
 
+  <script type="text/javascript">
+      window.searchString = "{{response.search_string}}";
+      window.searchOperator = "{{response.operator}}";
+      window.userId = "{{response.user_id}}";
+      window.sessionId = "{{response.session_id}}";
+  </script>
 </body>
 </html>

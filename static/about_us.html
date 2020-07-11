@@ -14,12 +14,12 @@
   <!-- My CSS -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/about.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/landing-page.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 
 <body dir="rtl">
 
-  {% include 'loader.html' %}
+  {% include 'components/loader.html' %}
 
  <details class="popup">
       <summary>
@@ -90,15 +90,14 @@
 
 <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.5.1.min.js')}}"></script>
   <!-- sweetalert JavaScript -->
-  <!--   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!--  Bootstrap -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js')}}"></script>
   <!-- My JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/landing-page.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 </html>

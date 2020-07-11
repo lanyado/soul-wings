@@ -18,26 +18,13 @@
 </head>
 
 <body dir="rtl">
+  {% include "components/loader.html" %}
 
-  {% include 'loader.html' %}
+  {% with page_name="search" %}
+      {% include "components/top-nav.html" %}
+  {% endwith %}
 
-  {% include 'top-nav.html' with page_name=search %}
-
-<div class="search_container">
-  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <label class="btn btn-secondary active">
-      <input type="radio" name="options" class="option" autocomplete="off" checked value="או">או
-    </label>
-    <label class="btn btn-secondary">
-      <input type="radio" name="options" class="option" autocomplete="off" value="וגם"> וגם
-    </label>
-  </div>
-  <div class="searchBar-wrapper">
-    <input id="searchBar" class="searchbar" type="text" placeholder='לדוגמא: פולין 1943 "הצלב האדום"'>
-    <i class="search-icons fas fa-times"></i>
-    <i class="search-icons fa fa-search"></i>
-</div>
-</div>
+  {% include "components/search.html" %}
 <p id="description">
 ● &nbsp;הפרדה  בין ביטויים תעשה באמצעות מקש הרווח. <br>
 ● &nbsp;יש להכניס לגרשיים ביטויים המכילים יותר ממילה אחת, (לדוגמא: "הצלב האדום").<br>
@@ -46,13 +33,12 @@
 </p>
 <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.5.1.min.js')}}"></script>
   <!-- sweetalert JavaScript -->
-  <!--   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!-- Drop down -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/bootstrap.min.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <!-- My JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/search.js')}}"></script>

@@ -210,3 +210,6 @@ video{
 details.popup summary::-webkit-details-marker {
   display:none;
 }
+#dtBasicExample_info{
+    display: none;
+}

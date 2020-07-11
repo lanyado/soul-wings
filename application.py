@@ -4,7 +4,6 @@ import sys
 REPO_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(REPO_DIRECTORY)
 
-from flask import Flask, render_template, request, jsonify, url_for
 from sw_app.Transcribe import Transcribe
 from sw_app.TokenHandler import TokenHandler
 from sw_app.Search import Search
@@ -17,6 +16,8 @@ from lib.helpers import file_to_local_uuid_file, \
 from lib.log import getLog
 import config
 
+from flask import Flask, render_template, request, jsonify, url_for
+
 
 SECRETS = get_secrets()
 
@@ -25,15 +26,15 @@ application = Flask(__name__, template_folder='static')
 token_handler = TokenHandler()
 
 
-@application.route("/")
-def landing_page():
+@application.route("/login")
+def login():
     """
-    Render landing_page.html
+    Render login.html
 
     :return: (str) html for frontend
     """
 
-    return render_template('landing_page.html')
+    return render_template('login.html')
 
 
 @application.route("/about_us")
@@ -99,8 +100,8 @@ def uploader(user_info):
     return jsonify(resp)
 
 
-@application.route('/login', methods = ['POST'])
-def login():
+@application.route('/login-request', methods = ['POST'])
+def login_request():
     """
     Auth user against mongo, gen token and return token
 
@@ -146,8 +147,7 @@ def gallery(user_info):
 
     return render_template('gallery.html', response=g.resp_json)
 
-
-@application.route('/search', methods=['GET'])
+@application.route('/', methods=['GET'])
 @token_handler.auth_request
 def search_testimonies():
     """
@@ -159,7 +159,7 @@ def search_testimonies():
     return render_template('search.html')
 
 
-@application.route('/results', methods=['GET'])
+@application.route('/search', methods=['GET'])
 @token_handler.auth_request
 def search_results(user_info):
     """
@@ -170,16 +170,37 @@ def search_results(user_info):
 
     :return: (str) html for frontend
     """
+    
+    search_string = request.args.get('q', type=str)
+    operator = request.args.get('o', type=str)
 
-    search_dict = dict(request.args)
-    search_dict = {k: v for k, v in search_dict.items() if v}
-    s = Search(secrets=SECRETS,
-               user_info=user_info,
-               **search_dict)
-    s.run()
+    if search_string and operator:
+        search_dict = {'search_string': search_string, 'operator': operator}
+    
 
-    return render_template('results.html', response=s.resp_json)
+        s = Search(secrets=SECRETS,
+                    user_info=user_info,
+                    **search_dict)
+        s.run()
 
+        return render_template('results.html', response=s.resp_json)
+    
+    else:
+        return render_template('search.html')
+
+@application.route('/watching_data', methods = ['POST'])
+def watching_data():
+    """
+    get user behavor data on the results page
+    """
+
+    watching_data = request_form_to_dict(request.form)
+
+    print(watching_data)
+
+    resp = {'success':True}
+
+    return jsonify(resp)
 
 if __name__ == "__main__":
     application.run()

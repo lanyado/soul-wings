@@ -1,12 +1,6 @@
 function sendSearchString (searchString, operator) {
-	$.get('/results', {
-		search_string: searchString,
-		operator,
-	}, (data) => {
-		document.open('text/html');
-		document.write(data);
-		document.close();
-	});
+	const queryUrl = `${window.location}search?q=${searchString}&o=${operator}`;
+	window.location = queryUrl;
 }
 
 function getSearchVariables () {
@@ -39,7 +33,7 @@ $('.fa-search').on('click', () => { // search icon
 	search();
 });
 
-$('. fa-times').on('click', () => { // X icon
+$('.fa-times').on('click', () => { // X icon
 	$('#searchBar').val('');
 });
 

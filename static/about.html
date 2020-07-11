@@ -19,9 +19,11 @@
 
 <body dir="rtl">
 
-  {% include 'loader.html' %}
-  {% include 'top-nav.html' with page_name=about %}
+  {% include 'components/loader.html' %}
 
+  {% with page_name="about" %}
+      {% include 'components/top-nav.html'%}
+  {% endwith %}
 <div class="main-page">
   <h1>קצת עלינו</h1>
   <p>מיזם "כנפי רוח" הינו מיזם חברתי להנגשת עדויות של ניצולי השואה.
@@ -74,9 +76,8 @@
 
 <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.5.1.min.js')}}"></script>
   <!-- sweetalert JavaScript -->
-  <!--   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!--  Bootstrap -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>

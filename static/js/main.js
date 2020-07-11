@@ -55,3 +55,7 @@ function getFormatedTime (time) {
 
 	return `${minutes}:${seconds}`;
 }
+
+function decode(str) {
+	return decodeURIComponent(str.replace(/\+/g,  " "));
+}

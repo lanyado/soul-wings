@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Favicon and Meta Tags -->
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Soul-Wings</title>
+    <!-- My CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <div id="bg"></div>
+
+    {% include 'components/loader.html' %}
+    
+    <!-- logo -->
+    <div class="fullscreen-bg">
+        <video loop muted autoplay class="fullscreen-bg__video">
+            <source src="{{ url_for('static', filename='img/video.mp4') }}" type="video/mp4">
+        </video>
+    </div>
+    <div class="area">
+        <img id="logo" src="{{ url_for('static', filename='img/logo.png') }}">
+        <form class="form" id="login-form">
+            <input id="login-username" class="inputText" type="text" placeholder="שם משתמש">
+            <input id="login-password"  class="inputText" type="password" placeholder="סיסמה">
+            <button id="login" type="button" value="send" class="btn btn-primary">התחברות</button>
+        </form>
+    </div>
+    <a href="{{ url_for('about_us') }}">
+        <div id="about-button">
+        אודותינו
+        </div>
+    </a>
+<!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.5.1.min.js') }}"></script>
+    <!-- sweetalert JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- My JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

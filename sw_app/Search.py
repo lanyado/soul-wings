@@ -62,7 +62,9 @@ class Search:
         self.mongo_coll = mongo_coll
         self.user_info = user_info or {}
         self.resp_json = {'search_string': search_string,
-                          'operator': operator}
+                          'operator': operator,
+                          'user_id':'12345',
+                          'session_id':'98765'}
 
 
     def run(self):

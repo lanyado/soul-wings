@@ -104,6 +104,6 @@ class TokenHandler:
                 return func(*args, **kwargs)
 
             else:
-                return redirect('/')
+                return redirect('/login')
 
         return wrapper

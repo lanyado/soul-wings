@@ -1,0 +1,23 @@
+<div class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" id="the_menu">
+  <div class="container">
+      <nav class="navbar navbar-default" role = "navigation" style="border:0px;   box-shadow: none;">        
+        <div class="collapse navbar-collapse" id = "example-navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><img id="logo" src="{{ url_for('static',  filename='img/logo.png')}}"></li>
+            <li class="nav-item" name="gallery"><a href="{{ url_for('gallery') }}">המאגר</a></li>
+            <li class="nav-item" name="search"><a href="{{ url_for('search_testimonies') }}">חיפוש</a></li>
+            <li class="nav-item" name="about"><a href="{{ url_for('about') }}">אודות</a></li>
+          </ul>
+          {% include 'components/upload.html' %}
+        </div>
+     </nav>
+  </div>
+</div>
+
+<script>
+  let pageName = '{{page_name}}';
+  if (pageName){
+    const navItem = document.querySelectorAll(`.nav-item[name=${pageName}]`);
+    navItem[0].classList.add('active');
+  }
+</script>

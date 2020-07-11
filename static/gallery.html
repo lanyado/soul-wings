@@ -19,9 +19,11 @@
 
 <body dir="rtl">
 
-  {% include 'loader.html' %}
-  {% include 'top-nav.html' with page_name=gallery %}
+  {% include 'components/loader.html' %}
 
+  {% with page_name="gallery" %}
+      {% include 'components/top-nav.html'%}
+  {% endwith %}
 <ul class="container">
   {% for video in response.videos %}
     <li class="item">
@@ -50,9 +52,8 @@
 
 <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.3.1.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modules/jquery-3.5.1.min.js')}}"></script>
   <!-- sweetalert JavaScript -->
-  <!--   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/sweetalert.min.js')}}"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!-- Bootstrap -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/modules/popper.min.js')}}"></script>
@@ -61,8 +62,5 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/upload.js')}}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/gallery.js')}}"></script>
-  <script type="text/javascript">
-    
-  </script>
 </body>
 </html>

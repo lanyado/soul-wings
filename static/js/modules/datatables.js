@@ -6593,8 +6593,8 @@
 		$(n)
 			.on( 'click.DT', oData, function (e) {
 					$(n).blur(); // Remove focus outline for mouse users
-					if ($.inArray( "unsortable", e.target.classList ) == -1)
-						fn(e);
+					//if ($.inArray( "unsortable", e.target.classList ) == -1)
+					fn(e);
 				} )
 			.on( 'keypress.DT', oData, function (e){
 					if ( e.which === 13 ) {

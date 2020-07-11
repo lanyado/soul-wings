@@ -1,29 +1,30 @@
-window.documentTruckList = {};
+documentStatistics = {};
 
 function makeMdbAdjustments () {
-	$('#dtBasicExample_info').css('display', 'none'); // a part of mdb tables that we dont need
-	$('#dtBasicExample, #dtBasicExample-1, #dt-more-columns, #dt-less-columns').mdbEditor();
-	$('.dataTables_length').addClass('bs-select');
-}
-function setSaortableColumns () {
-	$('.unsortable').removeClass('sorting sorting_asc sorting_desc');
-	$('.unsortable').removeAttr('aria-sort');
+	const table = $('#dtBasicExample').DataTable({
+		"columnDefs": [{ targets: 'unsortable', orderable: false }]});
+	table.order( [0,'asc'] ).draw();
 }
 
-function getWatchingDataFormFata () {
+function getWatchingData () {
 	const formData = new FormData();
-
+    formData.append('user_id', userId);
+    formData.append('session_id', sessionId);
 	formData.append('search_string', searchString);
-	formData.append('document_truck_list', JSON.stringify(window.documentTruckList));
+	formData.append('search_operator', searchOperator);
+    formData.append('document_url', documentStatistics['url'].split('#t=')[0]);
+    formData.append('document_timing', documentStatistics['url'].split('#t=')[1]);
+    formData.append('start_time', documentStatistics['startTime']);
+    formData.append('stop_time', documentStatistics['stopTime']);
 
 	return formData;
 }
 
 function sendWatchingData () {
-	const formData = getWatchingDataFormFata();
+	const formData = getWatchingData();
 
 	$.ajax({
-		url: '/watchingData',
+		url: '/watching_data',
 		type: 'POST',
 		dataType: 'json',
 		data: formData,
@@ -32,7 +33,6 @@ function sendWatchingData () {
 		contentType: false,
 	})
 		.done(() => {
-			console.log('sent watching data');
 		})
 		.fail((jqXhr) => {
 			console.log(jqXhr.responseJSON);
@@ -55,76 +55,110 @@ $('.fa.fa-question-circle.search-area').on('click', () => {
 	});
 });
 
-$('.th-sm').click(() => {
-	$('.unsortable').removeClass('sorting sorting_asc sorting_desc');
-	$('.unsortable').removeAttr('aria-sort');
-});
-
-function addFunctionsToTr () {
-	$('tr').not('.withFunctions').each(() => {
+function addFunctionsToTr () {	
+	$('tr').not('.withFunctions').each(function() {
 		const $tr = $(this);
-		$tr.addClass('withFunctions');
 
 		// Mark the words in yellow
 		const words = $.trim($('#searchBar').val()).split(' ');
+		if (!words) words = searchString;
 		$.each(words, (index, value) => {
 			$tr.find(`.text:contains(${value})`).html((_, html) => {
 				const regex = new RegExp(value, 'g');
 				return html.replace(regex, `<mark> ${value} </mark>`);
 			});
 		});
-
 		// separate multi sentences in one document with <hr>
-		$tr.find('.contentSection').each(() => {
+		$tr.find('.contentSection').each(function() {
 			if ($(this).next().attr('class') === 'contentSection') $('<hr>').insertAfter($(this));
 		});
 
 		// auto play when open the video and auto pause when close the video
-		$tr.find('.video-popup').on('toggle', () => {
-			var attr;
+		$tr.find('.video-popup').on('toggle', function() {
+            documentStatistics["url"] = $(this).find('source')[0].src;			
+
+			let nowTime = new Date();
+				nowTime = nowTime.toISOString();
+				//toLocaleString 
+
 			if ($(this).attr('open') === 'open') {
-				attr = 'startTime';
-				$($(this).find('video')).get(0).play();
+                documentStatistics['startTime'] = nowTime;
+
+				$($(this).find('video')).get(0).play();	
 			} else {
-				attr = 'stopTime';
+                documentStatistics['stopTime'] = nowTime;
+                sendWatchingData();
+
 				$($(this).find('video')).get(0).pause();
 			}
-
-			const documentId = $(this).find('source')[0].src;
-			const nowTime = new Date();
-			window.documentTruckList[documentId][attr] = nowTime;
-			sendWatchingData();
 		});
 
 		// close the file on close icon
-		$tr.find('.video-close-icon').click(() => {
+		$tr.find('.video-close-icon').click(function() {
 			const e = jQuery.Event('keydown');
 			e.which = 27; // # ESC key code
 			$('body').trigger(e);
 		});
 
 		// format the time
-		$tr.find('.timing').each(() => {
-			const time = $(this).text();
+		$tr.find('.timing').each(function() {
+			const time = $($(this)[0]).text();
 			const formatedTime = getFormatedTime(time);
 
-			$(this).text(formatedTime);
+			$($(this)[0]).text(formatedTime);
 		});
+		
+		$tr.addClass('withFunctions');
 	});
 }
 
 // if runs too many times can write instead -> $('tbody').one(
 $('tbody').bind('DOMSubtreeModified', () => {
-	addFunctionsToTr();
-});
-
-$(window).on('load', () => {
-	setTimeout(() => {
-		stopLoadingAnimation();
-	}, 3000);
+	//();
 });
 
 runLoadingAnimation(); // animation until the page is loaded
-addFunctionsToTr();
-setSaortableColumns();
-makeMdbAdjustments();
+
+$( document ).ready(function() {
+	makeMdbAdjustments();
+	addFunctionsToTr();
+
+	stopLoadingAnimation();
+});
+
+
+
+
+/*
+	setTimeout(function(){
+	}, 3000);
+
+function preparePage () {
+	let myPromise = new Promise(
+		(resolve, reject) => { 		
+			makeMdbAdjustments();
+			addFunctionsToTr();
+			setSaortableColumns();
+			resolve('prepared the page');
+	});
+	return myPromise;
+}
+preparePage()
+.then((result) => { stopLoadingAnimation(); });
+*/
+
+//$('#dtBasicExample_info').css('display', 'none'); // a part of mdb tables that we dont need
+
+	//$('.unsortable').removeClass('sorting sorting_asc sorting_desc');
+	//$('.unsortable').removeAttr('aria-sort');
+
+
+		//$('#dtBasicExample, #dtBasicExample-1, #dt-more-columns, #dt-less-columns').mdbEditor();
+	//$('.dataTables_length').addClass('bs-select');
+
+	/*$('#dtBasicExample, #dtBasicExample-1, #dt-more-columns, #dt-less-columns').mdbEditor({
+		"ordering": false
+	});*/
+
+	//const data_table = $('#dtBasicExample').DataTable();
+	//data_table.order( [0,'desc'] ).draw();
