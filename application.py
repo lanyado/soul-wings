@@ -80,7 +80,7 @@ def uploader(user_info):
         user_fields = request_form_to_dict(request.form, ['tags'])
         language = user_fields.get('language', config.DEFAULT_LANG)
         print(request.form.getlist('tags'))
-        '''
+
         t = Transcribe(path=path,
                        secrets=SECRETS,
                        s3_bucket=config.S3_BUCKET,
@@ -91,7 +91,7 @@ def uploader(user_info):
                        user_fields=user_fields,
                        user_info=user_info)
         t.run_async()
-        '''
+
         resp['upload_successful'] = True
 
     except Exception as e:
